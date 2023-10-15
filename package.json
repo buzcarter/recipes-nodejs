@@ -1,0 +1,49 @@
+{
+  "name": "recipes-nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS recipe publisher, converts markdown/text recipe files into well formatted HTML.",
+  "main": "build.js",
+  "scripts": {
+    "build": "node ./build.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "test": "jest --silent --config .jest/jest.config.js",
+    "test:watch": "npm test -- --watch",
+    "test:cover": "npm test -- --coverage"
+  },
+  "author": "Buz Carter",
+  "contributors": [
+    "B.Carter <buzcarter@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "showdown": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "jest": "^29.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buzcarter/recipes-nodejs.git"
+  },
+  "keywords": [
+    "baking",
+    "conversion",
+    "cooking",
+    "index",
+    "ingredients",
+    "instructions",
+    "kitchen",
+    "markdown",
+    "node",
+    "publish",
+    "recipe",
+    "recipes",
+    "static"
+  ],
+  "bugs": {
+    "url": "https://github.com/buzcarter/recipes-nodejs/issues"
+  },
+  "homepage": "https://github.com/buzcarter/recipes-nodejs#readme"
+}

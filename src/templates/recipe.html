@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Recipe Book</title>
+
+    <!-- basics -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    {{__metaDateGenerated__}}
+    {{__metaOGImage__}}
+    {{__favIcon__}}
+
+    <!-- font and styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=PT+Sans+Narrow&display=swap">
+    <link rel="stylesheet" href="styles/themeColors.css">
+    <link rel="stylesheet" href="styles/stylesheet.css">
+    <link rel="stylesheet" href="styles/recipe.css">
+  </head>
+  <body class="{{__bodyClass__}}">
+    <main class="wrapper recipe">
+      <!-- back button -->
+      <p class="back-link">
+        <a href="index.html" title="back to recipe box index">
+          <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" />
+          </svg>
+        </a>
+      </p>
+      <!-- recipe -->
+      <article>
+        <figure class="section section--heroimage">{{__heroImg__}}</figure>
+        <header class="section section--title">
+          <h1 class="recipe__name">{{__title__}}</h1>
+          <div class="html">
+            {{__header__}}
+          </div>
+        </header>
+        <section class="section section--info">{{__info__}}</section>
+        <section id="section-ingredients" class="section section--ingredients">{{__ingredients__}}</section>
+        <section id="section-steps" class="section section--steps">{{__steps__}}</section>
+        <hr />
+        <aside class="section section--notes">{{__notes__}}</aside>
+        <aside class="section section--help">{{__help__}}</aside>
+        <aside class="section section--basedon">{{__basedon__}}</aside>
+      </article>
+    </main>
+    <script src="scripts/recipe.js"></script>
+  </body>
+</html>

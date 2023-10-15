@@ -1,0 +1,256 @@
+.paren {
+  color: var(--light-gray-color);
+  font-style: italic;
+}
+
+.ingredient--used {
+  text-decoration: line-through;
+}
+
+.ingredient--has-amt {
+  padding-left: 2.7em;
+}
+
+.ingredient__amt {
+  display: inline-block;
+  min-width: 2.5em;
+  padding-right: .2em;
+  white-space: nowrap;
+  margin-left: -2.7em;
+}
+
+.ingredient__symbol {
+  font-size: 130%;
+  vertical-align: middle;
+}
+
+/*
+.ingredient__text {
+}
+*/
+
+hr {
+  clear: both;
+  border: none;
+  border-top: 1px solid var(--light-gray-color);
+}
+
+.back-link {
+  margin-top: -0.6em;
+  margin-bottom: 0.6em;
+  font-style: normal;
+}
+
+.back-link a:hover {
+  background: none;
+}
+
+.back-link svg {
+  display: none;
+  width: 24px;
+  color: var(--back-arrow-color);
+  transition: color 0.35s ease;
+}
+
+.back-link svg:hover {
+  color: var(--back-arrow-hover-color);
+}
+
+svg.linkIcon {
+  width: 14px;
+  margin-left: 0.3em;
+}
+
+/* images full width */
+/* h/t @mpember for the pr suggestion */
+.section--heroimage img {
+  width: 100%;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* section dividers */
+.section {
+  margin-bottom: 2em;
+}
+
+.section--info h2 {
+  display: none;
+}
+
+/*
+.section--ingredients {
+  font-size: 13px;
+}
+*/
+
+.heroimage--hidden .section--heroimage,
+.basedon--hidden .section--basedon,
+.header--hidden .section--header,
+.info--hidden .section--info,
+.ingredients--hidden .section--ingredients,
+.notes--hidden .section--notes,
+.steps--hidden .section--steps {
+  display: none;
+}
+
+.section--ingredients li::first-letter,
+.section--steps li::first-letter,
+.section--notes li::first-letter {
+  text-transform: uppercase;
+}
+
+/* let's line these up with the list indentation */
+.section--ingredients p,
+.section--steps p,
+.section--notes p,
+.section--basedon p {
+  margin: 1.1em 0 0.6em 0;
+}
+
+.section--info ul,
+.section--notes ul,
+.section--help ul,
+.section--basedon ul {
+  list-style: square outside;
+}
+
+.section--info ul li,
+.section--notes ul li,
+.section--help ul li,
+.section--basedon ul li {
+  margin-left: 1em;
+  margin-bottom: .5em;
+}
+
+.section--info ul li::marker,
+.section--notes ul li::marker,
+.section--help ul li::marker,
+.section--basedon ul li::marker {
+  color: var(--list-bullet-color);
+}
+
+/*
+.section--steps {
+  font-size: 14px;
+}
+*/
+
+.section--steps ol {
+  list-style-type: none;
+  counter-reset: my-counter;
+}
+
+.section--steps li {
+  margin-bottom: .97em;
+  position: relative;
+  transition: background-color 0.35s ease;
+}
+
+.section--steps ol li:before {
+  content: counter(my-counter);
+  counter-increment: my-counter;
+  color: var(--accent-color);
+  font-weight: 800;
+  margin-right: -3px;
+  font-size: 119%;
+  position: relative;
+  left: -13px;
+  top: -2px;
+}
+
+.section--notes ul li {
+  margin-bottom: 0.4em;
+}
+
+.section--steps h3,
+.section--ingredients h3 {
+  color: var(--accent-color);
+  margin-bottom: .6em;
+  font-size: 110%;
+}
+
+.section--ingredients ul+h3 {
+  margin-top: 1.8em;
+}
+
+/* notes links should have an underline */
+.section--notes a {
+  text-decoration: underline;
+}
+
+/* make sure long urls split at slashes */
+.section--basedon a {
+  white-space: pre-wrap;
+  /* css-3 */
+  white-space: -moz-pre-wrap;
+  /* mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* opera 7 */
+  word-wrap: break-word;
+  /* ie 5.5+ */
+}
+
+.section--title {
+  text-align: center;
+  padding-bottom: 1.3em;
+  border-bottom: 1px solid gray;
+}
+
+.step--highlight {
+  background-color: var(--hover-bg-color);
+}
+
+@media screen and (min-width: 820px) {
+  .section--help ul {
+    column-count: 2;
+    -webkit-column-gap: 4em;
+    -moz-column-gap: 4em;
+    column-gap: 4em;
+  }
+
+  .back-link {
+    margin-bottom: 1.3em;
+  }
+
+  .back-link svg {
+    display: block;
+  }
+
+  .section--title {
+    text-align: left;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .section--ingredients,
+  .section--steps {
+    float: left;
+  }
+
+  .section--ingredients {
+    width: 33%;
+    padding-right: 2em;
+  }
+
+  .section--ingredients li {
+    margin-bottom: 0.4em;
+  }
+
+  .section--steps {
+    width: 66%;
+  }
+}
+
+/* print is not dead */
+@media print {
+  .section--title {
+    text-align: left !important;
+  }
+
+  .back-link,
+  .section--help {
+    display: none;
+  }
+}
