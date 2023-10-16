@@ -1,10 +1,29 @@
+/* click and double click list item stats */
+.clickable-list li {
+  border-radius: 5px;
+  margin-bottom: .97em;
+  padding: .2em;
+  position: relative;
+  transition: background-color 0.35s ease;
+}
+
+.activated {
+  background-color: rgb(211, 211, 211);
+}
+
+.complete {
+  opacity: 80%;
+  text-decoration: line-through;
+}
+
+.highlight {
+  background-color: var(--hover-bg-color);
+}
+
+/* ingredients lists */
 .paren {
   color: var(--light-gray-color);
   font-style: italic;
-}
-
-.ingredient--used {
-  text-decoration: line-through;
 }
 
 .ingredient--has-amt {
@@ -141,9 +160,7 @@ svg.linkIcon {
 }
 
 .section--steps li {
-  margin-bottom: .97em;
   position: relative;
-  transition: background-color 0.35s ease;
 }
 
 .section--steps ol li:before {
@@ -160,13 +177,6 @@ svg.linkIcon {
 
 .section--notes ul li {
   margin-bottom: 0.4em;
-}
-
-.section--steps h3,
-.section--ingredients h3 {
-  color: var(--accent-color);
-  margin-bottom: .6em;
-  font-size: 110%;
 }
 
 .section--ingredients ul+h3 {
@@ -196,10 +206,6 @@ svg.linkIcon {
   text-align: center;
   padding-bottom: 1.3em;
   border-bottom: 1px solid gray;
-}
-
-.step--highlight {
-  background-color: var(--hover-bg-color);
 }
 
 @media screen and (min-width: 820px) {

@@ -2,13 +2,14 @@
 (() => {
   /* eslint-disable key-spacing */
   const Styles = Object.freeze({
-    HIGHLIGHT: 'step--highlight',
-    USED:      'ingredient--used',
+    ACTIVATED: 'activated',
+    COMPLETE:  'complete',
+    HIGHLIGHT: 'highlight',
   });
 
   const Selectors = {
-    INGREDIENT_ITEMS: '#section-ingredients li',
-    STEP_ITEMS:       '#section-steps li',
+    HIGHLIGHTABLE:    '.js-highlighter',
+    STEPS_SECTION:    '#section-steps',
   };
 
   const KeyCodes = {
@@ -17,9 +18,14 @@
   };
   /* eslint-enable key-spacing */
 
+  const DBL_CLICK_SPEED = 460;
+
+  let clickTimer;
+  let isDoubleClick = false;
+
   function onKeyDown(e) {
     const { HIGHLIGHT: HIGLIGHT } = Styles;
-    const curr = document.querySelector(`.${HIGLIGHT}`);
+    const curr = document.querySelector(`${Selectors.STEPS_SECTION} .${HIGLIGHT}`);
     if (!curr) {
       return;
     }
@@ -34,34 +40,54 @@
         curr.nextElementSibling?.classList.add(HIGLIGHT);
         break;
     }
-
-    // ignore normal L/R behavior
-    // (probably don't want to do this, since
-    // we want to use L/R for the back button, etc)
-    // e.preventDefault();
   }
 
-  function onStepClick() {
-    const { HIGHLIGHT } = Styles;
-    if (this.classList.contains(HIGHLIGHT)) {
-      this.classList.remove(HIGHLIGHT);
-    } else {
-      document.querySelector(`.${HIGHLIGHT}`)?.classList.remove(HIGHLIGHT);
-      this.classList.add(HIGHLIGHT);
+  function onClick(e) {
+    const li = e.target.closest('li');
+    if (!li) {
+      return;
     }
+
+    li.classList.add(Styles.ACTIVATED);
+    clickTimer = setTimeout(() => {
+      if (!isDoubleClick) {
+        const { HIGHLIGHT } = Styles;
+        if (li.classList.contains(HIGHLIGHT)) {
+          li.classList.remove(HIGHLIGHT);
+        } else {
+          document.querySelector(`.${HIGHLIGHT}`)?.classList.remove(HIGHLIGHT);
+          li.classList.add(HIGHLIGHT);
+        }
+      }
+
+      isDoubleClick = false;
+      li.classList.remove(Styles.ACTIVATED);
+    }, DBL_CLICK_SPEED);
   }
 
-  function onIngredientClick() {
-    this.classList.toggle(Styles.USED);
+  function onDoubleClick(e) {
+    const li = e.target.closest('li');
+    if (!li) {
+      return;
+    }
+
+    clearTimeout(clickTimer);
+    isDoubleClick = true;
+    li.classList.toggle(Styles.COMPLETE);
+    li.classList.remove(Styles.ACTIVATED);
   }
 
   function init() {
-    // click a step to highlight it
-    document.querySelectorAll(Selectors.STEP_ITEMS).forEach(step => step.addEventListener('click', onStepClick));
+    document.querySelectorAll(Selectors.HIGHLIGHTABLE)
+      .forEach((item) => {
+        // click an item to highlight it
+        item.addEventListener('click', onClick);
+        // double-click an item to mark it as "complete" (or "used" for ingredients)
+        item.addEventListener('dblclick', onDoubleClick);
+      });
+
     // L/R arrow keys shift the step highlight
     document.addEventListener('keydown', onKeyDown);
-    // click an ingredient to mark it as "used"
-    document.querySelectorAll(Selectors.INGREDIENT_ITEMS).forEach(ingredient => ingredient.addEventListener('click', onIngredientClick));
   }
 
   init();
