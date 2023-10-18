@@ -1,5 +1,6 @@
 # _*/
 .dist
 .DS_Store
+.lab
 node_modules
 output

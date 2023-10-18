@@ -29,11 +29,9 @@ function setupOutputDir(outputPath) {
 
 }
 
-function copyStatic(staticPath, outputPath) {
-  ['scripts', 'styles'].forEach(dir => cpSync(resolve(staticPath, dir), resolve(outputPath, dir), { recursive: true }));
-}
-
-function copyImages(imagesPath, outputPath) {
+function copyStatic(staticPath, imagesPath, outputPath) {
+  // ['scripts', 'styles'].forEach(dir => cpSync(resolve(staticPath, dir), resolve(outputPath, dir), { recursive: true }));
+  cpSync(staticPath, outputPath, { recursive: true });
   cpSync(imagesPath, resolve(outputPath, 'images'), { recursive: true });
 }
 
@@ -51,8 +49,7 @@ function main(configs) {
   const { indexTemplate, recipeTemplate } = readTemplates(options);
 
   setupOutputDir(options.outputPath);
-  copyStatic(options.staticPath, options.outputPath);
-  copyImages(options.imagesPath, options.outputPath);
+  copyStatic(options.staticPath, options.imagesPath, options.outputPath);
   buildRecipes(recipeTemplate, options, fileList);
   buildRecipeIndex(indexTemplate, options, fileList);
 

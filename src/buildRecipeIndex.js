@@ -5,14 +5,16 @@ const { writeFileSync } = require('fs');
 const Substitutions = {
   LETTERS_INDEX:     '{{__letters-index__}}',
   RECIPE_LIST:       '{{__recipe-list__}}',
+  // Head's meta-tags
+  META_FAVICON:      '{{__favIcon__}}',
+  META_DATE:         '{{__metaDateGenerated__}}',
 };
-/* eslint-enable key-spacing */
 
 /**
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { outputPath }, fileList) {
+function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -39,7 +41,9 @@ function buildRecipeIndex(indexTemplate, { outputPath }, fileList) {
     // add recipes to page...
     .replace(Substitutions.RECIPE_LIST, recipeItems)
     // ...and the list of first-letters for quick nav
-    .replace(Substitutions.LETTERS_INDEX, lettersIndex);
+    .replace(Substitutions.LETTERS_INDEX, lettersIndex)
+    .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
+    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '');
 
   writeFileSync(resolve(outputPath, 'index.html'), contents, { encoding: 'utf8' });
 }
