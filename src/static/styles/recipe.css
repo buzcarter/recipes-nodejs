@@ -1,34 +1,26 @@
-.paren {
-  color: var(--light-gray-color);
+/* click and double click list item stats */
+.clickable-list li {
+  border-radius: 3px;
+  position: relative;
+  transition: background-color 0.35s ease;
+}
+
+.activated {
+  background-color: var(--line-activated-bg-color);
+}
+
+.complete {
   font-style: italic;
-}
-
-.ingredient--used {
+  opacity: 80%;
   text-decoration: line-through;
+  text-decoration-color: var(--line-through-color);
 }
 
-.ingredient--has-amt {
-  padding-left: 2.7em;
+.highlight {
+  background-color: var(--hover-bg-color);
 }
 
-.ingredient__amt {
-  display: inline-block;
-  min-width: 2.5em;
-  padding-right: .2em;
-  white-space: nowrap;
-  margin-left: -2.7em;
-}
-
-.ingredient__symbol {
-  font-size: 130%;
-  vertical-align: middle;
-}
-
-/*
-.ingredient__text {
-}
-*/
-
+/* common page elements */
 hr {
   clear: both;
   border: none;
@@ -61,6 +53,7 @@ svg.linkIcon {
   margin-left: 0.3em;
 }
 
+/* == Sections ----- */
 /* images full width */
 /* h/t @mpember for the pr suggestion */
 .section--heroimage img {
@@ -77,12 +70,6 @@ svg.linkIcon {
   display: none;
 }
 
-/*
-.section--ingredients {
-  font-size: 13px;
-}
-*/
-
 .heroimage--hidden .section--heroimage,
 .basedon--hidden .section--basedon,
 .header--hidden .section--header,
@@ -93,7 +80,6 @@ svg.linkIcon {
   display: none;
 }
 
-.section--ingredients li::first-letter,
 .section--steps li::first-letter,
 .section--notes li::first-letter {
   text-transform: uppercase;
@@ -129,12 +115,7 @@ svg.linkIcon {
   color: var(--list-bullet-color);
 }
 
-/*
-.section--steps {
-  font-size: 14px;
-}
-*/
-
+/* == Section: Steps ----- */
 .section--steps ol {
   list-style-type: none;
   counter-reset: my-counter;
@@ -143,7 +124,6 @@ svg.linkIcon {
 .section--steps li {
   margin-bottom: .97em;
   position: relative;
-  transition: background-color 0.35s ease;
 }
 
 .section--steps ol li:before {
@@ -158,25 +138,48 @@ svg.linkIcon {
   top: -2px;
 }
 
+/* == Section: notes ----- */
 .section--notes ul li {
   margin-bottom: 0.4em;
-}
-
-.section--steps h3,
-.section--ingredients h3 {
-  color: var(--accent-color);
-  margin-bottom: .6em;
-  font-size: 110%;
-}
-
-.section--ingredients ul+h3 {
-  margin-top: 1.8em;
 }
 
 /* notes links should have an underline */
 .section--notes a {
   text-decoration: underline;
 }
+
+/* == Section: Ingredients ----- */
+.section--ingredients ul+h3 {
+  margin-top: 1.8em;
+}
+
+.section--ingredients li {
+  margin-bottom: 0.4em;
+}
+
+.paren {
+  color: var(--light-gray-color);
+  font-style: italic;
+}
+
+.ingredient--has-amt {
+  padding-left: 2.7em;
+}
+
+.ingredient__amt {
+  display: inline-block;
+  min-width: 2.5em;
+  padding-right: .2em;
+  white-space: nowrap;
+  margin-left: -2.7em;
+}
+
+.ingredient__symbol {
+  font-size: 130%;
+  vertical-align: middle;
+}
+
+/* == Section: Based On ----- */
 
 /* make sure long urls split at slashes */
 .section--basedon a {
@@ -192,14 +195,11 @@ svg.linkIcon {
   /* ie 5.5+ */
 }
 
+/* == Section: Title/Header ----- */
 .section--title {
   text-align: center;
   padding-bottom: 1.3em;
   border-bottom: 1px solid gray;
-}
-
-.step--highlight {
-  background-color: var(--hover-bg-color);
 }
 
 @media screen and (min-width: 820px) {
@@ -232,10 +232,6 @@ svg.linkIcon {
   .section--ingredients {
     width: 33%;
     padding-right: 2em;
-  }
-
-  .section--ingredients li {
-    margin-bottom: 0.4em;
   }
 
   .section--steps {

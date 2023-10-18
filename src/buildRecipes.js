@@ -22,7 +22,7 @@ const SectionTypes = Object.freeze({
 
 const SectionAliases = Object.freeze({
   [SectionTypes.BASED_ON]: ['credits', 'resources', 'source'],
-  [SectionTypes.NOTES]:    ['tips', 'variations', 'nutritioninfo'],
+  [SectionTypes.NOTES]:    ['tips', 'variations', 'nutritioninfo', 'nutrition', 'nutritionalfacts'],
   [SectionTypes.STEPS]:    ['directions', 'instructions', 'preparation', 'procedure', 'procedures'],
 });
 
@@ -72,7 +72,7 @@ const RegExes = Object.freeze({
    * "1/4 teaspoon vanilla extract"
    * "1.5 oz gin"
    */
-  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcl]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
+  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 });
 /* eslint-enable key-spacing */

@@ -14,7 +14,7 @@ module.exports = {
   recipeDir: './recipes',
 
   titleSuffix: ' - Recipe Book',
-  favicon: 'http://www.jeffreythompson.org/graphics/favicon.png',
+  favicon: 'measuring-cup-favicon.svg',
 
   includeHelpLinks: false,
 

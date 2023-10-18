@@ -21,6 +21,9 @@
   --back-arrow-hover-color: black;
   /* Unordered List Item Bullet Color */
   --list-bullet-color: #eca96f;
+  /* clickable lists */
+  --line-activated-bg-color: rgb(211, 211, 211);
+  --line-through-color: #666;
 
   /* -- Index Page ------- */
 
