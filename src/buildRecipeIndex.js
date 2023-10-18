@@ -9,6 +9,7 @@ const Substitutions = {
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
 };
+/* eslint-enable key-spacing */
 
 /**
  * and generate table of contents, plus a quick-nav list

@@ -10,6 +10,7 @@
 }
 
 .complete {
+  font-style: italic;
   opacity: 80%;
   text-decoration: line-through;
   text-decoration-color: var(--line-through-color);

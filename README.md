@@ -15,9 +15,10 @@ This project generates static HTML. You may view locally just by dragging one of
 * Recipes are written in plain text using the intuitive-ish [Markdown format](https://daringfireball.net/projects/markdown).
 * Publishes a recipe index, including on-page links to more easily locate a recipe.
 * Template driven layout, customize or use the provided template
-* Recipe pages include helpers to make kitchen time more productive:
-    *  Tap a recipe step to highlight it, tap again to remove the highlighting, or use the left/right arrow keys to advance through the steps.
-    *  Tap ingredients as you use them to place a strike-through through them -- no more overlooked ingredients. Tap again to remove the line. 
+* No more overlooked ingredients or skipped Steps as recipe pages allow you to flag your current step and mark-off those you've already done. In the Ingredients and Steps sections:
+    * Tap an item once to highlight it, tappin again removes highlighting.
+    * Double tab an item to mark as "completed" or "used" (the text will be italicized and have a strike-through through it). Double tapping again removes the line.
+    * Navigate through Steps via arrow keys: when a Step is highlighted step using the left/right arrow keys highlights the previous/next step.
 * Auto-generated links to a Google image search for that dish, recipes on Serious Eats and Google, and for restaurants on Yelp (in case you burn something and need takeout fast)  
 
 EXAMPLE: below a recipe with a few ingredients "ticked" off (indicating they've been used) and the current step being highlighted:

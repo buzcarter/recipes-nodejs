@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 (() => {
   /* eslint-disable key-spacing */
   const Styles = Object.freeze({
@@ -75,6 +75,13 @@
     isDoubleClick = true;
     li.classList.toggle(Styles.COMPLETE);
     li.classList.remove(Styles.ACTIVATED);
+
+    // don't want to accidentally select the tapped text
+    // (I know this might interfer with some legit actions/lookups)
+    const selection = window.getSelection();
+    if (selection && (selection.anchorNode.parentElement === li || selection.anchorNode.parentElement.closest('li') === li)) {
+      selection.removeAllRanges();
+    }
   }
 
   function init() {

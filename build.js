@@ -30,7 +30,6 @@ function setupOutputDir(outputPath) {
 }
 
 function copyStatic(staticPath, imagesPath, outputPath) {
-  // ['scripts', 'styles'].forEach(dir => cpSync(resolve(staticPath, dir), resolve(outputPath, dir), { recursive: true }));
   cpSync(staticPath, outputPath, { recursive: true });
   cpSync(imagesPath, resolve(outputPath, 'images'), { recursive: true });
 }
