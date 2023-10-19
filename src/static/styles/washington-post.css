@@ -6,7 +6,7 @@
   /* font-size: 18px; */
   background-color: white;
   border-radius: 8px;
-  color: rgb(42,42,42);
+  color: rgb(42, 42, 42);
   font-family: var(--fonts-body);
   left: 10%;
   margin-bottom: -150px;
@@ -27,7 +27,7 @@
 }
 
 .washington-post .section--steps ol li:before {
-  content: 'Step ' counter(step-counter);
+  content: 'Step 'counter(step-counter);
   counter-increment: step-counter;
   /* color: var(--accent-color); */
   /* font-weight: 800; */
@@ -45,4 +45,11 @@
 
 .washington-post .html p {
   line-height: 1.6;
+}
+
+.washington-post .subsection--nutritionalfacts li {
+  font-size: 80%;
+  /* margin: 0;
+  padding: 0; */
+  line-height: 1.2;
 }

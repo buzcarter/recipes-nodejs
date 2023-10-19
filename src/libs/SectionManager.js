@@ -32,12 +32,12 @@ class SectionMgr {
     return this.definedTypes.filter(type => !this.sections[type]);
   }
 
-  add(sectionType, sectionHTML) {
+  add(sectionType, subsectionName, sectionHTML) {
     if (this.defaultType && !this.definedTypes.includes(sectionType)) {
       this.unknownTypes.push(sectionType);
       sectionType = this.defaultType;
     }
-    this.sections[sectionType] = (this.sections[sectionType] || '') + sectionHTML;
+    this.sections[sectionType] = (this.sections[sectionType] || '') + `<div class="subsection--${subsectionName}">${sectionHTML}</div>`;
   }
 
   replace(documentHTML) {

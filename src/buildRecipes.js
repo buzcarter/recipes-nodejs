@@ -103,13 +103,17 @@ function getCustomizations(documentHtml) {
     || {};
 }
 
+const getH2Id = (html) => {
+  const matches = html.match(RegExes.H2);
+  return matches?.[1].toLowerCase() || '';
+};
+
 function getSectionType(section) {
-  const matches = section.match(RegExes.H2);
-  if (!matches) {
+  const type = getH2Id(section);
+  if (!type) {
     return '';
   }
 
-  const type = matches[1].toLowerCase();
   if (Object.keys(SectionTypes).some(key => SectionTypes[key] === type)) {
     return type;
   }
@@ -217,7 +221,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
           break;
       }
 
-      sectionMgr.add(sectionType, section);
+      sectionMgr.add(sectionType, getH2Id(section), section);
     });
 
   // add some helper links
