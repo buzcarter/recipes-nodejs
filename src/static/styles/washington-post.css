@@ -1,0 +1,48 @@
+:root {
+  --fonts-body: georgia, Times New Roman, serif;
+}
+
+.washington-post .section--title {
+  /* font-size: 18px; */
+  background-color: white;
+  border-radius: 8px;
+  color: rgb(42,42,42);
+  font-family: var(--fonts-body);
+  left: 10%;
+  margin-bottom: -150px;
+  min-width: 300px;
+  padding: 30px;
+  position: relative;
+  top: -150px;
+  width: 55%;
+}
+
+.washington-post .recipe__name {
+  text-align: center;
+}
+
+.washington-post .section--steps li {
+  margin-left: 0;
+  margin-top: 40px;
+}
+
+.washington-post .section--steps ol li:before {
+  content: 'Step ' counter(step-counter);
+  counter-increment: step-counter;
+  /* color: var(--accent-color); */
+  /* font-weight: 800; */
+  font-size: 95%;
+  position: absolute;
+  left: 0;
+  top: -25px;
+}
+
+/*
+.washington-post .html {
+  font-family: var(--fonts-body);
+}
+*/
+
+.washington-post .html p {
+  line-height: 1.6;
+}

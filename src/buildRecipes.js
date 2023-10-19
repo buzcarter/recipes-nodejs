@@ -37,6 +37,7 @@ const Substitutions = Object.freeze({
   META_FAVICON:   '{{__favIcon__}}',
   META_DATE:      '{{__metaDateGenerated__}}',
   META_OG_IMG:    '{{__metaOGImage__}}',
+  CLOSE_HEAD:     '</head>',
 });
 
 const Styles = Object.freeze({
@@ -74,6 +75,9 @@ const RegExes = Object.freeze({
    */
   NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
+
+  /** Custom meta tags */
+  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme)\s*:\s*([\w-]+)\s+-->\s*$/,
 });
 /* eslint-enable key-spacing */
 
@@ -86,6 +90,17 @@ function setHeadMeta(documentHtml, { favicon, ogImgURL, recipeName, titleSuffix 
     .replace(Substitutions.META_OG_IMG, ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : '')
     .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
     .replace(Substitutions.TITLE, recipeName);
+}
+
+function getCustomizations(documentHtml) {
+  return documentHtml
+    .match(new RegExp(RegExes.CUSTOMIZATIONS, 'gm'))
+    ?.map((a) => {
+      const [, type, value] = a.match(RegExes.CUSTOMIZATIONS);
+      return { type, value };
+    })
+    .reduce((acc, { type, value }) => Object.assign(acc, {[type]: value }), {})
+    || {};
 }
 
 function getSectionType(section) {
@@ -176,6 +191,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   let recipeName = '';
 
   const sectionMgr = new SectionMgr({ definedTypes: SectionTypes, defaultType: SectionTypes.NOTES });
+  const customizations = getCustomizations(recipeHTML);
 
   recipeHTML
     .split(RegExes.SECTION_SPLIT)
@@ -220,8 +236,10 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
+    .replace(Substitutions.CLOSE_HEAD, customizations.style ? `<link rel="stylesheet" href="styles/${customizations.style}.css">\n${Substitutions.CLOSE_HEAD}` : Substitutions.CLOSE_HEAD)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
+      customizations.style || '',
       ...sectionMgr.sectionsInUse.map(n => `${n}--visible`),
       ...sectionMgr.sectionsUnused.map(n => `${n}--hidden`),
     ].join(' '));

@@ -118,7 +118,7 @@ svg.linkIcon {
 /* == Section: Steps ----- */
 .section--steps ol {
   list-style-type: none;
-  counter-reset: my-counter;
+  counter-reset: step-counter;
 }
 
 .section--steps li {
@@ -127,8 +127,8 @@ svg.linkIcon {
 }
 
 .section--steps ol li:before {
-  content: counter(my-counter);
-  counter-increment: my-counter;
+  content: counter(step-counter);
+  counter-increment: step-counter;
   color: var(--accent-color);
   font-weight: 800;
   margin-right: -3px;
