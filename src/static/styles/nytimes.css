@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');
+
+:root {
+  --fonts-headers: Tinos, Georgia, Times New Roman, serif;
+}
+
+
+.nytimes .section--title {
+  border-bottom: 1px solid #ccc;
+  padding-top: 30px;
+}
+
+.nytimes .recipe__name {
+  color: rgb(34, 34, 34);
+  font-family: var(--fonts-headers);
+  font-size: 40px;
+  font-weight: normal;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.nytimes .section--heroimage {
+  float: right;
+  margin-left: 25px;
+  max-width: 60%;
+}
+
+.nytimes .section--ingredients {
+  clear: right;
+}
+
+.nytimes .section--steps li {
+  margin-left: 0;
+  margin-top: 40px;
+}
+
+.nytimes .section--steps ol li:before {
+  content: 'Step 'counter(step-counter);
+  counter-increment: step-counter;
+  font-size: 95%;
+  position: absolute;
+  left: 0;
+  top: -25px;
+}
+
+.nytimes .html {
+  font-family: var(--fonts-headers);
+  font-size: 18px;
+}
+
+.nytimes .html p {
+  line-height: 1.6;
+}

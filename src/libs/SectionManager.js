@@ -37,7 +37,7 @@ class SectionMgr {
       this.unknownTypes.push(sectionType);
       sectionType = this.defaultType;
     }
-    this.sections[sectionType] = (this.sections[sectionType] || '') + `<div class="subsection--${subsectionName}">${sectionHTML}</div>`;
+    this.sections[sectionType] = (this.sections[sectionType] || '') + `<div class="subsection--${subsectionName || sectionType}">${sectionHTML}</div>`;
   }
 
   replace(documentHTML) {

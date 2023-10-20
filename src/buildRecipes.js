@@ -78,7 +78,7 @@ const RegExes = Object.freeze({
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 
   /** Custom meta tags */
-  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme)\s*:\s*([\w-]+)\s+-->\s*$/,
+  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
 });
 /* eslint-enable key-spacing */
 
@@ -222,7 +222,9 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
           break;
       }
 
-      sectionMgr.add(sectionType, getH2Id(section), section);
+      if (sectionType) {
+        sectionMgr.add(sectionType, getH2Id(section), section);
+      }
     });
 
   // add some helper links
