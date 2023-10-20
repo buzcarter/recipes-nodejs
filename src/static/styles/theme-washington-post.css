@@ -1,58 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
+
 :root {
+  --font-family-body: Franklin, georgia, Times New Roman, serif;
+  --font-family-header: 'Gilda Display', garamond, georgia, Times New Roman, serif;
+  --font-family-steps: Franklin, georgia, Times New Roman, serif;
+
   /* -- Globals --- */
 
-  --page-background: white;
+  --color-pg-bg: white;
   /* headings, recipe step numerals, etc: primary "pop" color */
-  --accent-color: #c15900;
+  --color-primary: rgb(42, 42, 42);
   /* anchor */
-  --link-color: black;
-  --link-hover-color: black;
-  --hover-bg-color: rgba(255, 255, 0, 0.5);
+  --color-link: black;
+  --color-link-hover: black;
+  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
   /* ??? */
-  --target-bg-color: rgba(255, 255, 0, 0.25);
+  --color-target-bg: rgba(255, 255, 0, 0.25);
 
 
   /* -- Recipe Page ------- */
 
   /* parens (recipe ingredient) & hr */
-  --light-gray-color: rgb(129 129 129);
+  --color-ingredient-parens: rgb(129 129 129);
   /* back arrow (SVG/image) */
-  --back-arrow-color: rgb(200, 200, 200);
-  --back-arrow-hover-color: black;
+  --color-back-arrow: rgb(200, 200, 200);
+  --color-back-arrow-hover: black;
   /* Unordered List Item Bullet Color */
-  --list-bullet-color: #eca96f;
+  --color-ul-item-bullet: #eca96f;
   /* clickable lists */
-  --line-activated-bg-color: rgb(211, 211, 211);
-  --line-through-color: #666;
+  --color-highlight-bg: rgb(211, 211, 211);
+  --color-complete-line-through: #666;
 
   /* -- Index Page ------- */
 
-  --index-letter-color: rgb(180, 180, 180);
-  --index-footer-text: rgb(170, 170, 170);
-  --index-footer-link: rgb(180, 180, 180);
+  --color-index-pg-nav-letter: rgb(180, 180, 180);
+  --color-index-pg-footer: rgb(170, 170, 170);
+  --color-index-pg-footer-link: rgb(180, 180, 180);
 }
 
-:root {
-  --fonts-body: georgia, Times New Roman, serif;
+.washington-post h2 {
+  text-transform: capitalize;
+  font-weight: 700;
 }
 
 .washington-post .section--title {
-  /* font-size: 18px; */
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  color: rgb(42, 42, 42);
-  font-family: var(--fonts-body);
+  font-family: var(--font-family-body);
   left: 10%;
   margin-bottom: -150px;
   min-width: 300px;
   padding: 30px;
   position: relative;
   top: -150px;
-  width: 55%;
+  width: 60%;
 }
 
 .washington-post .recipe__name {
   text-align: center;
+  text-transform: none;
+  font-weight: 400;
 }
 
 .washington-post .section--steps li {
@@ -63,19 +70,11 @@
 .washington-post .section--steps ol li:before {
   content: 'Step 'counter(step-counter);
   counter-increment: step-counter;
-  /* color: var(--accent-color); */
-  /* font-weight: 800; */
   font-size: 95%;
   position: absolute;
   left: 0;
   top: -25px;
 }
-
-/*
-.washington-post .html {
-  font-family: var(--fonts-body);
-}
-*/
 
 .washington-post .html p {
   line-height: 1.6;
@@ -83,7 +82,5 @@
 
 .washington-post .subsection--nutritionalfacts li {
   font-size: 80%;
-  /* margin: 0;
-  padding: 0; */
   line-height: 1.2;
 }

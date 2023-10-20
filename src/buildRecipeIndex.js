@@ -9,6 +9,7 @@ const Substitutions = {
   // Head's meta-tags
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
+  THEME_CSS:         '{{__theme__}}',
 };
 /* eslint-enable key-spacing */
 
@@ -16,7 +17,7 @@ const Substitutions = {
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
+function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, fileList) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -45,6 +46,7 @@ function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
     // ...and the list of first-letters for quick nav
     .replace(Substitutions.LETTERS_INDEX, lettersIndex)
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
+    .replace(Substitutions.THEME_CSS, `theme-${defaultTheme}`)
     .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '');
 
   writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });

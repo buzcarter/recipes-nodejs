@@ -18,7 +18,7 @@ module.exports = {
 
   includeHelpLinks: false,
 
-  defaultTheme: 'theme',
+  defaultTheme: 'default',
 
   /**
    * help urls to include (will be listed in the order below)

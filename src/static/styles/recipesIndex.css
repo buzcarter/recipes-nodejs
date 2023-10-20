@@ -26,7 +26,7 @@
 
 .navigation a {
   margin-right: 0.1em;
-  color: var(--index-letter-color);
+  color: var(--color-index-pg-nav-letter);
   display: inline-block;
   width: 1.22em;
   height: 1.22em;
@@ -37,7 +37,7 @@
 }
 
 .footer {
-  color: var(--index-footer-text);
+  color: var(--color-index-pg-footer);
   text-align: center;
   width: 80%;
   margin: 0 auto;
@@ -48,7 +48,7 @@
 }
 
 .footer a {
-  color: var(--index-footer-link);
+  color: var(--color-index-pg-footer-link);
 }
 
 .footer a:visited,

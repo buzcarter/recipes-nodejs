@@ -243,7 +243,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
-    .replace(Substitutions.THEME_CSS, customizations.style || defaultTheme)
+    .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       customizations.style || '',
