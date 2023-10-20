@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { writeFileSync } = require('fs');
+const prettyHtml = require('pretty');
 
 /* eslint-disable key-spacing */
 const Substitutions = {
@@ -46,7 +47,7 @@ function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
     .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '');
 
-  writeFileSync(resolve(outputPath, 'index.html'), contents, { encoding: 'utf8' });
+  writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
 }
 
 module.exports = buildRecipeIndex;

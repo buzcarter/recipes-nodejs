@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const { accessSync, constants: { F_OK }, readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
+const prettyHtml = require('pretty');
 const { linkify, shorten, replaceFractions } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
@@ -262,7 +263,7 @@ function buildRecipes(recipeTemplate, options, fileList) {
         return;
       }
       let html = converter.makeHtml(markdown);
-      html = convertRecipe(recipeTemplate, html, options, name);
+      html = prettyHtml(convertRecipe(recipeTemplate, html, options, name), { ocd: true });
       writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
     });
   });

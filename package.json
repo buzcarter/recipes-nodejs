@@ -1,6 +1,6 @@
 {
   "name": "recipes-nodejs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NodeJS recipe publisher, converts markdown/text recipe files into well formatted HTML.",
   "main": "build.js",
   "scripts": {
@@ -17,6 +17,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "pretty": "^2.0.0",
     "showdown": "^2.1.0"
   },
   "devDependencies": {
