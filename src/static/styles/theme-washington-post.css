@@ -1,4 +1,38 @@
 :root {
+  /* -- Globals --- */
+
+  --page-background: white;
+  /* headings, recipe step numerals, etc: primary "pop" color */
+  --accent-color: #c15900;
+  /* anchor */
+  --link-color: black;
+  --link-hover-color: black;
+  --hover-bg-color: rgba(255, 255, 0, 0.5);
+  /* ??? */
+  --target-bg-color: rgba(255, 255, 0, 0.25);
+
+
+  /* -- Recipe Page ------- */
+
+  /* parens (recipe ingredient) & hr */
+  --light-gray-color: rgb(129 129 129);
+  /* back arrow (SVG/image) */
+  --back-arrow-color: rgb(200, 200, 200);
+  --back-arrow-hover-color: black;
+  /* Unordered List Item Bullet Color */
+  --list-bullet-color: #eca96f;
+  /* clickable lists */
+  --line-activated-bg-color: rgb(211, 211, 211);
+  --line-through-color: #666;
+
+  /* -- Index Page ------- */
+
+  --index-letter-color: rgb(180, 180, 180);
+  --index-footer-text: rgb(170, 170, 170);
+  --index-footer-link: rgb(180, 180, 180);
+}
+
+:root {
   --fonts-body: georgia, Times New Roman, serif;
 }
 

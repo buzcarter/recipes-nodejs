@@ -38,7 +38,7 @@ const Substitutions = Object.freeze({
   META_FAVICON:   '{{__favIcon__}}',
   META_DATE:      '{{__metaDateGenerated__}}',
   META_OG_IMG:    '{{__metaOGImage__}}',
-  CLOSE_HEAD:     '</head>',
+  THEME_CSS:      '{{__theme__}}',
 });
 
 const Styles = Object.freeze({
@@ -191,7 +191,7 @@ function getHelpSection(helpURLs, name) {
 
 function convertRecipe(outputHTML, recipeHTML, config, name) {
   const {
-    autoUrlSections, favicon, useFractionSymbols, helpURLs, imagesPath, includeHelpLinks, lookForHeroImage, shortenURLs, titleSuffix,
+    autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, imagesPath, includeHelpLinks, lookForHeroImage, shortenURLs, titleSuffix,
   } = config;
   let recipeName = '';
 
@@ -243,7 +243,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
-    .replace(Substitutions.CLOSE_HEAD, customizations.style ? `<link rel="stylesheet" href="styles/${customizations.style}.css">\n${Substitutions.CLOSE_HEAD}` : Substitutions.CLOSE_HEAD)
+    .replace(Substitutions.THEME_CSS, customizations.style || defaultTheme)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       customizations.style || '',

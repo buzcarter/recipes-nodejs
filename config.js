@@ -18,6 +18,8 @@ module.exports = {
 
   includeHelpLinks: false,
 
+  defaultTheme: 'theme',
+
   /**
    * help urls to include (will be listed in the order below)
    * label = text displayed
