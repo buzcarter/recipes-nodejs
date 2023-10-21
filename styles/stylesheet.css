@@ -143,8 +143,8 @@ table {
 /* basics */
 html,
 body {
-  background-color: var(--page-background);
-  font-family: 'Open Sans', sans-serif;
+  background-color: var(--color-pg-bg);
+  font-family: var(--font-family-body);
   font-size: 16px;
   font-smooth: 1em;
   font-weight: 300;
@@ -182,12 +182,14 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'PT Sans Narrow', sans-serif;
+  font-family: var(--font-family-header);
+  -webkit-font-smoothing: antialiased;
+  -mox-osx-font-smoothing: antialiased;
 }
 
 /* recipe title */
 h1 {
-  color: var(--accent-color);
+  color: var(--color-primary);
   font-size: 24pt;
   font-weight: 600;
   margin: 1em 0 .5em;
@@ -203,7 +205,7 @@ h2 {
 }
 
 h3 {
-  color: var(--accent-color);
+  color: var(--color-primary);
   margin-bottom: .6em;
   font-size: 110%;
 }
@@ -226,7 +228,7 @@ ol li {
 }
 
 :target {
-  background-color: var(--target-bg-color);
+  background-color: var(--color-target-bg);
 }
 
 p::first-letter {
@@ -237,7 +239,7 @@ p::first-letter {
 a,
 a:link,
 a:visited {
-  color: var(--link-color);
+  color: var(--color-link);
   text-decoration: none;
   background-color: transparent;
   transition: background-color 0.35s ease;
@@ -245,8 +247,8 @@ a:visited {
 
 a:active,
 a:hover {
-  color: var(--link-hover-color);
-  background-color: var(--hover-bg-color);
+  color: var(--color-link-hover);
+  background-color: var(--color-link-bg-hover);
   text-decoration: underline;
 }
 
@@ -256,6 +258,34 @@ a:hover {
   max-width: 900px;
   margin: 1em auto 4em auto;
 }
+
+/* accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.skip-link:focus,
+.skip-link:active {
+  display: block;
+}
+
 
 /* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {

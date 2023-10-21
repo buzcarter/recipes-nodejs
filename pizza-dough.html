@@ -6,75 +6,108 @@
     <!-- basics -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="date" content="Wed Oct 18 2023 14:57:07 GMT+0000 (Coordinated Universal Time)">
-    
+    <meta name="date" content="Sat Oct 21 2023 22:30:23 GMT+0000 (Coordinated Universal Time)">
+    <meta property="og:image" content="images/pizza-dough.avif">
     <link rel="icon" type="image/png" href="measuring-cup-favicon.svg">
 
     <!-- font and styles -->
+    <style>
+      :root {
+        --hero-image-url: url("../images/pizza-dough.avif");
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=PT+Sans+Narrow&display=swap">
-    <link rel="stylesheet" href="styles/themeColors.css">
+    <link rel="stylesheet" href="styles/theme-washington-post.css">
     <link rel="stylesheet" href="styles/stylesheet.css">
     <link rel="stylesheet" href="styles/recipe.css">
   </head>
-  <body class="heroimage--hidden header--visible ingredients--visible steps--visible notes--visible basedon--visible info--hidden">
+  <body class="heroimage--visible washington-post  header--visible ingredients--visible steps--visible notes--visible basedon--visible info--hidden">
     <main class="wrapper recipe">
+
       <!-- back button -->
       <p class="back-link">
-        <a href="index.html" title="back to recipe box index">
-          <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <a href="sources/pizza-dough.md" class="view-source" title="View original text file" target="_blank">
+          plain text version
+          <svg class="view-source__svg link-svg" aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z" />
+          </svg>
+        </a>
+        <a href="index.html" class="back-link__link" title="back to recipe box index">
+          <span class="sr-only">Back to index</span>
+          <svg class="back-link__svg link-svg" aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" />
           </svg>
         </a>
       </p>
+
       <!-- recipe -->
       <article>
-        <figure class="section section--heroimage"></figure>
+        <figure class="section section--heroimage"><img class=hero-img src="images/pizza-dough.avif"></figure>
         <header class="section section--title">
           <h1 class="recipe__name">Pizza Dough</h1>
           <div class="html">
-            
-
+            <div class="subsection--header">
+              <p>This dough needs to rest overnight.</p>
+              <p>You'll make six individual-sized balls of dough here; if you'd like a larger pizza, you can form the dough into larger balls.</p>
+              <p>After the dough rests, it can be refrigerated or frozen. Let it come to room temperature before dividing it into balls and letting it rise, then baking. Or the balls can be transferred to individual freezer-safe plastic food storage bags along with a drizzle of olive oil; refrigerate for several days or freeze for several months. Defrost at room temperature and let it rise before baking.</p>
+            </div>
           </div>
         </header>
         <section class="section section--info"></section>
-        <section class="js-highlighter clickable-list section section--ingredients"><h2 id="ingredients">ingredients</h2>
-<ul>
-<li class="ingredient--has-amt"><span class="ingredient__amt">20.25 oz</span> <span class="ingredient__text">unbleached high-gluten, bread, or all-purpose flour <span class="paren">(4.5 cups, chilled if possible)</span>  </span></li>
-<li class="ingredient--has-amt"><span class="ingredient__amt">0.44 oz</span> <span class="ingredient__text">salt <span class="paren">(1.75 tsp)</span>  </span></li>
-<li class="ingredient--has-amt"><span class="ingredient__amt">0.11 oz</span> <span class="ingredient__text">instant yeast <span class="paren">(1 tsp)</span>  </span></li>
-<li class="ingredient--has-amt"><span class="ingredient__amt">2 oz</span> <span class="ingredient__text">olive oil <span class="paren">(1/4 cup)</span>  </span></li>
-<li class="ingredient--has-amt"><span class="ingredient__amt">14 oz</span> <span class="ingredient__text">water, ice cold <span class="paren">(1.75 cups, 40ºF)</span>  </span></li>
-<li>semolina flour or cornmeal, for dusting  </li>
-</ul>
-</section>
-        <section id="section-steps" class="js-highlighter clickable-list section section--steps"><h2 id="steps">steps</h2>
-<ol>
-<li>stir together flour, salt, and yeast in a large bowl  </li>
-<li>add oil and water, stir by hand (dipping in cold water occasionally) in a circular motion like a dough hook until a smooth mass forms and it clears the sides of the bowl  </li>
-<li>knead dough on counter until gluten forms; should be springy and elastic, and register 50–55ºF  </li>
-<li>rub baking sheet pan with olive oil  </li>
-<li>cut into 6 equal pieces, pat into a round ball and place on baking sheet  </li>
-<li>rub each ball with oil and cover tightly with plastic wrap  </li>
-<li>place in fridge and let rest overnight  </li>
-<li>two hours before making pizza, on a floured counter pat the dough into 1/2" thick discs  </li>
-<li>sprinkle with flour and cover loosely with plastic wrap; let sit  </li>
-<li>about 45 minutes before cooking, place stone in oven and preheat to as hot as your oven will go  </li>
-<li>stretch out dough and make pizzas!  </li>
-</ol>
-</section>
+        <section class="js-highlighter clickable-list section section--ingredients">
+          <div class="subsection--ingredients">
+            <h2 id="ingredients">ingredients</h2>
+            <ul>
+              <li class="ingredient--has-amt"><span class="ingredient__amt">20.25 oz</span> <span class="ingredient__text">unbleached high-gluten, bread, or all-purpose flour <span class="paren">(4.5 cups, chilled if possible)</span> </span></li>
+              <li class="ingredient--has-amt"><span class="ingredient__amt">0.44 oz</span> <span class="ingredient__text">salt <span class="paren">(1.75 tsp)</span> </span></li>
+              <li class="ingredient--has-amt"><span class="ingredient__amt">0.11 oz</span> <span class="ingredient__text">instant yeast <span class="paren">(1 tsp)</span> </span></li>
+              <li class="ingredient--has-amt"><span class="ingredient__amt">2 oz</span> <span class="ingredient__text">olive oil <span class="paren">(1/4 cup)</span> </span></li>
+              <li class="ingredient--has-amt"><span class="ingredient__amt">14 oz</span> <span class="ingredient__text">water, ice cold <span class="paren">(1.75 cups, 40ºF)</span> </span></li>
+              <li>semolina flour or cornmeal, for dusting </li>
+            </ul>
+          </div>
+        </section>
+        <section id="section-steps" class="js-highlighter clickable-list section section--steps">
+          <div class="subsection--steps">
+            <h2 id="steps">steps</h2>
+            <h3 id="nightbefore">Night Before</h3>
+            <ol>
+              <li>stir together flour, salt, and yeast in a large bowl </li>
+              <li>add oil and water, stir by hand (dipping in cold water occasionally) in a circular motion like a dough hook until a smooth mass forms and it clears the sides of the bowl </li>
+              <li>knead dough on counter until gluten forms; should be springy and elastic, and register 50–55ºF </li>
+              <li>rub baking sheet pan with olive oil </li>
+              <li>cut into 6 equal pieces, pat into a round ball and place on baking sheet </li>
+              <li>rub each ball with oil and cover tightly with plastic wrap </li>
+              <li>place in fridge and let rest overnight </li>
+            </ol>
+            <h3 id="twohourspriortobaking">Two Hours Prior To Baking</h3>
+            <ol>
+              <li>two hours before making pizza, on a floured counter pat the dough into 1/2" thick discs </li>
+              <li>sprinkle with flour and cover loosely with plastic wrap; let sit </li>
+              <li>about 45 minutes before cooking, place stone in oven and preheat to as hot as your oven will go </li>
+              <li>stretch out dough and make pizzas! </li>
+            </ol>
+          </div>
+        </section>
         <hr />
-        <aside class="section section--notes"><h2 id="notes">notes</h2>
-<ul>
-<li>If dough won't stretch out, let it rest 5–20 minutes and try again  </li>
-</ul>
-</aside>
+        <aside class="section section--notes">
+          <div class="subsection--notes">
+            <h2 id="notes">notes</h2>
+            <ul>
+              <li>If dough won't stretch out, let it rest 5–20 minutes and try again </li>
+            </ul>
+          </div>
+        </aside>
         <aside class="section section--help"></aside>
-        <aside class="section section--basedon"><h2 id="basedon">based on</h2>
-<ul>
-<li><a href="https://www.101cookbooks.com/best-pizza-dough-ever">www.101cookbooks.com</a>  </li>
-</ul></aside>
+        <aside class="section section--basedon">
+          <div class="subsection--basedon">
+            <h2 id="basedon">based on</h2>
+            <ul>
+              <li><a href="https://www.101cookbooks.com/best-pizza-dough-ever">www.101cookbooks.com</a> </li>
+            </ul>
+          </div>
+        </aside>
       </article>
     </main>
     <script src="scripts/recipe.js"></script>

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
+
+:root {
+  --font-family-body: Franklin, georgia, Times New Roman, serif;
+  --font-family-header: 'Gilda Display', garamond, georgia, Times New Roman, serif;
+  --font-family-steps: Franklin, georgia, Times New Roman, serif;
+
+  /* -- Globals --- */
+
+  --color-pg-bg: white;
+  /* headings, recipe step numerals, etc: primary "pop" color */
+  --color-primary: rgb(42, 42, 42);
+  /* anchor */
+  --color-link: black;
+  --color-link-hover: black;
+  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
+  /* ??? */
+  --color-target-bg: rgba(255, 255, 0, 0.25);
+
+
+  /* -- Recipe Page ------- */
+
+  /* parens (recipe ingredient) & hr */
+  --color-ingredient-parens: rgb(129 129 129);
+  /* back arrow (SVG/image) */
+  --color-back-arrow: rgb(200, 200, 200);
+  --color-back-arrow-hover: black;
+  /* Unordered List Item Bullet Color */
+  --color-ul-item-bullet: #eca96f;
+  /* clickable lists */
+  --color-highlight-bg: rgb(227 233 168);
+  --color-complete-line-through: #666;
+
+  /* -- Index Page ------- */
+
+  --color-index-pg-nav-letter: rgb(180, 180, 180);
+  --color-index-pg-footer: rgb(170, 170, 170);
+  --color-index-pg-footer-link: rgb(180, 180, 180);
+}
+
+.washington-post h2 {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.washington-post .section--title {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  font-family: var(--font-family-body);
+  left: 10%;
+  margin-bottom: -150px;
+  min-width: 300px;
+  padding: 30px;
+  position: relative;
+  top: -150px;
+  width: 60%;
+}
+
+.washington-post .recipe__name {
+  text-align: center;
+  text-transform: none;
+  font-weight: 400;
+}
+
+.washington-post .section--steps li {
+  margin-left: 0;
+  margin-top: 40px;
+}
+
+.washington-post .section--steps ol li:before {
+  content: 'Step 'counter(step-counter);
+  counter-increment: step-counter;
+  font-size: 95%;
+  position: absolute;
+  left: 0;
+  top: -25px;
+}
+
+.washington-post .html p {
+  line-height: 1.6;
+}
+
+.washington-post .subsection--nutritionalfacts li {
+  font-size: 80%;
+  line-height: 1.2;
+}
