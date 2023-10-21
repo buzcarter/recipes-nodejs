@@ -53,3 +53,34 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, 
 }
 
 module.exports = buildRecipeIndex;
+
+/*
+show-thumbnails
+
+a {
+      display: inline-block;
+    width: 100%;
+}
+span.index-recipe-photo {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.index-recipe-photo img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+<li id="F"><a href="french-onion-farrow-bake.html">
+<span class="index-recipe-photo">
+<img src="http://localhost:8080/.lab/output/images/french-onion-farrow-bake.jpg">
+</span>
+<span class="index-recipe-name">
+french onion farrow bake
+</span>
+</a></li>
+*/
