@@ -33,24 +33,46 @@ hr {
   font-style: normal;
 }
 
-.back-link a:hover {
+.back-link__link:hover {
   background: none;
 }
 
-.back-link svg {
+.back-link__svg {
   display: none;
   width: 24px;
+}
+
+.link-svg {
   color: var(--color-back-arrow);
   transition: color 0.35s ease;
 }
 
-.back-link svg:hover {
+a:hover .link-svg {
   color: var(--color-back-arrow-hover);
 }
 
+/*
 svg.linkIcon {
   width: 14px;
   margin-left: 0.3em;
+}
+*/
+
+.view-source,
+.view-source:link,
+.view-source:visited {
+  float: right;
+  white-space: nowrap;
+  color: var(--color-back-arrow);
+}
+
+.view-source:hover {
+  color: var(--color-back-arrow-hover);
+}
+
+.view-source__svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* == Sections ----- */
@@ -218,7 +240,7 @@ svg.linkIcon {
     margin-bottom: 1.3em;
   }
 
-  .back-link svg {
+  .back-link__svg {
     display: block;
   }
 
@@ -249,7 +271,10 @@ svg.linkIcon {
     text-align: left !important;
   }
 
-  .back-link,
+  .back-link {
+    display: inline-block;
+  }
+
   .section--help {
     display: none;
   }
