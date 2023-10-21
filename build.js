@@ -7,6 +7,8 @@ const { buildRecipes } = require('./src/buildRecipes');
 const buildRecipeIndex = require('./src/buildRecipeIndex');
 const configs = require('./config');
 
+const THUMBNAIL_WIDTH = 260;
+
 const filterByExtension = (fileList, recipesPath, allowedExtensions) => fileList
   .filter(fileName => allowedExtensions.includes(extname(fileName)))
   .map(fileName => ({
@@ -27,12 +29,12 @@ function copyStatic(staticPath, imagesPath, outputPath) {
   cpSync(imagesPath, resolve(outputPath, 'images'), { recursive: true });
 }
 
-function makeThumbnails(imagesPath, outputPath, images) {
+function makeThumbnails(outputPath, images) {
   images
     .forEach(({ file, name }) => {
       const thumbnailPath = resolve(outputPath, `images/thumbnails/${name}.jpg`);
       sharp(file)
-        .resize(300)
+        .resize(THUMBNAIL_WIDTH)
         .jpeg({ quality: 70 })
         .toFile(thumbnailPath)
         // eslint-disable-next-line no-console
@@ -63,7 +65,7 @@ function main(configs) {
 
       setupOutputDir(options.outputPath);
       copyStatic(options.staticPath, options.imagesPath, options.outputPath);
-      makeThumbnails(options.imagesPath, options.outputPath, images);
+      makeThumbnails(options.outputPath, images);
       buildRecipes(recipeTemplate, options, markdownFiles, images);
       buildRecipeIndex(indexTemplate, options, markdownFiles, images);
 

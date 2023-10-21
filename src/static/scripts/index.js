@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 (() => {
   const ViewTypes = Object.freeze([
     'content',
@@ -10,16 +10,22 @@
     RADIO_BTN: '.js-view-radio-btn',
   };
 
-  function onClick() {
-    const { view } = this.dataset;
+  function setView(view) {
     ViewTypes.forEach(name => document.body.classList.remove(`view--${name}`));
     document.body.classList.add(`view--${view}`);
   }
 
-  function init() {
-    document.querySelectorAll(Selectors.RADIO_BTN)
-      .forEach(item => item.addEventListener('click', onClick));
+  function onClick() {
+    setView(this.dataset.view);
   }
 
-  init();
+  function init(initialIndexView) {
+    document.querySelectorAll(Selectors.RADIO_BTN)
+      .forEach(item => item.addEventListener('click', onClick));
+    setView(initialIndexView);
+  }
+
+  window.recipeIndex = Object.assign(window.recipeIndex || {}, {
+    init,
+  });
 })();

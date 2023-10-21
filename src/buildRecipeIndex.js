@@ -10,6 +10,8 @@ const Substitutions = {
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
   THEME_CSS:         '{{__theme__}}',
+  // kickoff the on-page script
+  STARTUP_JS:        '{{__startup__}}',
 };
 
 const Styles = Object.freeze({
@@ -27,7 +29,7 @@ const RegExes = {
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, fileList, images) {
+function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -68,7 +70,8 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, 
     .replace(Substitutions.LETTERS_INDEX, lettersIndex)
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
     .replace(Substitutions.THEME_CSS, `theme-${defaultTheme}`)
-    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '');
+    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
+    .replace(Substitutions.STARTUP_JS, `recipeIndex.init("${initialIndexView || 'content'}")`);
 
   writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
 }

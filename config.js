@@ -9,9 +9,9 @@ const yelpLocation = 'Bloomfield, NJ'; // no need for fancy formatting, just do 
 * of course you can customize the code too)
 */
 module.exports = {
-  imageDir: './.lab/images',
-  outputDir: './.lab/output',
-  recipeDir: './.lab/recipes',
+  imageDir: './images',
+  outputDir: './output',
+  recipeDir: './recipes',
 
   titleSuffix: ' - Recipe Book',
   favicon: 'measuring-cup-favicon.svg',
@@ -20,6 +20,13 @@ module.exports = {
 
   defaultTheme: 'default',
 
+  /**
+   * Options are:
+   * * 'content'
+   * * 'compact-list'
+   * * 'grid'
+   */
+  initialIndexView: 'content',
   /**
    * help urls to include (will be listed in the order below)
    * label = text displayed

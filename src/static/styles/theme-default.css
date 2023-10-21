@@ -35,3 +35,7 @@
   --color-index-pg-footer: rgb(170, 170, 170);
   --color-index-pg-footer-link: rgb(180, 180, 180);
 }
+
+.section--heroimage img {
+  border-bottom: 2px solid var(--color-primary);
+}

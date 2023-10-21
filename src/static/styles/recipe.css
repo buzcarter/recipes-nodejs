@@ -58,7 +58,6 @@ svg.linkIcon {
 /* h/t @mpember for the pr suggestion */
 .section--heroimage img {
   width: 100%;
-  border-bottom: 2px solid var(--color-primary);
 }
 
 /* section dividers */

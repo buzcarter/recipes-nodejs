@@ -1,20 +1,11 @@
+:root {
+  --color-view-btn: gray;
+  --color-view-svg-selected: white;
+  --color-view-btn-selected: var(--color-primary);
+}
+
 .mainTitle {
   text-align: center;
-}
-
-.toc ul {
-  margin-top: 1em;
-}
-
-.toc li {
-  text-transform: capitalize;
-  margin-left: 1em;
-  margin-bottom: 1em;
-
-  /* avoid splitting a single item into cols */
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid-column;
 }
 
 /* nav */
@@ -38,12 +29,6 @@
 }
 
 /* View radio buttons */
-:root {
-  --color-view-btn: gray;
-  --color-view-svg-selected: white;
-  --color-view-btn-selected: var(--color-primary);
-}
-
 .view--content {}
 .view--compact-list {}
 .view--grid {}
@@ -91,9 +76,11 @@ html body .nav-view__item {
   fill: var(--color-view-svg-selected);
 }
 
-
-/* various display options */
-.recipe-list__item {}
+/* THE Recipe List */
+.recipe-list {
+  margin-top: 1em;
+  text-transform: capitalize;
+}
 
 .recipe-list__item a {
   display: inline-block;
@@ -109,6 +96,19 @@ html body .nav-view__item {
 .recipe-list__name {
   display: inline-block;
 }
+
+/* Shared */
+.view--content .recipe-list__item,
+.view--compact-list .recipe-list__item {
+  margin-left: 1em;
+  margin-bottom: 1em;
+
+  /* avoid splitting a single item into cols */
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+}
+
 
 /* view: Compact List */
 .view--compact-list .recipe-list__photo {
@@ -132,14 +132,22 @@ html body .nav-view__item {
 }
 
 /* view: Grid */
-.view--grid .recipe-list__item {
-  width: 260px;
+.view--grid .recipe-list__item  {
   display: inline-block;
+  width: 260px;
+  margin: 0;
+  margin: 0 15px 15px 0;
+}
+
+.view--grid .recipe-list__item  a {
   height: 260px;
-  border: solid 1px pink;
+  border: solid 1px transparent;
   border-radius: 6px;
   overflow: hidden;
-  margin: 0;
+}
+
+.view--grid .recipe-list__item  a:hover {
+  border-color: black;
 }
 
 .view--grid .recipe-list__photo {
@@ -184,7 +192,8 @@ html body .nav-view__item {
 
 /* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
-  .toc ul {
+  .view--content .recipe-list,
+  .view--compact-list .recipe-list {
     column-count: 2;
     -webkit-column-gap: 4em;
     -moz-column-gap: 4em;
