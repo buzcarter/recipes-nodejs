@@ -39,6 +39,7 @@ const Substitutions = Object.freeze({
   META_DATE:      '{{__metaDateGenerated__}}',
   META_OG_IMG:    '{{__metaOGImage__}}',
   THEME_CSS:      '{{__theme__}}',
+  INLINE_CSS:     '{{__css__}}',
 });
 
 const Styles = Object.freeze({
@@ -78,7 +79,7 @@ const RegExes = Object.freeze({
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 
   /** Custom meta tags */
-  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
+  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme|body-class)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
 });
 /* eslint-enable key-spacing */
 
@@ -147,6 +148,16 @@ function getImageType(imagesPath, name) {
   }
   return null;
 }
+
+const getInlineCss = heroImgURL => !heroImgURL
+  ? ''
+  : `
+<style>
+  :root {
+    --hero-image-url: url("../${heroImgURL}");
+  }
+</style>
+`;
 
 /*
   // link icon svg code
@@ -244,9 +255,11 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
     .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
+    .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL))
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       customizations.style || '',
+      customizations['body-class'] || '',
       ...sectionMgr.sectionsInUse.map(n => `${n}--visible`),
       ...sectionMgr.sectionsUnused.map(n => `${n}--hidden`),
     ].join(' '));
