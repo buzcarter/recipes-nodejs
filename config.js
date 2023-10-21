@@ -18,6 +18,15 @@ module.exports = {
 
   includeHelpLinks: false,
 
+  defaultTheme: 'default',
+
+  /**
+   * Options are:
+   * * 'content'
+   * * 'compact-list'
+   * * 'grid'
+   */
+  initialIndexView: 'content',
   /**
    * help urls to include (will be listed in the order below)
    * label = text displayed

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');
+
+:root {
+  --font-family-body: Tinos, Georgia, Times New Roman, serif;
+  --font-family-header: Tinos, Georgia, Times New Roman, serif;
+  --font-family-steps: Tinos, Georgia, Times New Roman, serif;
+
+  /* -- Globals --- */
+
+  --color-pg-bg: white;
+  /* headings, recipe step numerals, etc: primary "pop" color */
+  --color-primary: rgb(34, 34, 34);
+  /* anchor */
+  --color-link: black;
+  --color-link-hover: black;
+  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
+  /* ??? */
+  --color-target-bg: rgba(255, 255, 0, 0.25);
+
+  /* -- Recipe Page ------- */
+
+  /* parens (recipe ingredient) & hr */
+  --color-ingredient-parens: rgb(129 129 129);
+  /* back arrow (SVG/image) */
+  --color-back-arrow: rgb(200, 200, 200);
+  --color-back-arrow-hover: black;
+  /* Unordered List Item Bullet Color */
+  --color-ul-item-bullet: #eca96f;
+  /* clickable lists */
+  --color-highlight-bg: rgb(194 217 237);
+  --color-complete-line-through: #666;
+
+  /* -- Index Page ------- */
+
+  --color-index-pg-nav-letter: rgb(180, 180, 180);
+  --color-index-pg-footer: rgb(170, 170, 170);
+  --color-index-pg-footer-link: rgb(180, 180, 180);
+}
+
+.nytimes .section--title {
+  border-bottom: 1px solid #ccc;
+  padding-top: 30px;
+}
+
+.nytimes .recipe__name {
+  font-family: var(--font-family-header);
+  font-size: 40px;
+  font-weight: normal;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.nytimes .section--heroimage {
+  float: right;
+  margin-left: 25px;
+  max-width: 60%;
+}
+
+.nytimes .section--ingredients {
+  clear: right;
+}
+
+.nytimes .section--steps li {
+  margin-left: 0;
+  margin-top: 40px;
+}
+
+.nytimes .section--steps ol li:before {
+  content: 'Step 'counter(step-counter);
+  counter-increment: step-counter;
+  font-size: 95%;
+  position: absolute;
+  left: 0;
+  top: -25px;
+}
+
+.nytimes .html {
+  font-family: var(--font-family-header);
+  font-size: 18px;
+}
+
+.nytimes .html p {
+  line-height: 1.6;
+}

@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { writeFileSync } = require('fs');
+const prettyHtml = require('pretty');
 
 /* eslint-disable key-spacing */
 const Substitutions = {
@@ -8,6 +9,19 @@ const Substitutions = {
   // Head's meta-tags
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
+  THEME_CSS:         '{{__theme__}}',
+  // kickoff the on-page script
+  STARTUP_JS:        '{{__startup__}}',
+};
+
+const Styles = Object.freeze({
+  ITEM:     'recipe-list__item',
+  NAME:     'recipe-list__name',
+  PHOTO:    'recipe-list__photo',
+});
+
+const RegExes = {
+  END_SPACES: /^[\s\n]+|[\s\n]+$/gm,
 };
 /* eslint-enable key-spacing */
 
@@ -15,7 +29,7 @@ const Substitutions = {
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
+function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -35,7 +49,18 @@ function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
       prevLetter = firstLetter;
     }
 
-    recipeItems += `<li${isNewLetter ? ` id="${firstLetter}"` : ''}><a href="${name}.html">${displayName}</a></li>\n`;
+    const image = images.find(i => i.name === name);
+    const imgPath = image
+      ? `images/thumbnails/${image.name}.jpg`
+      : 'images/placeholder.svg';
+    recipeItems += `
+<li${isNewLetter ? ` id="${firstLetter}"` : ''} class="${Styles.ITEM}">
+  <a href="${name}.html">
+    <span class="${Styles.PHOTO}"><img src="${imgPath}" role="presentation"></span>
+    <span class="${Styles.NAME}">${displayName}</span>
+  </a>
+</li>
+`.replace(RegExes.END_SPACES, '');
   });
 
   const contents = indexTemplate
@@ -44,9 +69,15 @@ function buildRecipeIndex(indexTemplate, { favicon, outputPath }, fileList) {
     // ...and the list of first-letters for quick nav
     .replace(Substitutions.LETTERS_INDEX, lettersIndex)
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
-    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '');
+    .replace(Substitutions.THEME_CSS, `theme-${defaultTheme}`)
+    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
+    .replace(Substitutions.STARTUP_JS, `recipeIndex.init("${initialIndexView || 'content'}")`);
 
-  writeFileSync(resolve(outputPath, 'index.html'), contents, { encoding: 'utf8' });
+  writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
 }
 
 module.exports = buildRecipeIndex;
+
+/*
+show-thumbnails
+*/

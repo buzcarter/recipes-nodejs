@@ -1,9 +1,11 @@
 const { resolve } = require('path');
-const { accessSync, constants: { F_OK }, readFile, writeFile } = require('fs');
+const { readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
+const prettyHtml = require('pretty');
 const { linkify, shorten, replaceFractions } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
+// I've done this once!!
 /* eslint-disable key-spacing */
 /**
  * Predefined "standard" recipe sections, some have special formatting
@@ -33,10 +35,13 @@ const Substitutions = Object.freeze({
   TITLE:          '{{__title__}}',
   // odds 'n ends
   BODY_CLASS:     '{{__bodyClass__}}',
+  MARKDOWN_LINK:  '{{__markdown__}}',
   // Head's meta-tags
   META_FAVICON:   '{{__favIcon__}}',
   META_DATE:      '{{__metaDateGenerated__}}',
   META_OG_IMG:    '{{__metaOGImage__}}',
+  THEME_CSS:      '{{__theme__}}',
+  INLINE_CSS:     '{{__css__}}',
 });
 
 const Styles = Object.freeze({
@@ -74,6 +79,9 @@ const RegExes = Object.freeze({
    */
   NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
+
+  /** Custom meta tags */
+  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme|body-class)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
 });
 /* eslint-enable key-spacing */
 
@@ -88,13 +96,28 @@ function setHeadMeta(documentHtml, { favicon, ogImgURL, recipeName, titleSuffix 
     .replace(Substitutions.TITLE, recipeName);
 }
 
+function getCustomizations(documentHtml) {
+  return documentHtml
+    .match(new RegExp(RegExes.CUSTOMIZATIONS, 'gm'))
+    ?.map((a) => {
+      const [, type, value] = a.match(RegExes.CUSTOMIZATIONS);
+      return { type, value };
+    })
+    .reduce((acc, { type, value }) => Object.assign(acc, {[type]: value }), {})
+    || {};
+}
+
+const getH2Id = (html) => {
+  const matches = html.match(RegExes.H2);
+  return matches?.[1].toLowerCase() || '';
+};
+
 function getSectionType(section) {
-  const matches = section.match(RegExes.H2);
-  if (!matches) {
+  const type = getH2Id(section);
+  if (!type) {
     return '';
   }
 
-  const type = matches[1].toLowerCase();
   if (Object.keys(SectionTypes).some(key => SectionTypes[key] === type)) {
     return type;
   }
@@ -105,28 +128,15 @@ function getSectionType(section) {
   return aliasType || type;
 }
 
-function hasImage(imagesPath, name, ext) {
-  // TODO: let's do more image filetypes: jpg, jpeg, png, webp
-  try {
-    accessSync(resolve(imagesPath, `${name}.${ext}`), F_OK);
-    return true;
-  } catch (err) {
-    return false;
+const getInlineCss = heroImgURL => !heroImgURL
+  ? ''
+  : `
+<style>
+  :root {
+    --hero-image-url: url("../${heroImgURL}");
   }
-}
-
-function getImageType(imagesPath, name) {
-  if (hasImage(imagesPath, name, 'jpg')) {
-    return 'jpg';
-  }
-  if (hasImage(imagesPath, name, 'png')) {
-    return 'png';
-  }
-  if (hasImage(imagesPath, name, 'webp')) {
-    return 'webp';
-  }
-  return null;
-}
+</style>
+`;
 
 /*
   // link icon svg code
@@ -169,13 +179,14 @@ function getHelpSection(helpURLs, name) {
 `;
 }
 
-function convertRecipe(outputHTML, recipeHTML, config, name) {
+function convertRecipe(outputHTML, recipeHTML, config, name, image) {
   const {
-    autoUrlSections, favicon, useFractionSymbols, helpURLs, imagesPath, includeHelpLinks, lookForHeroImage, shortenURLs, titleSuffix,
+    autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, includeHelpLinks, shortenURLs, titleSuffix,
   } = config;
   let recipeName = '';
 
   const sectionMgr = new SectionMgr({ definedTypes: SectionTypes, defaultType: SectionTypes.NOTES });
+  const customizations = getCustomizations(recipeHTML);
 
   recipeHTML
     .split(RegExes.SECTION_SPLIT)
@@ -201,15 +212,16 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
           break;
       }
 
-      sectionMgr.add(sectionType, section);
+      if (sectionType) {
+        sectionMgr.add(sectionType, getH2Id(section), section);
+      }
     });
 
   // add some helper links
   const showHelp = includeHelpLinks && Array.isArray(helpURLs) && helpURLs.length;
 
   // if there's a hero image available, load and display
-  const imgExtension = lookForHeroImage && getImageType(imagesPath, name);
-  const heroImgURL = imgExtension ? `images/${name}.${imgExtension}` : '';
+  const heroImgURL = image ? `images/${image.fileName}` : '';
 
   if (sectionMgr.hasWarnings) {
     console.warn(`${name}.md contains unknown sections [${sectionMgr.warnings}] that are included under "${SectionTypes.NOTES}"`);
@@ -220,14 +232,19 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
+    .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
+    .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL))
+    .replace(Substitutions.MARKDOWN_LINK, `sources/${name}.md`)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
+      customizations.style || '',
+      customizations['body-class'] || '',
       ...sectionMgr.sectionsInUse.map(n => `${n}--visible`),
       ...sectionMgr.sectionsUnused.map(n => `${n}--hidden`),
     ].join(' '));
 }
 
-function buildRecipes(recipeTemplate, options, fileList) {
+function buildRecipes(recipeTemplate, options, fileList, images) {
   const { outputPath } = options;
 
   const converter = new showdown.Converter();
@@ -239,8 +256,9 @@ function buildRecipes(recipeTemplate, options, fileList) {
         console.error(err);
         return;
       }
+      const heroImgURL = images.find(i => i.name === name);
       let html = converter.makeHtml(markdown);
-      html = convertRecipe(recipeTemplate, html, options, name);
+      html = prettyHtml(convertRecipe(recipeTemplate, html, options, name, heroImgURL), { ocd: true });
       writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
     });
   });

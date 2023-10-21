@@ -4,3 +4,5 @@
 .lab
 node_modules
 output
+*.zip
+*.rar

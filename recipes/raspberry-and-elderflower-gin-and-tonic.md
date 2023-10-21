@@ -1,3 +1,4 @@
+<!-- recipe-style: nytimes -->
 # Raspberry and Elderflower Gin and Tonic
 
 A delicious light-red drink perfect for winter gatherings!

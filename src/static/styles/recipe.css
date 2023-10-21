@@ -6,25 +6,25 @@
 }
 
 .activated {
-  background-color: var(--line-activated-bg-color);
+  background-color: var(--color-highlight-bg);
 }
 
 .complete {
   font-style: italic;
   opacity: 80%;
   text-decoration: line-through;
-  text-decoration-color: var(--line-through-color);
+  text-decoration-color: var(--color-complete-line-through);
 }
 
 .highlight {
-  background-color: var(--hover-bg-color);
+  background-color: var(--color-highlight-bg);
 }
 
 /* common page elements */
 hr {
   clear: both;
   border: none;
-  border-top: 1px solid var(--light-gray-color);
+  border-top: 1px solid var(--color-ingredient-parens);
 }
 
 .back-link {
@@ -33,24 +33,46 @@ hr {
   font-style: normal;
 }
 
-.back-link a:hover {
+.back-link__link:hover {
   background: none;
 }
 
-.back-link svg {
+.back-link__svg {
   display: none;
   width: 24px;
-  color: var(--back-arrow-color);
+}
+
+.link-svg {
+  color: var(--color-back-arrow);
   transition: color 0.35s ease;
 }
 
-.back-link svg:hover {
-  color: var(--back-arrow-hover-color);
+a:hover .link-svg {
+  color: var(--color-back-arrow-hover);
 }
 
+/*
 svg.linkIcon {
   width: 14px;
   margin-left: 0.3em;
+}
+*/
+
+.view-source,
+.view-source:link,
+.view-source:visited {
+  float: right;
+  white-space: nowrap;
+  color: var(--color-back-arrow);
+}
+
+.view-source:hover {
+  color: var(--color-back-arrow-hover);
+}
+
+.view-source__svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* == Sections ----- */
@@ -58,7 +80,6 @@ svg.linkIcon {
 /* h/t @mpember for the pr suggestion */
 .section--heroimage img {
   width: 100%;
-  border-bottom: 2px solid var(--accent-color);
 }
 
 /* section dividers */
@@ -112,13 +133,18 @@ svg.linkIcon {
 .section--notes ul li::marker,
 .section--help ul li::marker,
 .section--basedon ul li::marker {
-  color: var(--list-bullet-color);
+  color: var(--color-ul-item-bullet);
+}
+
+.section--ingredients,
+.section--steps {
+  font-family: var(--font-family-steps);
 }
 
 /* == Section: Steps ----- */
 .section--steps ol {
   list-style-type: none;
-  counter-reset: my-counter;
+  counter-reset: step-counter;
 }
 
 .section--steps li {
@@ -127,9 +153,9 @@ svg.linkIcon {
 }
 
 .section--steps ol li:before {
-  content: counter(my-counter);
-  counter-increment: my-counter;
-  color: var(--accent-color);
+  content: counter(step-counter);
+  counter-increment: step-counter;
+  color: var(--color-primary);
   font-weight: 800;
   margin-right: -3px;
   font-size: 119%;
@@ -158,7 +184,7 @@ svg.linkIcon {
 }
 
 .paren {
-  color: var(--light-gray-color);
+  color: var(--color-ingredient-parens);
   font-style: italic;
 }
 
@@ -214,7 +240,7 @@ svg.linkIcon {
     margin-bottom: 1.3em;
   }
 
-  .back-link svg {
+  .back-link__svg {
     display: block;
   }
 
@@ -245,7 +271,10 @@ svg.linkIcon {
     text-align: left !important;
   }
 
-  .back-link,
+  .back-link {
+    display: inline-block;
+  }
+
   .section--help {
     display: none;
   }

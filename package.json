@@ -1,10 +1,11 @@
 {
   "name": "recipes-nodejs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NodeJS recipe publisher, converts markdown/text recipe files into well formatted HTML.",
   "main": "build.js",
   "scripts": {
     "build": "node ./build.js",
+    "dev": "nodemon --inspect --ignore output/ -e js,html,css,md,svg ./build.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "jest --silent --config .jest/jest.config.js",
@@ -17,11 +18,14 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "pretty": "^2.0.0",
+    "sharp": "^0.32.6",
     "showdown": "^2.1.0"
   },
   "devDependencies": {
     "eslint": "^8.51.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1"
   },
   "repository": {
     "type": "git",
