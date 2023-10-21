@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Recipe Book</title>
   <!-- basics -->
@@ -14,7 +15,8 @@
   <link rel="stylesheet" href="styles/stylesheet.css">
   <link rel="stylesheet" href="styles/recipesIndex.css">
 </head>
-<body>
+
+<body class="view--content">
   <main class="wrapper index">
     <!-- table of contents -->
     <section class="toc">
@@ -23,6 +25,37 @@
         <nav class="navigation">
           {{__letters-index__}}
         </nav>
+        <div class="nav-view">
+          <ul role="radiogroup" class="nav-view__list">
+            <li class="nav-view__item">
+              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="compact-list">
+                <svg class="nav-view__img">
+                  <title>Compact List View</title>
+                  <path d="M5.5 6h13v1.5h-13V6Zm13 3.5h-13V11h13V9.5ZM5.5 13h13v1.5h-13V13Zm0 3.5h13V18h-13v-1.5Z" />
+                </svg>
+                <span class="sr-only">View as list</span>
+              </button>
+            </li>
+            <li class="nav-view__item">
+              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="content">
+                <svg class="nav-view__img" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24">
+                  <title>Content View</title>
+                  <path d="M5,5h3v3H5V5z M19,7V5h-8.5v2H19z M5,10.5h3v3H5V10.5z M10.5,12.5v-2H19v2H10.5z M8,16 H5v3h3V16z M19,18v-2h-8.5v2H19z" />
+                </svg>
+                <span class="sr-only">View as list with images</span>
+              </button>
+            </li>
+            <li class="nav-view__item">
+              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="grid">
+                <svg class="nav-view__img" viewBox="0 0 24 24" width="24" height="24">
+                  <title>Large Grid View</title>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11 11H5V5h6v6ZM9.5 6.5h-3v3h3v-3ZM13 11V5h6v6h-6Zm1.5-1.5h3v-3h-3v3ZM5 19h6v-6H5v6Zm1.5-4.5h3v3h-3v-3ZM19 19h-6v-6h6v6Zm-1.5-4.5h-3v3h3v-3Z" />
+                </svg>
+                <span class="sr-only">View as recipe cards</span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </header>
       <!-- your recipes will go here -->
       <ul>
@@ -32,11 +65,13 @@
     <!-- footer -->
     <footer class="footer">
       <a href="https://github.com/buzcarter/recipes-nodejs">Source code
-          <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z" />
-          </svg>
-        </a>
+        <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z" />
+        </svg>
+      </a>
     </footer>
   </main>
+  <script src="scripts/index.js"></script>
 </body>
+
 </html>

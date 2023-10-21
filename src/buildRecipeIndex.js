@@ -11,13 +11,23 @@ const Substitutions = {
   META_DATE:         '{{__metaDateGenerated__}}',
   THEME_CSS:         '{{__theme__}}',
 };
+
+const Styles = Object.freeze({
+  ITEM:     'recipe-list__item',
+  NAME:     'recipe-list__name',
+  PHOTO:    'recipe-list__photo',
+});
+
+const RegExes = {
+  END_SPACES: /^[\s\n]+|[\s\n]+$/gm,
+};
 /* eslint-enable key-spacing */
 
 /**
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, fileList) {
+function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, fileList, images) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -37,7 +47,18 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath }, 
       prevLetter = firstLetter;
     }
 
-    recipeItems += `<li${isNewLetter ? ` id="${firstLetter}"` : ''}><a href="${name}.html">${displayName}</a></li>\n`;
+    const image = images.find(i => i.name === name);
+    const imgPath = image
+      ? `images/thumbnails/${image.name}.jpg`
+      : 'images/placeholder.svg';
+    recipeItems += `
+<li${isNewLetter ? ` id="${firstLetter}"` : ''} class="${Styles.ITEM}">
+  <a href="${name}.html">
+    <span class="${Styles.PHOTO}"><img src="${imgPath}" role="presentation"></span>
+    <span class="${Styles.NAME}">${displayName}</span>
+  </a>
+</li>
+`.replace(RegExes.END_SPACES, '');
   });
 
   const contents = indexTemplate
@@ -56,31 +77,4 @@ module.exports = buildRecipeIndex;
 
 /*
 show-thumbnails
-
-a {
-      display: inline-block;
-    width: 100%;
-}
-span.index-recipe-photo {
-    display: inline-block;
-    width: 60px;
-    height: 60px;
-    margin-right: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-    vertical-align: middle;
-}
-.index-recipe-photo img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-<li id="F"><a href="french-onion-farrow-bake.html">
-<span class="index-recipe-photo">
-<img src="http://localhost:8080/.lab/output/images/french-onion-farrow-bake.jpg">
-</span>
-<span class="index-recipe-name">
-french onion farrow bake
-</span>
-</a></li>
 */
