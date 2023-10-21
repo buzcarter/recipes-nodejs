@@ -1,10 +1,11 @@
 const { resolve } = require('path');
-const { accessSync, constants: { F_OK }, readFile, writeFile } = require('fs');
+const { readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
 const prettyHtml = require('pretty');
 const { linkify, shorten, replaceFractions } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
+// I've done this once!!
 /* eslint-disable key-spacing */
 /**
  * Predefined "standard" recipe sections, some have special formatting
@@ -126,29 +127,6 @@ function getSectionType(section) {
   return aliasType || type;
 }
 
-function hasImage(imagesPath, name, ext) {
-  // TODO: let's do more image filetypes: jpg, jpeg, png, webp
-  try {
-    accessSync(resolve(imagesPath, `${name}.${ext}`), F_OK);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
-function getImageType(imagesPath, name) {
-  if (hasImage(imagesPath, name, 'jpg')) {
-    return 'jpg';
-  }
-  if (hasImage(imagesPath, name, 'png')) {
-    return 'png';
-  }
-  if (hasImage(imagesPath, name, 'webp')) {
-    return 'webp';
-  }
-  return null;
-}
-
 const getInlineCss = heroImgURL => !heroImgURL
   ? ''
   : `
@@ -200,9 +178,9 @@ function getHelpSection(helpURLs, name) {
 `;
 }
 
-function convertRecipe(outputHTML, recipeHTML, config, name) {
+function convertRecipe(outputHTML, recipeHTML, config, name, image) {
   const {
-    autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, imagesPath, includeHelpLinks, lookForHeroImage, shortenURLs, titleSuffix,
+    autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, includeHelpLinks, shortenURLs, titleSuffix,
   } = config;
   let recipeName = '';
 
@@ -242,8 +220,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
   const showHelp = includeHelpLinks && Array.isArray(helpURLs) && helpURLs.length;
 
   // if there's a hero image available, load and display
-  const imgExtension = lookForHeroImage && getImageType(imagesPath, name);
-  const heroImgURL = imgExtension ? `images/${name}.${imgExtension}` : '';
+  const heroImgURL = image ? `images/${image.fileName}` : '';
 
   if (sectionMgr.hasWarnings) {
     console.warn(`${name}.md contains unknown sections [${sectionMgr.warnings}] that are included under "${SectionTypes.NOTES}"`);
@@ -265,7 +242,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name) {
     ].join(' '));
 }
 
-function buildRecipes(recipeTemplate, options, fileList) {
+function buildRecipes(recipeTemplate, options, fileList, images) {
   const { outputPath } = options;
 
   const converter = new showdown.Converter();
@@ -277,8 +254,9 @@ function buildRecipes(recipeTemplate, options, fileList) {
         console.error(err);
         return;
       }
+      const heroImgURL = images.find(i => i.name === name);
       let html = converter.makeHtml(markdown);
-      html = prettyHtml(convertRecipe(recipeTemplate, html, options, name), { ocd: true });
+      html = prettyHtml(convertRecipe(recipeTemplate, html, options, name, heroImgURL), { ocd: true });
       writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
     });
   });

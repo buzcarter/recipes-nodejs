@@ -5,6 +5,7 @@
   "main": "build.js",
   "scripts": {
     "build": "node ./build.js",
+    "dev": "nodemon --inspect --ignore output/ ./build.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "jest --silent --config .jest/jest.config.js",
@@ -23,7 +24,8 @@
   },
   "devDependencies": {
     "eslint": "^8.51.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1"
   },
   "repository": {
     "type": "git",

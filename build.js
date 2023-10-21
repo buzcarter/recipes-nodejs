@@ -1,26 +1,19 @@
 const { basename, extname, resolve } = require('path');
-const { cpSync, readdirSync, readFileSync, rmSync, mkdirSync } = require('fs');
+const { cpSync, rmSync, mkdirSync } = require('fs');
+const { readdir, readFile } = require('fs/promises');
 
 const { buildRecipes } = require('./src/buildRecipes');
 const buildRecipeIndex = require('./src/buildRecipeIndex');
 const configs = require('./config');
 
-const MARKDOWN_EXT = '.md';
-
-function getRecipeFileList({ recipesPath } = {}) {
-  return readdirSync(recipesPath)
-    .filter(fileName => extname(fileName) === MARKDOWN_EXT)
+function filterByExtension(fileList, recipesPath, allowedExtensions) {
+  return fileList
+    .filter(fileName => allowedExtensions.includes(extname(fileName)))
     .map(fileName => ({
       file: resolve(recipesPath, fileName),
-      name: basename(fileName, MARKDOWN_EXT),
+      fileName,
+      name: basename(fileName, extname(fileName)),
     }));
-}
-
-function readTemplates({ templatesPath }) {
-  return {
-    indexTemplate: readFileSync(resolve(templatesPath, 'index.html'), { encoding: 'utf8' }),
-    recipeTemplate: readFileSync(resolve(templatesPath, 'recipe.html'), { encoding: 'utf8' }),
-  };
 }
 
 function setupOutputDir(outputPath) {
@@ -44,16 +37,28 @@ function main(configs) {
     templatesPath: resolve(__dirname, './src/templates/'),
   };
 
-  const fileList = getRecipeFileList(options);
-  const { indexTemplate, recipeTemplate } = readTemplates(options);
+  Promise.all([
+    readdir(options.recipesPath),
+    readdir(options.imagesPath),
+    readFile(resolve(options.templatesPath, 'index.html'), { encoding: 'utf8' }),
+    readFile(resolve(options.templatesPath, 'recipe.html'), { encoding: 'utf8' }),
+  ])
+    .then(([markdownFiles, images, indexTemplate, recipeTemplate]) => {
+      markdownFiles = filterByExtension(markdownFiles, options.recipesPath, ['.md']);
+      images = filterByExtension(images, options.recipesPath, ['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
-  setupOutputDir(options.outputPath);
-  copyStatic(options.staticPath, options.imagesPath, options.outputPath);
-  buildRecipes(recipeTemplate, options, fileList);
-  buildRecipeIndex(indexTemplate, options, fileList);
+      setupOutputDir(options.outputPath);
+      copyStatic(options.staticPath, options.imagesPath, options.outputPath);
+      buildRecipes(recipeTemplate, options, markdownFiles, images);
+      buildRecipeIndex(indexTemplate, options, markdownFiles, images);
 
-  // eslint-disable-next-line no-console
-  console.log(`Processed ${fileList.length} recipes`);
+      // eslint-disable-next-line no-console
+      console.log(`Processed ${markdownFiles.length} recipes`);
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    });
 }
 
 main(configs);
