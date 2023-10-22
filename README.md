@@ -202,7 +202,19 @@ The `recipe.html` template file also includes some more options you can customiz
 * `autoUrlSections`: list of sections in the recepe template where you want raw URLs (ex: www.instagram.com) to be turned into real links. Great for the `Based On` section but not so good if you want to include Markdown-formatted links in other sections  
 * `shortenUrls`: turns a super-long url into just the main domain name (link will still work as normal, just less cluttered). Off by default but exists if you want it
 
+## Advanced customizations
 
+### Command Line Arguments
+
+ If you'd prefer _not_ editing `config.js` (perhaps you maintain a couple recipe collections, or, like me: just want to keep personal recipes separate from this repo) you may specify the image, recipe, and output directories via command line.
+ 
+ (examples show paths for a Mac)
+
+ ```sh
+ npm run build imageDir="~/documents/recipes/images" recipeDir="~/documents/recipes/recipes" outputDir="~/websites/recipes/html"
+ ```
+
+(I keep my personal recipes outside this which makes keeping this app's code up-to-date easy, just a `git pull` away)
 
 ## Colophon & Thank Yous
 

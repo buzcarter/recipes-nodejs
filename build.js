@@ -49,6 +49,31 @@ function makeThumbnails(outputPath, images) {
     });
 }
 
+/**
+ * Intended for, well, me: makes it easier to have my own private directory of images outside
+ * of this git repo. For example, on a Mac you might use:
+ *
+ * ```sh
+ * npm run build imageDir="~/documents/recipes/images" recipeDir="~/documents/recipes/recipes" outputDir="~/websites/recipes/html"
+ * ```
+ */
+function getCommanLineOverrides(args) {
+  const cmdArgs = args
+    ?.filter((z, index) => index > 1)
+    .reduce((acc, arg) => {
+      const [key, value] = arg.split('=');
+      if (key && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+  if (cmdArgs && Object.keys(cmdArgs).length) {
+    console.log(`Using command line overrides: ${JSON.stringify(cmdArgs, null, 3)}`);
+  }
+  return cmdArgs;
+}
+
 function main(configs) {
   const startTime = new Date();
   const imagesPath = resolve(__dirname, configs.imageDir);
@@ -90,4 +115,7 @@ function main(configs) {
     });
 }
 
-main(configs);
+main({
+  ...configs,
+  ...getCommanLineOverrides(process.argv),
+});
