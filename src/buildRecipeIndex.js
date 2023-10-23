@@ -9,6 +9,7 @@ const Substitutions = {
   // Head's meta-tags
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
+  META_OG_IMG:    '{{__metaOGImage__}}',
   THEME_CSS:         '{{__theme__}}',
   // kickoff the on-page script
   STARTUP_JS:        '{{__startup__}}',
@@ -34,6 +35,7 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
   let lettersIndex = '';
   // create list of recipes
   let recipeItems = '';
+  let ogImgURL = '';
 
   let prevLetter = '';
 
@@ -50,6 +52,9 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
     }
 
     const image = images.find(i => i.name === name);
+    if (!ogImgURL && image) {
+      ogImgURL = `images/${image.fileName}`;
+    }
     const imgPath = image
       ? `images/thumbnails/${image.name}.jpg`
       : 'images/placeholder.svg';
@@ -71,6 +76,7 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
     .replace(Substitutions.THEME_CSS, `theme-${defaultTheme}`)
     .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
+    .replace(Substitutions.META_OG_IMG, ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : '')
     .replace(Substitutions.STARTUP_JS, `recipeIndex.init("${initialIndexView || 'content'}")`);
 
   writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
