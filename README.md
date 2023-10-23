@@ -8,7 +8,7 @@ This is based on Jeff Thompson's [recipes PHP project](https://github.com/jeffTh
 
 [Live Recipe Book Demo](https://buzcarter.github.io/recipes-nodejs/)
 
-This project generates static HTML. You may view locally just by dragging one of the output files into your browser, loading onto your webserver, or by using a utility such as [http-server (node)](https://github.com/http-party/http-server).
+This project generates static HTML. You may view locally just by dragging one of the output files into your browser, or load them onto your website, or zip up the output and share with a friend.
 
 #### The "Recipe Book" Index
 
@@ -45,7 +45,10 @@ Create your own... ummm, I owe y'all some documentation here, don't I? Soon... A
 ### Features:
 
 * Recipes are written in plain text using the intuitive-ish [Markdown format](https://daringfireball.net/projects/markdown).
-* Publishes a recipe index, including on-page links to more easily locate a recipe.
+* Publishes an easy to read recipe index
+    * use alphabetical index at page top;
+    * filter (search) with partial matches (for example, filtering "ap pi" might filters out all but "Deep Dish Apple Pie")
+    * pick how you want to view your recipes: compact (names only), names with thumbnails, or if you're more visual, choose "recipe cards" featuring large images.
 * Template driven layout, customize or use the provided template
 * Customize with themes -- color and minor layout settings. Plus, each recipe may choose its own theme.
 * No more overlooked ingredients or skipped Steps as recipe pages allow you to flag your current step and mark-off those you've already done. In the Ingredients and Steps sections:
@@ -72,7 +75,9 @@ EXAMPLE: below a recipe with a few ingredients "ticked" off (indicating they've 
 
 ## Installation
 
-After cloning this repo:
+This requires Node16 or later.
+
+After cloning this repo or downloading the zip file from github simply install, add your recipes, and build:
 
 ```sh
 npm install
@@ -202,7 +207,19 @@ The `recipe.html` template file also includes some more options you can customiz
 * `autoUrlSections`: list of sections in the recepe template where you want raw URLs (ex: www.instagram.com) to be turned into real links. Great for the `Based On` section but not so good if you want to include Markdown-formatted links in other sections  
 * `shortenUrls`: turns a super-long url into just the main domain name (link will still work as normal, just less cluttered). Off by default but exists if you want it
 
+## Advanced customizations
 
+### Command Line Arguments
+
+ If you'd prefer _not_ editing `config.js` (perhaps you maintain a couple recipe collections, or, like me: just want to keep personal recipes separate from this repo) you may specify the image, recipe, and output directories via command line.
+ 
+ (examples show paths for a Mac)
+
+ ```sh
+ npm run build imageDir="~/documents/recipes/images" recipeDir="~/documents/recipes/recipes" outputDir="~/websites/recipes/html"
+ ```
+
+(I keep my personal recipes outside this which makes keeping this app's code up-to-date easy, just a `git pull` away)
 
 ## Colophon & Thank Yous
 

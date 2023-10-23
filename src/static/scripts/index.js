@@ -29,3 +29,43 @@
     init,
   });
 })();
+
+(() => {
+  const Styles = {
+    HIDDEN: 'recipe-list__item--hidden',
+  };
+
+  const Selectors = {
+    RECIPE_ITEMS: '.recipe-list li',
+    SEARCH: '#filter'
+  };
+
+  const scrub = value => value
+    .trim()
+    .toLowerCase()
+    .replace(/\W/g, '')
+    .replace(/\s+/g, ' ');
+
+  function filter(filterText) {
+    const words = filterText.split(/\s+/).map(w => scrub(w)).filter(Boolean);
+
+    document.querySelectorAll(Selectors.RECIPE_ITEMS)
+      .forEach((item) => {
+        if (!filterText) {
+          item.classList.remove(Styles.HIDDEN);
+        }
+        const { searchText } = item.dataset || '';
+        const isMatch = words.reduce((isMatch, word) => isMatch && searchText.includes(word), true);
+        item.classList.toggle(Styles.HIDDEN, !isMatch);
+      });
+  }
+
+  function init() {
+    document.querySelectorAll(Selectors.RECIPE_ITEMS).forEach(item => item.dataset.searchText = scrub(item.innerText));
+    document.querySelector(Selectors.SEARCH).addEventListener('keyup', function () {
+      filter(this.value);
+    });
+  }
+
+  init();
+})();
