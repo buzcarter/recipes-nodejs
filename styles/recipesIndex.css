@@ -30,7 +30,9 @@
 
 /* View radio buttons */
 .view--content {}
+
 .view--compact-list {}
+
 .view--grid {}
 
 .nav-view {}
@@ -74,6 +76,26 @@ html body .nav-view__item {
 .view--compact-list .nav-view__btn[data-view="compact-list"] svg,
 .view--grid .nav-view__btn[data-view="grid"] svg {
   fill: var(--color-view-svg-selected);
+}
+
+/* Filter/Search */
+.filter__wrap {
+  float: right;
+}
+
+.filter__terms {
+  border-radius: 4px;
+  padding: .4em;
+  border: solid gray 1px;
+  font-size: inherit;
+}
+
+.recipe-list__photo {
+  display: none;
+}
+
+body .recipe-list .recipe-list__item--hidden {
+  display: none;
 }
 
 /* THE Recipe List */
@@ -132,21 +154,21 @@ html body .nav-view__item {
 }
 
 /* view: Grid */
-.view--grid .recipe-list__item  {
+.view--grid .recipe-list__item {
   display: inline-block;
   width: 260px;
   margin: 0;
   margin: 0 15px 15px 0;
 }
 
-.view--grid .recipe-list__item  a {
+.view--grid .recipe-list__item a {
   height: 260px;
   border: solid 1px transparent;
   border-radius: 6px;
   overflow: hidden;
 }
 
-.view--grid .recipe-list__item  a:hover {
+.view--grid .recipe-list__item a:hover {
   border-color: black;
 }
 
@@ -192,6 +214,7 @@ html body .nav-view__item {
 
 /* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
+
   .view--content .recipe-list,
   .view--compact-list .recipe-list {
     column-count: 2;
