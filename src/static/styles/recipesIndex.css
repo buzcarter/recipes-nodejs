@@ -2,6 +2,10 @@
   --color-view-btn: gray;
   --color-view-svg-selected: white;
   --color-view-btn-selected: var(--color-primary);
+
+  --color-filter-inactive: #bdbdbd;
+  --color-filter-hover: #232323;
+  --color-filter-focus: #888;
 }
 
 .mainTitle {
@@ -81,13 +85,54 @@ html body .nav-view__item {
 /* Filter/Search */
 .filter__wrap {
   float: right;
+  position: relative;
 }
 
-.filter__terms {
-  border-radius: 4px;
-  padding: .4em;
-  border: solid gray 1px;
+.filter__text-field {
+  border-radius: 15px;
+  padding: .4em 18px .4em 18px;
+  border: solid var(--color-filter-inactive) 1px;
   font-size: inherit;
+  width: 80px;
+  transition: width 225ms ease-in, border-color 300ms ease-in;
+  height: 30px;
+}
+
+.filter__text-field:hover {
+  border-color: var(--color-filter-hover);
+}
+
+.filter__text-field:not(:placeholder-shown),
+.filter__text-field:focus {
+  border-color: var(--color-filter-focus);
+  width: 200px;
+}
+
+.filter--search-icon {
+  -webkit-mask-image: url(../images/icons/search.svg);
+  mask-image: url(../images/icons/search.svg);
+  background-color: var(--color-filter-inactive);
+  display: inline-block;
+  /* flex-shrink: 0; */
+  height: 18px;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: middle;
+  width: 18px;
+  position: absolute;
+  right: 7px;
+  top: 6px;
+  transition: background-color 300ms ease-in;
+}
+
+.filter__text-field:hover + .filter--search-icon {
+  background-color: var(--color-filter-hover);
+}
+
+.filter__text-field:focus + .filter--search-icon {
+  background-color: var(--color-filter-focus);
 }
 
 .recipe-list__photo {
@@ -122,7 +167,7 @@ body .recipe-list .recipe-list__item--hidden {
 /* Shared */
 .view--content .recipe-list__item,
 .view--compact-list .recipe-list__item {
-  margin-left: 1em;
+  /* margin-left: 1em; TODO: I bet this was here for a good reason */
   margin-bottom: 1em;
 
   /* avoid splitting a single item into cols */
