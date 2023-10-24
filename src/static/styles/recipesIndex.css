@@ -1,11 +1,14 @@
 :root {
-  --color-view-btn: gray;
-  --color-view-svg-selected: white;
+  --color-view-btn:          var(--color-neutral-45);
+  --color-view-svg-selected: var(--color-neutral-00);
   --color-view-btn-selected: var(--color-primary);
 
-  --color-filter-inactive: #bdbdbd;
-  --color-filter-hover: #232323;
-  --color-filter-focus: #888;
+  --color-filter-inactive: var(--color-neutral-25);
+  --color-filter-hover:    var(--color-neutral-80);
+  --color-filter-focus:    var(--color-neutral-50);
+
+  --search-input-height: 40px;
+  --search-icon-length:  18px;
 }
 
 .mainTitle {
@@ -33,23 +36,13 @@
 }
 
 /* View radio buttons */
-.view--content {}
-
-.view--compact-list {}
-
-.view--grid {}
-
-.nav-view {}
-
-.nav-view__list {}
-
 html body .nav-view__item {
   display: inline-block;
   margin: 0 6px 0 0;
 }
 
 .nav-view__btn {
-  background-color: white;
+  background-color: var(--color-neutral-00);
   border: solid 1px var(--color-view-btn);
   border-radius: 4px;
   padding: 0;
@@ -57,7 +50,7 @@ html body .nav-view__item {
   width: 26px;
   height: 26px;
   cursor: pointer;
-  transition: background-color 350ms ease;
+  transition: background-color var(--transition-color-duration) ease;
 }
 
 .nav-view__img {
@@ -89,13 +82,13 @@ html body .nav-view__item {
 }
 
 .filter__text-field {
-  border-radius: 15px;
-  padding: .4em 18px .4em 18px;
+  border-radius: calc(var(--search-input-height) / 2);
+  padding: .4em calc(var(--search-input-height) + 2px) .4em calc(var(--search-input-height) / 2);
   border: solid var(--color-filter-inactive) 1px;
   font-size: inherit;
   width: 80px;
-  transition: width 225ms ease-in, border-color 300ms ease-in;
-  height: 30px;
+  transition: width 225ms ease-in, border-color var(--transition-color-duration) ease-in;
+  height: var(--search-input-height);
 }
 
 .filter__text-field:hover {
@@ -113,18 +106,18 @@ html body .nav-view__item {
   mask-image: url(../images/icons/search.svg);
   background-color: var(--color-filter-inactive);
   display: inline-block;
-  /* flex-shrink: 0; */
-  height: 18px;
+  /* flex-shrink:  0; */
+  height: var(--search-icon-length);
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   vertical-align: middle;
-  width: 18px;
+  width: var(--search-icon-length);
   position: absolute;
-  right: 7px;
-  top: 6px;
-  transition: background-color 300ms ease-in;
+  right: var(--search-icon-length);
+  top: calc((var(--search-input-height) - var(--search-icon-length)) / 2);
+  transition: background-color var(--transition-color-duration) ease-in;
 }
 
 .filter__text-field:hover + .filter--search-icon {
@@ -257,7 +250,6 @@ body .recipe-list .recipe-list__item--hidden {
   margin-left: 0.3em;
 }
 
-/* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
 
   .view--content .recipe-list,

@@ -1,40 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');
 
 :root {
-  --font-family-body: Tinos, Georgia, Times New Roman, serif;
-  --font-family-header: Tinos, Georgia, Times New Roman, serif;
-  --font-family-steps: Tinos, Georgia, Times New Roman, serif;
+  --nytimes-font-stack: Tinos, Georgia, Times New Roman, serif;
 
-  /* -- Globals --- */
+  --nytimes-red:            #df321b;
+  --nytimes-blue-dust:      #c2d9ed;
+  --nytimes-gray-lady-gray: #717171;
 
-  --color-pg-bg: white;
-  /* headings, recipe step numerals, etc: primary "pop" color */
-  --color-primary: rgb(34, 34, 34);
-  /* anchor */
-  --color-link: black;
-  --color-link-hover: black;
-  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
-  /* ??? */
-  --color-target-bg: rgba(255, 255, 0, 0.25);
+  --font-family-body:   var(--nytimes-font-stack);
+  --font-family-header: var(--nytimes-font-stack);
+  --font-family-steps:  var(--nytimes-font-stack);
 
-  /* -- Recipe Page ------- */
-
-  /* parens (recipe ingredient) & hr */
-  --color-ingredient-parens: rgb(129 129 129);
-  /* back arrow (SVG/image) */
-  --color-back-arrow: rgb(200, 200, 200);
-  --color-back-arrow-hover: black;
-  /* Unordered List Item Bullet Color */
-  --color-ul-item-bullet: #eca96f;
-  /* clickable lists */
-  --color-highlight-bg: rgb(194 217 237);
-  --color-complete-line-through: #666;
-
-  /* -- Index Page ------- */
-
-  --color-index-pg-nav-letter: rgb(180, 180, 180);
-  --color-index-pg-footer: rgb(170, 170, 170);
-  --color-index-pg-footer-link: rgb(180, 180, 180);
+  --color-primary:          var(--color-neutral-80);
+  --color-highlight-bg:     var(--nytimes-blue-dust);
+  --color-link:             var(--nytimes-gray-lady-gray);
+  --color-link-hover:       var(--nytimes-red);
+  --color-link-bg-hover:    transparent;
+  --color-back-arrow-hover: var(--nytimes-red);
 }
 
 .nytimes .section--title {
@@ -43,7 +25,6 @@
 }
 
 .nytimes .recipe__name {
-  font-family: var(--font-family-header);
   font-size: 40px;
   font-weight: normal;
   letter-spacing: .01em;
@@ -76,7 +57,7 @@
 }
 
 .nytimes .html {
-  font-family: var(--font-family-header);
+  font-family: var(--nytimes-font-stack);
   font-size: 18px;
 }
 

@@ -1,0 +1,81 @@
+:root {
+  --font-stack-sans-serif: Georgia, serif;
+
+  --color-neutral-00: rgb(255, 255, 255);
+  --color-neutral-10: rgb(211, 211, 211);
+  --color-neutral-20: rgb(200, 200, 200);
+  --color-neutral-25: rgb(189, 189, 189);
+  --color-neutral-30: rgb(180, 180, 180);
+  --color-neutral-40: rgb(170, 170, 170);
+  --color-neutral-50: rgb(136, 136, 136);
+  --color-neutral-45: rgb(128, 128, 128);
+  --color-neutral-60: rgb(102, 102, 102);
+  --color-neutral-80: rgb(35, 35, 35);
+  --color-neutral-90: rgb(27, 27, 27);
+  /* --color-neutral-78: rgb(42, 42, 42); */
+
+  --color-peach-30:   rgb(236, 169, 111);
+  --color-peach-80:   rgb(193, 89, 0);
+
+  --color-olive-50:   rgba(255, 255, 0, 0.5);
+  --color-olive-90:   rgba(255, 255, 0, 0.25);
+
+  /*-----*: GLobal :*-----*/
+  --font-family-body:    var(--font-stack-sans-serif);
+  --font-family-header:  var(--font-stack-sans-serif);
+  --font-family-steps:   var(--font-stack-sans-serif);
+
+  --color-pg-bg:         var(--color-neutral-00);
+
+  /* headings, recipe step numerals, etc: primary "pop" color */
+  --color-primary:       var(--color-peach-80);
+
+  /* anchor */
+  --color-link:          var(--color-neutral-90);
+  --color-link-hover:    var(--color-neutral-90);
+  --color-link-bg-hover: var(--color-olive-50);
+  --color-target-bg:     var(--color-olive-90);
+
+  /*-----*: Recipe Page :*-----*/
+
+  /* parens (recipe ingredient) & hr */
+  --color-ingredient-parens: var(--color-neutral-45);
+
+  /* back arrow (SVG/image) */
+  --color-back-arrow:        var(--color-neutral-20);
+  --color-back-arrow-hover:  var(--color-neutral-30);
+
+  /* Unordered List Item Bullet Color */
+  --color-ul-item-bullet:    var(--color-peach-30);
+
+  /* clickable lists */
+  --color-highlight-bg:          var(--color-neutral-10);
+  --color-complete-line-through: var(--color-neutral-60);
+
+  /*-----*: Index Page :*-----*/
+  --color-index-pg-nav-letter:   var(--color-neutral-60);
+  --color-index-pg-footer:       var(--color-neutral-35);
+  --color-index-pg-footer-link:  var(--color-neutral-60);
+
+  /*-----*: Transition Speeds :*-----*/
+  --transition-color-duration: 350ms;
+
+
+  /**
+   *-----*: Device break points :*-----*
+   *
+   * Unfortunately, our custom properties are scoped to `:root`
+   * while `@media` queries are outside that scope: TL:DR;
+   * no storing break points as variables. lo siento.
+   *
+   * We're merely documenting them here :(
+   *
+   * Currently only one break point, tablet-ish: 820px;
+   *
+   * * sm: 426px;
+   * * md: 769px;
+   * * lg: 992px;
+   * * xl: 1200px;
+   * * xxl: 1441px;
+   **/
+}

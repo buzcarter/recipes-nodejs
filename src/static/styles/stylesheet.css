@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 /* CSS RESET */
 /* http://meyerweb.com/eric/tools/css/reset */
 a,
@@ -240,16 +238,15 @@ a,
 a:link,
 a:visited {
   color: var(--color-link);
-  text-decoration: none;
+  text-decoration: underline;
   background-color: transparent;
-  transition: background-color 0.35s ease;
+  transition: background-color var(--transition-color-duration) ease;
 }
 
 a:active,
 a:hover {
   color: var(--color-link-hover);
   background-color: var(--color-link-bg-hover);
-  text-decoration: underline;
 }
 
 /* specific sections/objects */
@@ -287,7 +284,6 @@ a:hover {
 }
 
 
-/* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
   .wrapper {
     margin-top: 2em;

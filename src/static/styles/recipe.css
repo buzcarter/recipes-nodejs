@@ -2,7 +2,7 @@
 .clickable-list li {
   border-radius: 3px;
   position: relative;
-  transition: background-color 0.35s ease;
+  transition: background-color var(--transition-color-duration) ease;
 }
 
 .activated {
@@ -44,7 +44,7 @@ hr {
 
 .link-svg {
   color: var(--color-back-arrow);
-  transition: color 0.35s ease;
+  transition: color var(--transition-color-duration) ease;
 }
 
 a:hover .link-svg {
@@ -175,6 +175,10 @@ svg.linkIcon {
 }
 
 /* == Section: Ingredients ----- */
+.section--ingredients {
+  --ingredient-amt-width: 2.7em;
+}
+
 .section--ingredients ul+h3 {
   margin-top: 1.8em;
 }
@@ -189,7 +193,12 @@ svg.linkIcon {
 }
 
 .ingredient--has-amt {
-  padding-left: 2.7em;
+  padding-left: var(--ingredient-amt-width);
+}
+
+.section--ingredients li:not(.ingredient--has-amt) {
+  padding-left: var(--ingredient-amt-width);
+  text-indent: calc(-1 * var(--ingredient-amt-width));
 }
 
 .ingredient__amt {
@@ -228,6 +237,7 @@ svg.linkIcon {
   border-bottom: 1px solid gray;
 }
 
+/* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
   .section--help ul {
     column-count: 2;

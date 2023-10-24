@@ -1,41 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
 
 :root {
-  --font-family-body: Franklin, georgia, Times New Roman, serif;
-  --font-family-header: 'Gilda Display', garamond, georgia, Times New Roman, serif;
-  --font-family-steps: Franklin, georgia, Times New Roman, serif;
+  --wapo-font-stack-body:     Franklin, georgia, Times New Roman, serif;
+  --font-stack-wap-headline: 'Gilda Display', garamond, georgia, Times New Roman, serif;
 
-  /* -- Globals --- */
+  --font-family-body:   var(--wapo-font-stack-body);
+  --font-family-header: var(--font-stack-wap-headline);
+  --font-family-steps:  var(--wapo-font-stack-body);
 
-  --color-pg-bg: white;
-  /* headings, recipe step numerals, etc: primary "pop" color */
-  --color-primary: rgb(42, 42, 42);
-  /* anchor */
-  --color-link: black;
-  --color-link-hover: black;
-  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
-  /* ??? */
-  --color-target-bg: rgba(255, 255, 0, 0.25);
-
-
-  /* -- Recipe Page ------- */
-
-  /* parens (recipe ingredient) & hr */
-  --color-ingredient-parens: rgb(129 129 129);
-  /* back arrow (SVG/image) */
-  --color-back-arrow: rgb(200, 200, 200);
-  --color-back-arrow-hover: black;
-  /* Unordered List Item Bullet Color */
-  --color-ul-item-bullet: #eca96f;
-  /* clickable lists */
+  --color-primary:      rgb(42, 42, 42);
   --color-highlight-bg: rgb(227 233 168);
-  --color-complete-line-through: #666;
 
-  /* -- Index Page ------- */
-
-  --color-index-pg-nav-letter: rgb(180, 180, 180);
-  --color-index-pg-footer: rgb(170, 170, 170);
-  --color-index-pg-footer-link: rgb(180, 180, 180);
+  --color-neutral-00-80prct: rgb(255, 255, 255, 0.8);
 }
 
 .washington-post h2 {
@@ -44,9 +20,9 @@
 }
 
 .washington-post .section--title {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--color-neutral-00-80prct);
   border-radius: 8px;
-  font-family: var(--font-family-body);
+  font-family: var(--wapo-font-stack-body);
   left: 10%;
   margin-bottom: -150px;
   min-width: 300px;
