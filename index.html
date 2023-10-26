@@ -7,11 +7,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta property="og:image" content="images/austro-hungarian-cream-of-horseradish-soup.jpg">
-    <meta name="date" content="Mon Oct 23 2023 02:19:59 GMT+0000 (Coordinated Universal Time)">
+    <meta name="date" content="Thu Oct 26 2023 02:10:18 GMT+0000 (Coordinated Universal Time)">
     <link rel="icon" type="image/png" href="measuring-cup-favicon.svg">
     <!-- font and styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles/vars.css">
     <link rel="stylesheet" href="styles/theme-default.css">
     <link rel="stylesheet" href="styles/stylesheet.css">
     <link rel="stylesheet" href="styles/recipesIndex.css">
@@ -29,7 +30,14 @@
           <div class="filter__wrap">
             <label>
               <span class="sr-only">Filter</span>
-              <input id="filter" class="filter__terms" autocomplete="off">
+              <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off">
+              <span class="filter__icons">
+              <span class="filter__mask-icon filter__search-icon"></span>
+              <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
+                <span class="filter__mask-icon filter__cancel-icon"></span>
+                <span class="sr-only">Clear filter input</span>
+              </button>
+              </span>
             </label>
           </div>
           <div class="nav-view">
