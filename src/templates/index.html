@@ -30,8 +30,14 @@
         <div class="filter__wrap">
           <label>
             <span class="sr-only">Filter</span>
-            <input id="filter" class="filter__text-field" placeholder="" autocomplete="off">
-            <span class="filter--search-icon "></span>
+            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off">
+            <span class="filter__icons">
+              <span class="filter__mask-icon filter__search-icon"></span>
+              <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
+                <span class="filter__mask-icon filter__cancel-icon"></span>
+                <span class="sr-only">Clear filter input</span>
+              </button>
+            </span>
           </label>
         </div>
         <div class="nav-view">

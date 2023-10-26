@@ -31,14 +31,21 @@
 })();
 
 (() => {
+  /* eslint-disable key-spacing */
   const Styles = {
     HIDDEN: 'recipe-list__item--hidden',
   };
 
   const Selectors = {
     RECIPE_ITEMS: '.recipe-list li',
-    SEARCH: '#filter'
+    SEARCH:       '#filter-field',
+    CLEAR_BTN:    '#clear-filter-btn',
   };
+
+  const KeyCodes = {
+    ESCAPE: 27,
+  };
+  /* eslint-enable key-spacing */
 
   const scrub = value => value
     .trim()
@@ -60,11 +67,24 @@
       });
   }
 
+  const clearInput = () => {
+    const input = document.querySelector(Selectors.SEARCH);
+    input.value = '';
+    input.focus();
+  };
+
   function init() {
     document.querySelectorAll(Selectors.RECIPE_ITEMS).forEach(item => item.dataset.searchText = scrub(item.innerText));
-    document.querySelector(Selectors.SEARCH).addEventListener('keyup', function () {
+
+    const input = document.querySelector(Selectors.SEARCH);
+
+    input.addEventListener('keyup', function () {
       filter(this.value);
     });
+
+    input.addEventListener('keydown', e => e.which === KeyCodes.ESCAPE && clearInput());
+
+    document.querySelector(Selectors.CLEAR_BTN).addEventListener('click', clearInput);
   }
 
   init();

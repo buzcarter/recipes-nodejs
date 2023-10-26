@@ -7,8 +7,9 @@
   --color-filter-hover:    var(--color-neutral-80);
   --color-filter-focus:    var(--color-neutral-50);
 
-  --search-input-height: 40px;
-  --search-icon-length:  18px;
+  --search-input-height:      40px;
+  --search-icon-length:       18px;
+  --search-cancel-btn-length: 24px;
 }
 
 .mainTitle {
@@ -98,36 +99,68 @@ html body .nav-view__item {
 .filter__text-field:not(:placeholder-shown),
 .filter__text-field:focus {
   border-color: var(--color-filter-focus);
-  width: 200px;
+  width: calc(14em + var(--search-cancel-btn-length) + var(--search-icon-length));
 }
 
-.filter--search-icon {
-  -webkit-mask-image: url(../images/icons/search.svg);
-  mask-image: url(../images/icons/search.svg);
+.filter__mask-icon {
   background-color: var(--color-filter-inactive);
   display: inline-block;
-  /* flex-shrink:  0; */
   height: var(--search-icon-length);
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  position: absolute;
+  transition: background-color var(--transition-color-duration) ease-in;
   vertical-align: middle;
   width: var(--search-icon-length);
-  position: absolute;
-  right: var(--search-icon-length);
-  top: calc((var(--search-input-height) - var(--search-icon-length)) / 2);
-  transition: background-color var(--transition-color-duration) ease-in;
 }
 
-.filter__text-field:hover + .filter--search-icon {
+.filter__cancel-icon {
+  -webkit-mask-image: url(../images/icons/cancel.svg);
+  mask-image: url(../images/icons/cancel.svg);
+  left: calc(50% - var(--search-icon-length) / 2);
+  top: calc(50% - var(--search-icon-length) / 2);
+}
+
+.filter__search-icon {
+  -webkit-mask-image: url(../images/icons/search.svg);
+  mask-image: url(../images/icons/search.svg);
+  right: var(--search-icon-length);
+  top: calc((var(--search-input-height) - var(--search-icon-length)) / 2);
+}
+
+.filter__cancel-btn {
+  border: solid 1px var(--color-filter-focus);
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  height: var(--search-cancel-btn-length);
+  width: var(--search-cancel-btn-length);
+  position: absolute;
+  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));;
+  top: calc((var(--search-input-height) - var(--search-cancel-btn-length)) / 2);
+}
+
+.filter__text-field:hover + .filter__icons .filter__search-icon {
   background-color: var(--color-filter-hover);
 }
 
-.filter__text-field:focus + .filter--search-icon {
+.filter__text-field:focus + .filter__icons .filter__search-icon {
   background-color: var(--color-filter-focus);
 }
 
+.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-btn,
+.filter__text-field:focus + .filter__icons .filter__cancel-btn {
+  display: inline-block;
+}
+
+.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-icon,
+.filter__text-field:focus + .filter__icons .filter__cancel-icon {
+  background-color: var(--color-filter-focus);
+}
+
+/* oops */
 .recipe-list__photo {
   display: none;
 }
