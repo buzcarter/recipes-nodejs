@@ -12,6 +12,7 @@
   <!-- font and styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles/vars.css">
   <link rel="stylesheet" href="styles/{{__theme__}}.css">
   <link rel="stylesheet" href="styles/stylesheet.css">
   <link rel="stylesheet" href="styles/recipesIndex.css">
@@ -29,7 +30,14 @@
         <div class="filter__wrap">
           <label>
             <span class="sr-only">Filter</span>
-            <input id="filter" class="filter__terms" autocomplete="off">
+            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off">
+            <span class="filter__icons">
+              <span class="filter__mask-icon filter__search-icon"></span>
+              <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
+                <span class="filter__mask-icon filter__cancel-icon"></span>
+                <span class="sr-only">Clear filter input</span>
+              </button>
+            </span>
           </label>
         </div>
         <div class="nav-view">

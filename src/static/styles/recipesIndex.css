@@ -1,7 +1,15 @@
 :root {
-  --color-view-btn: gray;
-  --color-view-svg-selected: white;
+  --color-view-btn:          var(--color-neutral-45);
+  --color-view-svg-selected: var(--color-neutral-00);
   --color-view-btn-selected: var(--color-primary);
+
+  --color-filter-inactive: var(--color-neutral-25);
+  --color-filter-hover:    var(--color-neutral-80);
+  --color-filter-focus:    var(--color-neutral-50);
+
+  --search-input-height:      40px;
+  --search-icon-length:       18px;
+  --search-cancel-btn-length: 24px;
 }
 
 .mainTitle {
@@ -29,23 +37,13 @@
 }
 
 /* View radio buttons */
-.view--content {}
-
-.view--compact-list {}
-
-.view--grid {}
-
-.nav-view {}
-
-.nav-view__list {}
-
 html body .nav-view__item {
   display: inline-block;
   margin: 0 6px 0 0;
 }
 
 .nav-view__btn {
-  background-color: white;
+  background-color: var(--color-neutral-00);
   border: solid 1px var(--color-view-btn);
   border-radius: 4px;
   padding: 0;
@@ -53,7 +51,7 @@ html body .nav-view__item {
   width: 26px;
   height: 26px;
   cursor: pointer;
-  transition: background-color 350ms ease;
+  transition: background-color var(--transition-color-duration) ease;
 }
 
 .nav-view__img {
@@ -81,15 +79,88 @@ html body .nav-view__item {
 /* Filter/Search */
 .filter__wrap {
   float: right;
+  position: relative;
 }
 
-.filter__terms {
-  border-radius: 4px;
-  padding: .4em;
-  border: solid gray 1px;
+.filter__text-field {
+  border-radius: calc(var(--search-input-height) / 2);
+  padding: .4em calc(var(--search-input-height) + 2px) .4em calc(var(--search-input-height) / 2);
+  border: solid var(--color-filter-inactive) 1px;
   font-size: inherit;
+  width: 80px;
+  transition: width 225ms ease-in, border-color var(--transition-color-duration) ease-in;
+  height: var(--search-input-height);
 }
 
+.filter__text-field:hover {
+  border-color: var(--color-filter-hover);
+}
+
+.filter__text-field:not(:placeholder-shown),
+.filter__text-field:focus {
+  border-color: var(--color-filter-focus);
+  width: calc(14em + var(--search-cancel-btn-length) + var(--search-icon-length));
+}
+
+.filter__mask-icon {
+  background-color: var(--color-filter-inactive);
+  display: inline-block;
+  height: var(--search-icon-length);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  position: absolute;
+  transition: background-color var(--transition-color-duration) ease-in;
+  vertical-align: middle;
+  width: var(--search-icon-length);
+}
+
+.filter__cancel-icon {
+  -webkit-mask-image: url(../images/icons/cancel.svg);
+  mask-image: url(../images/icons/cancel.svg);
+  left: calc(50% - var(--search-icon-length) / 2);
+  top: calc(50% - var(--search-icon-length) / 2);
+}
+
+.filter__search-icon {
+  -webkit-mask-image: url(../images/icons/search.svg);
+  mask-image: url(../images/icons/search.svg);
+  right: var(--search-icon-length);
+  top: calc((var(--search-input-height) - var(--search-icon-length)) / 2);
+}
+
+.filter__cancel-btn {
+  border: solid 1px var(--color-filter-focus);
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  height: var(--search-cancel-btn-length);
+  width: var(--search-cancel-btn-length);
+  position: absolute;
+  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));;
+  top: calc((var(--search-input-height) - var(--search-cancel-btn-length)) / 2);
+}
+
+.filter__text-field:hover + .filter__icons .filter__search-icon {
+  background-color: var(--color-filter-hover);
+}
+
+.filter__text-field:focus + .filter__icons .filter__search-icon {
+  background-color: var(--color-filter-focus);
+}
+
+.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-btn,
+.filter__text-field:focus + .filter__icons .filter__cancel-btn {
+  display: inline-block;
+}
+
+.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-icon,
+.filter__text-field:focus + .filter__icons .filter__cancel-icon {
+  background-color: var(--color-filter-focus);
+}
+
+/* oops */
 .recipe-list__photo {
   display: none;
 }
@@ -122,7 +193,7 @@ body .recipe-list .recipe-list__item--hidden {
 /* Shared */
 .view--content .recipe-list__item,
 .view--compact-list .recipe-list__item {
-  margin-left: 1em;
+  /* margin-left: 1em; TODO: I bet this was here for a good reason */
   margin-bottom: 1em;
 
   /* avoid splitting a single item into cols */
@@ -212,7 +283,6 @@ body .recipe-list .recipe-list__item--hidden {
   margin-left: 0.3em;
 }
 
-/* larger screen: ingredients and steps as two columns */
 @media screen and (min-width: 820px) {
 
   .view--content .recipe-list,

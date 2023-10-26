@@ -55,7 +55,8 @@
         if (li.classList.contains(HIGHLIGHT)) {
           li.classList.remove(HIGHLIGHT);
         } else {
-          document.querySelector(`.${HIGHLIGHT}`)?.classList.remove(HIGHLIGHT);
+          li.closest(Selectors.HIGHLIGHTABLE)
+            .querySelector(`.${HIGHLIGHT}`)?.classList.remove(HIGHLIGHT);
           li.classList.add(HIGHLIGHT);
         }
       }

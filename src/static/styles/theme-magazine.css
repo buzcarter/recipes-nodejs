@@ -1,39 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=PT+Sans+Narrow:wght@700&display=swap');
 
 :root {
-  /* -- Globals --- */
-  --font-family-body: 'Open Sans', Franklin, Arial, Helvetica, sans-serif;
-  --font-family-header: 'PT Sans Narrow', sans-serif;
-  --font-family-steps: 'Open Sans', Franklin, Arial, Helvetica, sans-serif;
+  --font-stack-magazine-body:     'Open Sans', Franklin, Arial, Helvetica, sans-serif;
+  --font-stack-magazine-headline: 'PT Sans Narrow', sans-serif;
 
-  --color-pg-bg: white;
-  /* headings, recipe step numerals, etc: primary "pop" color */
+  --font-family-body:   var(--font-stack-magazine-body);
+  --font-family-header: var(--font-stack-magazine-headline);
+  --font-family-steps:  var(--font-stack-magazine-body);
+
   --color-primary: #c15900;
-  /* anchor */
-  --color-link: black;
-  --color-link-hover: black;
-  --color-link-bg-hover: rgba(255, 255, 0, 0.5);
-  /* ??? */
-  --color-target-bg: rgba(255, 255, 0, 0.25);
-
-  /* -- Recipe Page ------- */
-
-  /* parens (recipe ingredient) & hr */
-  --color-ingredient-parens: rgb(129 129 129);
-  /* back arrow (SVG/image) */
-  --color-back-arrow: rgb(200, 200, 200);
-  --color-back-arrow-hover: black;
-  /* Unordered List Item Bullet Color */
-  --color-ul-item-bullet: #eca96f;
-  /* clickable lists */
-  --color-highlight-bg: rgb(211, 211, 211);
-  --color-complete-line-through: #666;
-
-  /* -- Index Page ------- */
-
-  --color-index-pg-nav-letter: rgb(180, 180, 180);
-  --color-index-pg-footer: rgb(170, 170, 170);
-  --color-index-pg-footer-link: rgb(180, 180, 180);
 }
 
 .magazine .section--heroimage {
@@ -50,29 +25,9 @@
   padding: 100px 40px 40px;
 }
 
-/*
-.magazine .section--title {
-  background-image: var(--hero-image-url);
-  min-height: 900px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 100px 40px 40px;
-  background-position: center;
-}
-*/
-
 .magazine .recipe__name {
-  color: white;
-
+  color: var(--color-neutral-00);
 }
-/*
-.magazine .section--title .html,
-.magazine .section--ingredients,
-.magazine .section--info {
-  padding: 15px;
-  color: white;
-  width: 45%;
-} */
 
 .magazine .section {
   padding: 15px;
