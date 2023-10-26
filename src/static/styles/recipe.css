@@ -20,6 +20,13 @@
   background-color: var(--color-highlight-bg);
 }
 
+/* TODO: find better fix for jagged left edge...
+html body .section--steps .highlight {
+  margin-left: -10px;
+  padding-left: 10px;
+}
+*/
+
 /* common page elements */
 hr {
   clear: both;
@@ -141,6 +148,11 @@ svg.linkIcon {
   font-family: var(--font-family-steps);
 }
 
+.section--steps ol + h3,
+.section--ingredients ul + h3 {
+  margin-top: 1.8em;
+}
+
 /* == Section: Steps ----- */
 .section--steps ol {
   list-style-type: none;
@@ -177,10 +189,6 @@ svg.linkIcon {
 /* == Section: Ingredients ----- */
 .section--ingredients {
   --ingredient-amt-width: 2.7em;
-}
-
-.section--ingredients ul+h3 {
-  margin-top: 1.8em;
 }
 
 .section--ingredients li {

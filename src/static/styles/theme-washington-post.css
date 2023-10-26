@@ -9,9 +9,11 @@
   --font-family-steps:  var(--wapo-font-stack-body);
 
   --color-primary:      rgb(42, 42, 42);
-  --color-highlight-bg: rgb(227 233 168);
+  --color-highlight-bg: rgb(252 255 220);
 
   --color-neutral-00-80prct: rgb(255, 255, 255, 0.8);
+
+  --color-link-hover: rgb(203 31 152);
 }
 
 .washington-post h2 {

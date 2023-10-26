@@ -43,7 +43,7 @@
 
   /* back arrow (SVG/image) */
   --color-back-arrow:        var(--color-neutral-20);
-  --color-back-arrow-hover:  var(--color-neutral-30);
+  --color-back-arrow-hover:  var(--color-neutral-80);
 
   /* Unordered List Item Bullet Color */
   --color-ul-item-bullet:    var(--color-peach-30);
