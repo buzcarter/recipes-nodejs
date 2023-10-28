@@ -1,14 +1,14 @@
 :root {
-  --color-view-btn:          var(--color-neutral-45);
+  --color-view-btn: var(--color-neutral-45);
   --color-view-svg-selected: var(--color-neutral-00);
   --color-view-btn-selected: var(--color-primary);
 
   --color-filter-inactive: var(--color-neutral-25);
-  --color-filter-hover:    var(--color-neutral-80);
-  --color-filter-focus:    var(--color-neutral-50);
+  --color-filter-hover: var(--color-neutral-80);
+  --color-filter-focus: var(--color-neutral-50);
 
-  --search-input-height:      40px;
-  --search-icon-length:       18px;
+  --search-input-height: 40px;
+  --search-icon-length: 18px;
   --search-cancel-btn-length: 24px;
 }
 
@@ -138,25 +138,26 @@ html body .nav-view__item {
   height: var(--search-cancel-btn-length);
   width: var(--search-cancel-btn-length);
   position: absolute;
-  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));;
+  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));
+  ;
   top: calc((var(--search-input-height) - var(--search-cancel-btn-length)) / 2);
 }
 
-.filter__text-field:hover + .filter__icons .filter__search-icon {
+.filter__text-field:hover+.filter__icons .filter__search-icon {
   background-color: var(--color-filter-hover);
 }
 
-.filter__text-field:focus + .filter__icons .filter__search-icon {
+.filter__text-field:focus+.filter__icons .filter__search-icon {
   background-color: var(--color-filter-focus);
 }
 
-.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-btn,
-.filter__text-field:focus + .filter__icons .filter__cancel-btn {
+.filter__text-field:not(:placeholder-shown)+.filter__icons .filter__cancel-btn,
+.filter__text-field:focus+.filter__icons .filter__cancel-btn {
   display: inline-block;
 }
 
-.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-icon,
-.filter__text-field:focus + .filter__icons .filter__cancel-icon {
+.filter__text-field:not(:placeholder-shown)+.filter__icons .filter__cancel-icon,
+.filter__text-field:focus+.filter__icons .filter__cancel-icon {
   background-color: var(--color-filter-focus);
 }
 
@@ -225,11 +226,14 @@ body .recipe-list .recipe-list__item--hidden {
 }
 
 /* view: Grid */
+.view--grid .recipe-list {
+  display: grid;
+  gap: 20px;
+}
+
 .view--grid .recipe-list__item {
-  display: inline-block;
-  width: 260px;
+  display: block;
   margin: 0;
-  margin: 0 15px 15px 0;
 }
 
 .view--grid .recipe-list__item a {
@@ -283,8 +287,19 @@ body .recipe-list .recipe-list__item--hidden {
   margin-left: 0.3em;
 }
 
-@media screen and (min-width: 820px) {
+@media screen and (min-width: 580px) {
+  .view--grid .recipe-list {
+    grid-template-columns: 50% 50%;
+  }
+}
 
+@media screen and (min-width: 720px) {
+  .view--grid .recipe-list {
+    grid-template-columns: 33% 33% 33%;
+  }
+}
+
+@media screen and (min-width: 820px) {
   .view--content .recipe-list,
   .view--compact-list .recipe-list {
     column-count: 2;
