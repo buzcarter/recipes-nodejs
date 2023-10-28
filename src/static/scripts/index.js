@@ -71,6 +71,7 @@
     const input = document.querySelector(Selectors.SEARCH);
     input.value = '';
     input.focus();
+    filter('');
   };
 
   function init() {

@@ -21,25 +21,25 @@
 
 .nytimes .section--title {
   border-bottom: 1px solid #ccc;
-  padding-top: 30px;
+}
+
+.nytimes .section--heroimage {
+  max-height: 300px;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.section--heroimage img {
+  width: 100%;
+  height: 100%;
 }
 
 .nytimes .recipe__name {
-  font-size: 40px;
+  font-size: 30px;
   font-weight: normal;
   letter-spacing: .01em;
   line-height: 1.1;
   text-transform: none;
-}
-
-.nytimes .section--heroimage {
-  float: right;
-  margin-left: 25px;
-  max-width: 60%;
-}
-
-.nytimes .section--ingredients {
-  clear: right;
 }
 
 .nytimes .section--steps li {
@@ -56,11 +56,41 @@
   top: -25px;
 }
 
-.nytimes .html {
+.nytimes .header__body {
   font-family: var(--nytimes-font-stack);
   font-size: 18px;
+  text-align: left;
 }
 
-.nytimes .html p {
+.nytimes .header__body p {
   line-height: 1.6;
+}
+
+@media screen and (min-width: 820px) {
+  .nytimes .section--ingredients {
+    clear: right;
+  }
+
+  .nytimes .section--heroimage {
+    float: right;
+    margin-left: 25px;
+    max-width: 60%;
+
+    max-height: unset;
+    overflow: unset;
+    min-height: unset;
+  }
+
+  .section--heroimage img {
+    width: unset;
+    height: unset;
+  }
+
+  .nytimes .section--title {
+    padding-top: 30px;
+  }
+
+  .nytimes .recipe__name {
+    font-size: 40px;
+  }
 }

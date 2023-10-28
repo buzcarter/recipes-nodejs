@@ -25,13 +25,7 @@
   background-color: var(--color-neutral-00-80prct);
   border-radius: 8px;
   font-family: var(--wapo-font-stack-body);
-  left: 10%;
-  margin-bottom: -150px;
-  min-width: 300px;
-  padding: 30px;
   position: relative;
-  top: -150px;
-  width: 60%;
 }
 
 .washington-post .recipe__name {
@@ -54,6 +48,10 @@
   top: -25px;
 }
 
+.washington-post .html {
+  text-align: left;
+}
+
 .washington-post .html p {
   line-height: 1.6;
 }
@@ -61,4 +59,15 @@
 .washington-post .subsection--nutritionalfacts li {
   font-size: 80%;
   line-height: 1.2;
+}
+
+@media screen and (min-width: 820px) {
+  .washington-post .section--title {
+    left: 10%;
+    margin-bottom: -150px;
+    min-width: 300px;
+    padding: 30px;
+    top: -150px;
+    width: 60%;
+  }
 }

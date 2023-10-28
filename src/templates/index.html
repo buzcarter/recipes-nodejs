@@ -3,7 +3,7 @@
 
 <head>
   <title>Recipe Book</title>
-  <!-- basics -->
+  <!-- Basics -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   {{__metaOGImage__}}
@@ -20,13 +20,15 @@
 
 <body class="view--content">
   <main class="wrapper index">
-    <!-- table of contents -->
     <section class="toc">
       <header>
         <h1 class="mainTitle">Recipe Book</h1>
+        <!-- "Jump To" Alphabet Links -->
         <nav class="navigation">
+          <h3 class="sr-only">Jump To Recipes </h3>
           {{__letters-index__}}
         </nav>
+        <!-- Filter/Search Input Field-->
         <div class="filter__wrap">
           <label>
             <span class="sr-only">Filter</span>
@@ -40,6 +42,7 @@
             </span>
           </label>
         </div>
+        <!-- View/Arrangement/Layout Buttons -->
         <div class="nav-view">
           <ul role="radiogroup" class="nav-view__list">
             <li class="nav-view__item">
