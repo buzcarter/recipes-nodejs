@@ -1,40 +1,47 @@
 :root {
   --color-view-btn-inactive: var(--color-neutral-20);
   --color-view-btn-hover:    var(--color-neutral-45);
-  --color-view-svg-selected: var(--color-neutral-00);
   --color-view-btn-selected: var(--color-primary);
+  --color-view-svg-selected: var(--color-neutral-00);
 
   --color-filter-inactive: var(--color-neutral-25);
   --color-filter-hover:    var(--color-neutral-80);
   --color-filter-focus:    var(--color-neutral-50);
 
   --search-input-height: 40px;
-  --search-icon-length: 18px;
-  --search-cancel-btn-length: 24px;
+  --search-icon-length:  18px;
+
+  --small-btn-length:    24px;
 }
 
 .mainTitle {
   text-align: center;
 }
 
-/* nav */
+/* nav alphabet */
 .navigation {
-  max-width: 500px;
-  margin: 0.7em auto 2.6em auto;
   line-height: 1.7em;
+  margin: 0.7em auto 2.6em;
   text-align: center;
 }
 
 .navigation a {
-  margin-right: 0.1em;
+  background-color: var(--color-view-svg-selected);
+  border-radius: 50%;
   color: var(--color-index-pg-nav-letter);
   display: inline-block;
-  width: 1.22em;
-  height: 1.22em;
+  height: var(--small-btn-length);
+  line-height: var(--small-btn-length);
+  margin-right: calc(var(--small-btn-length) / 6);
+  text-decoration: none;
+  vertical-align: middle;
+  width: var(--small-btn-length);
+  transition: color var(--transition-color-duration) ease, background-color var(--transition-color-duration) ease;
 }
 
 .navigation a:hover {
-  color: inherit;
+  background-color: var(--color-view-btn-selected);
+  color: var(--color-view-svg-selected);
 }
 
 /* View radio buttons */
@@ -108,7 +115,7 @@ html body .nav-view__item {
 .filter__text-field:not(:placeholder-shown),
 .filter__text-field:focus {
   border-color: var(--color-filter-focus);
-  width: calc(14em + var(--search-cancel-btn-length) + var(--search-icon-length));
+  width: calc(14em + var(--small-btn-length) + var(--search-icon-length));
 }
 
 .filter__mask-icon {
@@ -144,12 +151,12 @@ html body .nav-view__item {
   border-radius: 4px;
   cursor: pointer;
   display: none;
-  height: var(--search-cancel-btn-length);
-  width: var(--search-cancel-btn-length);
+  height: var(--small-btn-length);
+  width: var(--small-btn-length);
   position: absolute;
-  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));
+  right: calc(5px + var(--small-btn-length) + var(--search-icon-length));
   ;
-  top: calc((var(--search-input-height) - var(--search-cancel-btn-length)) / 2);
+  top: calc((var(--search-input-height) - var(--small-btn-length)) / 2);
 }
 
 .filter__text-field:hover+.filter__icons .filter__search-icon {
