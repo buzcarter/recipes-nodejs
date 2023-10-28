@@ -1,39 +1,47 @@
 :root {
-  --color-view-btn:          var(--color-neutral-45);
-  --color-view-svg-selected: var(--color-neutral-00);
+  --color-view-btn-inactive: var(--color-neutral-20);
+  --color-view-btn-hover:    var(--color-neutral-45);
   --color-view-btn-selected: var(--color-primary);
+  --color-view-svg-selected: var(--color-neutral-00);
 
   --color-filter-inactive: var(--color-neutral-25);
   --color-filter-hover:    var(--color-neutral-80);
   --color-filter-focus:    var(--color-neutral-50);
 
-  --search-input-height:      40px;
-  --search-icon-length:       18px;
-  --search-cancel-btn-length: 24px;
+  --search-input-height: 40px;
+  --search-icon-length:  18px;
+
+  --small-btn-length:    24px;
 }
 
 .mainTitle {
   text-align: center;
 }
 
-/* nav */
+/* nav alphabet */
 .navigation {
-  max-width: 500px;
-  margin: 0.7em auto 2.6em auto;
   line-height: 1.7em;
+  margin: 0.7em auto 2.6em;
   text-align: center;
 }
 
 .navigation a {
-  margin-right: 0.1em;
+  background-color: var(--color-view-svg-selected);
+  border-radius: 50%;
   color: var(--color-index-pg-nav-letter);
   display: inline-block;
-  width: 1.22em;
-  height: 1.22em;
+  height: var(--small-btn-length);
+  line-height: var(--small-btn-length);
+  margin-right: calc(var(--small-btn-length) / 6);
+  text-decoration: none;
+  vertical-align: middle;
+  width: var(--small-btn-length);
+  transition: color var(--transition-color-duration) ease, background-color var(--transition-color-duration) ease;
 }
 
 .navigation a:hover {
-  color: inherit;
+  background-color: var(--color-view-btn-selected);
+  color: var(--color-view-svg-selected);
 }
 
 /* View radio buttons */
@@ -43,8 +51,8 @@ html body .nav-view__item {
 }
 
 .nav-view__btn {
-  background-color: var(--color-neutral-00);
-  border: solid 1px var(--color-view-btn);
+  background-color: transparent;
+  border: solid 1px var(--color-view-btn-inactive);
   border-radius: 4px;
   padding: 0;
   display: inline-block;
@@ -54,13 +62,16 @@ html body .nav-view__item {
   transition: background-color var(--transition-color-duration) ease;
 }
 
-.nav-view__img {
-  height: 24px;
-  width: 24px;
+.nav-view__btn svg {
+  fill: var(--color-view-btn-inactive);
 }
 
-.nav-view__btn svg {
-  fill: var(--color-view-btn);
+.nav-view__btn:hover {
+  border-color: var(--color-view-btn-hover);
+}
+
+.nav-view__btn:hover svg {
+  fill: var(--color-view-btn-hover);
 }
 
 .view--content .nav-view__btn[data-view="content"],
@@ -74,6 +85,11 @@ html body .nav-view__item {
 .view--compact-list .nav-view__btn[data-view="compact-list"] svg,
 .view--grid .nav-view__btn[data-view="grid"] svg {
   fill: var(--color-view-svg-selected);
+}
+
+.nav-view__img {
+  height: 24px;
+  width: 24px;
 }
 
 /* Filter/Search */
@@ -99,7 +115,7 @@ html body .nav-view__item {
 .filter__text-field:not(:placeholder-shown),
 .filter__text-field:focus {
   border-color: var(--color-filter-focus);
-  width: calc(14em + var(--search-cancel-btn-length) + var(--search-icon-length));
+  width: calc(14em + var(--small-btn-length) + var(--search-icon-length));
 }
 
 .filter__mask-icon {
@@ -135,28 +151,29 @@ html body .nav-view__item {
   border-radius: 4px;
   cursor: pointer;
   display: none;
-  height: var(--search-cancel-btn-length);
-  width: var(--search-cancel-btn-length);
+  height: var(--small-btn-length);
+  width: var(--small-btn-length);
   position: absolute;
-  right: calc(5px + var(--search-cancel-btn-length) + var(--search-icon-length));;
-  top: calc((var(--search-input-height) - var(--search-cancel-btn-length)) / 2);
+  right: calc(5px + var(--small-btn-length) + var(--search-icon-length));
+  ;
+  top: calc((var(--search-input-height) - var(--small-btn-length)) / 2);
 }
 
-.filter__text-field:hover + .filter__icons .filter__search-icon {
+.filter__text-field:hover+.filter__icons .filter__search-icon {
   background-color: var(--color-filter-hover);
 }
 
-.filter__text-field:focus + .filter__icons .filter__search-icon {
+.filter__text-field:focus+.filter__icons .filter__search-icon {
   background-color: var(--color-filter-focus);
 }
 
-.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-btn,
-.filter__text-field:focus + .filter__icons .filter__cancel-btn {
+.filter__text-field:not(:placeholder-shown)+.filter__icons .filter__cancel-btn,
+.filter__text-field:focus+.filter__icons .filter__cancel-btn {
   display: inline-block;
 }
 
-.filter__text-field:not(:placeholder-shown) + .filter__icons .filter__cancel-icon,
-.filter__text-field:focus + .filter__icons .filter__cancel-icon {
+.filter__text-field:not(:placeholder-shown)+.filter__icons .filter__cancel-icon,
+.filter__text-field:focus+.filter__icons .filter__cancel-icon {
   background-color: var(--color-filter-focus);
 }
 
@@ -225,11 +242,14 @@ body .recipe-list .recipe-list__item--hidden {
 }
 
 /* view: Grid */
+.view--grid .recipe-list {
+  display: grid;
+  gap: 20px;
+}
+
 .view--grid .recipe-list__item {
-  display: inline-block;
-  width: 260px;
+  display: block;
   margin: 0;
-  margin: 0 15px 15px 0;
 }
 
 .view--grid .recipe-list__item a {
@@ -283,8 +303,19 @@ body .recipe-list .recipe-list__item--hidden {
   margin-left: 0.3em;
 }
 
-@media screen and (min-width: 820px) {
+@media screen and (min-width: 580px) {
+  .view--grid .recipe-list {
+    grid-template-columns: 50% 50%;
+  }
+}
 
+@media screen and (min-width: 720px) {
+  .view--grid .recipe-list {
+    grid-template-columns: 33% 33% 33%;
+  }
+}
+
+@media screen and (min-width: 820px) {
   .view--content .recipe-list,
   .view--compact-list .recipe-list {
     column-count: 2;

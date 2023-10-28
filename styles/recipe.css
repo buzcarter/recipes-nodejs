@@ -58,13 +58,6 @@ a:hover .link-svg {
   color: var(--color-back-arrow-hover);
 }
 
-/*
-svg.linkIcon {
-  width: 14px;
-  margin-left: 0.3em;
-}
-*/
-
 .view-source,
 .view-source:link,
 .view-source:visited {
