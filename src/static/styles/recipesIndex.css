@@ -1,11 +1,12 @@
 :root {
-  --color-view-btn: var(--color-neutral-45);
+  --color-view-btn-inactive: var(--color-neutral-20);
+  --color-view-btn-hover:    var(--color-neutral-45);
   --color-view-svg-selected: var(--color-neutral-00);
   --color-view-btn-selected: var(--color-primary);
 
   --color-filter-inactive: var(--color-neutral-25);
-  --color-filter-hover: var(--color-neutral-80);
-  --color-filter-focus: var(--color-neutral-50);
+  --color-filter-hover:    var(--color-neutral-80);
+  --color-filter-focus:    var(--color-neutral-50);
 
   --search-input-height: 40px;
   --search-icon-length: 18px;
@@ -43,8 +44,8 @@ html body .nav-view__item {
 }
 
 .nav-view__btn {
-  background-color: var(--color-neutral-00);
-  border: solid 1px var(--color-view-btn);
+  background-color: transparent;
+  border: solid 1px var(--color-view-btn-inactive);
   border-radius: 4px;
   padding: 0;
   display: inline-block;
@@ -54,13 +55,16 @@ html body .nav-view__item {
   transition: background-color var(--transition-color-duration) ease;
 }
 
-.nav-view__img {
-  height: 24px;
-  width: 24px;
+.nav-view__btn svg {
+  fill: var(--color-view-btn-inactive);
 }
 
-.nav-view__btn svg {
-  fill: var(--color-view-btn);
+.nav-view__btn:hover {
+  border-color: var(--color-view-btn-hover);
+}
+
+.nav-view__btn:hover svg {
+  fill: var(--color-view-btn-hover);
 }
 
 .view--content .nav-view__btn[data-view="content"],
@@ -74,6 +78,11 @@ html body .nav-view__item {
 .view--compact-list .nav-view__btn[data-view="compact-list"] svg,
 .view--grid .nav-view__btn[data-view="grid"] svg {
   fill: var(--color-view-svg-selected);
+}
+
+.nav-view__img {
+  height: 24px;
+  width: 24px;
 }
 
 /* Filter/Search */
