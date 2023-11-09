@@ -35,7 +35,7 @@ const Substitutions = Object.freeze({
   TITLE:          '{{__title__}}',
   // odds 'n ends
   BODY_CLASS:     '{{__bodyClass__}}',
-  MARKDOWN_LINK:  '{{__markdown__}}',
+  TEXT_LINK:      '{{__sourceFile__}}',
   // Head's meta-tags
   META_FAVICON:   '{{__favIcon__}}',
   META_DATE:      '{{__metaDateGenerated__}}',
@@ -225,7 +225,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name, image) {
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
     .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
     .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL))
-    .replace(Substitutions.MARKDOWN_LINK, `sources/${name}.md`)
+    .replace(Substitutions.TEXT_LINK, `sources/${name}.txt`)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       customizations.style || '',

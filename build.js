@@ -28,9 +28,7 @@ function setupOutputDir(outputPath) {
 
 function copyStatic({staticPath, imagesPath, outputPath, recipesPath}) {
   const mdDestinationPath = resolve(outputPath, 'sources');
-  const noop = (e) => {
-    console.log(e);
-  };
+  const onError = e => e && console.log(e);
 
   Promise.all([
     cp(staticPath, outputPath, { recursive: true }),
@@ -46,8 +44,7 @@ function copyStatic({staticPath, imagesPath, outputPath, recipesPath}) {
             }
             const originalPath = join(mdDestinationPath, file);
             const newPath = join(mdDestinationPath, basename(file, '.md') + '.txt');
-            console.log(originalPath, newPath);
-            rename(originalPath, newPath, noop);
+            rename(originalPath, newPath, onError);
           });
         });
     })
