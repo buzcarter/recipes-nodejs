@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { basename, extname, resolve } = require('path');
-const { rmSync, mkdirSync } = require('fs');
+const { basename, extname, join, resolve } = require('path');
+const { rmSync, mkdirSync, rename } = require('fs');
 const { cp, readdir, readFile } = require('fs/promises');
 const sharp = require('sharp');
 
@@ -27,11 +27,30 @@ function setupOutputDir(outputPath) {
 }
 
 function copyStatic({staticPath, imagesPath, outputPath, recipesPath}) {
+  const mdDestinationPath = resolve(outputPath, 'sources');
+  const noop = (e) => {
+    console.log(e);
+  };
+
   Promise.all([
     cp(staticPath, outputPath, { recursive: true }),
     cp(imagesPath, resolve(outputPath, 'images'), { recursive: true }),
-    cp(recipesPath, resolve(outputPath, 'sources'), { recursive: true }),
+    cp(recipesPath, mdDestinationPath, { recursive: true }),
   ])
+    .then(() => {
+      readdir(mdDestinationPath)
+        .then((filelist) => {
+          filelist.forEach((file) => {
+            if (extname(file) !== '.md') {
+              return;
+            }
+            const originalPath = join(mdDestinationPath, file);
+            const newPath = join(mdDestinationPath, basename(file, '.md') + '.txt');
+            console.log(originalPath, newPath);
+            rename(originalPath, newPath, noop);
+          });
+        });
+    })
     .catch((err) => {
       console.error(err);
     });
