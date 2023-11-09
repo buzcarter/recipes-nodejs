@@ -141,11 +141,14 @@ table {
 /* basics */
 html,
 body {
-  background-color: var(--color-pg-bg);
   font-family: var(--font-family-body);
   font-size: 16px;
   font-smooth: 1em;
   font-weight: 300;
+}
+
+body {
+  background-color: var(--color-pg-bg);
 }
 
 strong {
@@ -253,7 +256,8 @@ a:hover {
 .wrapper {
   width: 90%;
   max-width: 900px;
-  margin: 1em auto 4em auto;
+  margin: 0 auto;
+  padding: 1em 0 4em 0;
 }
 
 /* accessibility */
@@ -286,7 +290,7 @@ a:hover {
 
 @media screen and (min-width: 820px) {
   .wrapper {
-    margin-top: 2em;
+    padding-top: 2em;
   }
 
   h1 {

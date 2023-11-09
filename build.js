@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { basename, extname, resolve } = require('path');
-const { rmSync, mkdirSync } = require('fs');
+const { basename, extname, join, resolve } = require('path');
+const { rmSync, mkdirSync, rename } = require('fs');
 const { cp, readdir, readFile } = require('fs/promises');
 const sharp = require('sharp');
 
@@ -10,10 +10,10 @@ const configs = require('./config');
 
 const THUMBNAIL_WIDTH = 260;
 
-const filterByExtension = (fileList, recipesPath, allowedExtensions) => fileList
+const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
   .filter(fileName => allowedExtensions.includes(extname(fileName)))
   .map(fileName => ({
-    file: resolve(recipesPath, fileName),
+    file: resolve(basePath, fileName),
     fileName,
     name: basename(fileName, extname(fileName)),
   }));
@@ -26,12 +26,71 @@ function setupOutputDir(outputPath) {
   mkdirSync(resolve(outputPath, 'images/thumbnails'));
 }
 
+/** Lies a little bit: resolves the promise quickle, before actually done */
+function changeExtension(mdDestinationPath) {
+  return new Promise((promResolve) => {
+    readdir(mdDestinationPath)
+      .then((filelist) => {
+        const onError = e => e && console.log(e);
+        filelist.forEach((file) => {
+          if (extname(file) !== '.md') {
+            return;
+          }
+          const originalPath = join(mdDestinationPath, file);
+          const newPath = join(mdDestinationPath, basename(file, '.md') + '.txt');
+          rename(originalPath, newPath, onError);
+        });
+      })
+      .then(() => {
+        promResolve(true);
+      });
+  });
+}
+
+/** IE, ahem, sorry, "Edge" doesn't support .avif yet, so let's fix that */
+function legacyImageType(imgDestinationPath) {
+  return new Promise((promResolve) => {
+    readdir(imgDestinationPath)
+      .then((filelist) => {
+        filelist.forEach((file) => {
+          if (extname(file) !== '.avif') {
+            return;
+          }
+          const originalPath = join(imgDestinationPath, file);
+          const imgPath = join(imgDestinationPath, basename(file, '.avif') + '.jpg');
+          sharp(originalPath)
+            .jpeg({ quality: 70 })
+            .toFile(imgPath)
+            .catch(err => console.error(`Problem generating ${imgPath}`, err));
+        });
+      })
+      .then(() => {
+        promResolve(true);
+      });
+  });
+}
+
+function swapJpegForAvif(images) {
+  images
+    .filter(({ fileName }) => extname(fileName) === '.avif')
+    .forEach(img => img.fileName = img.fileName.replace(/avif$/, 'jpg'));
+
+  return images;
+}
+
 function copyStatic({staticPath, imagesPath, outputPath, recipesPath}) {
+  const mdDestinationPath = resolve(outputPath, 'sources');
+  const imgDestinationPath = resolve(outputPath, 'images');
+
   Promise.all([
     cp(staticPath, outputPath, { recursive: true }),
-    cp(imagesPath, resolve(outputPath, 'images'), { recursive: true }),
-    cp(recipesPath, resolve(outputPath, 'sources'), { recursive: true }),
+    cp(imagesPath, imgDestinationPath, { recursive: true }),
+    cp(recipesPath, mdDestinationPath, { recursive: true }),
   ])
+    .then(() => {
+      changeExtension(mdDestinationPath);
+      legacyImageType(imgDestinationPath);
+    })
     .catch((err) => {
       console.error(err);
     });
@@ -104,6 +163,8 @@ function main(configs) {
       setupOutputDir(outputPath);
       copyStatic({staticPath, imagesPath, outputPath, recipesPath});
       makeThumbnails(outputPath, images);
+      images = swapJpegForAvif(images);
+
       buildRecipes(recipeTemplate, options, markdownFiles, images);
       buildRecipeIndex(indexTemplate, options, markdownFiles, images);
 
