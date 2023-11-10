@@ -91,4 +91,40 @@ describe('buildRecipes', () => {
     });
   });
 
+  describe('replaceQuotes', () => {
+    const { replaceQuotes } = utils;
+
+    it('should skip HTML tag attributes', () => {
+      const html = `
+<h1>"My Favorite"</h1>
+<p class="pickles" data-onions="gassioso">This "should be pretty" and "so" should this</p>
+<a href="mypage" id="wow">
+    <img src="./grapes.avif" alt="these grapes &quo;rock&quo;">
+</a>
+
+
+<a href="mypage" id="wow">
+    There is 2" gap there <img src="./grapes.avif" alt="these grapes &quo;rock&quo;"> or 7" to 8" on the <a href="bob">side"</a>
+</a>
+`;
+
+      // NOTE: the 7" to 8" is not the worst thing to happen, but it is undesired.
+      const expectedResult = `
+<h1>&ldquo;My Favorite&rdquo;</h1>
+<p class="pickles" data-onions="gassioso">This &ldquo;should be pretty&rdquo; and &ldquo;so&rdquo; should this</p>
+<a href="mypage" id="wow">
+    <img src="./grapes.avif" alt="these grapes &quo;rock&quo;">
+</a>
+
+
+<a href="mypage" id="wow">
+    There is 2" gap there <img src="./grapes.avif" alt="these grapes &quo;rock&quo;"> or 7&ldquo; to 8&rdquo; on the <a href="bob">side"</a>
+</a>
+`;
+
+      const result = replaceQuotes(html);
+
+      expect(result).toBe(expectedResult);
+    });
+  });
 });

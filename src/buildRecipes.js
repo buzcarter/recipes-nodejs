@@ -2,10 +2,9 @@ const { resolve } = require('path');
 const { readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
 const prettyHtml = require('pretty');
-const { linkify, shorten, replaceFractions } = require('./libs/utils');
+const { linkify, shorten, replaceFractions, replaceQuotes } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
-// I've done this once!!
 /* eslint-disable key-spacing */
 /**
  * Predefined "standard" recipe sections, some have special formatting
@@ -25,7 +24,7 @@ const SectionTypes = Object.freeze({
 const SectionAliases = Object.freeze({
   [SectionTypes.BASED_ON]: ['credits', 'resources', 'source'],
   [SectionTypes.NOTES]:    ['tips', 'variations', 'nutritioninfo', 'nutrition', 'nutritionalfacts'],
-  [SectionTypes.STEPS]:    ['directions', 'instructions', 'preparation', 'procedure', 'procedures'],
+  [SectionTypes.STEPS]:    ['directions', 'instructions', 'preparation', 'procedure', 'procedures', 'method'],
 });
 
 const Substitutions = Object.freeze({
@@ -236,7 +235,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name, image) {
 }
 
 function buildRecipes(recipeTemplate, options, fileList, images) {
-  const { outputPath } = options;
+  const { outputPath, useSmartQuotes } = options;
 
   const converter = new showdown.Converter();
 
@@ -248,6 +247,9 @@ function buildRecipes(recipeTemplate, options, fileList, images) {
         return;
       }
       const heroImgURL = images.find(i => i.name === name);
+      if (useSmartQuotes) {
+        markdown = replaceQuotes(markdown);
+      }
       let html = converter.makeHtml(markdown);
       html = prettyHtml(convertRecipe(recipeTemplate, html, options, name, heroImgURL), { ocd: true });
       writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
