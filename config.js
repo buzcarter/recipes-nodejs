@@ -18,6 +18,12 @@ module.exports = {
 
   includeHelpLinks: false,
 
+  /**
+   * **experimental**
+   * when enabled searches for double-quotes and makes them "curly quotes" (smart)
+   */
+  useSmartQuotes: true,
+
   defaultTheme: 'default',
 
   /**

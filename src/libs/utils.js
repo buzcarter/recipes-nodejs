@@ -62,8 +62,11 @@ const shorten = value => value
 const replaceFractions = value => value
   .replace(RegExes.FRACTIONS, m => FractionsHash[m]);
 
+const replaceQuotes = value => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');
+
 module.exports = {
   linkify,
   replaceFractions,
+  replaceQuotes,
   shorten,
 };
