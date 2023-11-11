@@ -252,6 +252,10 @@ a:hover {
   background-color: var(--color-link-bg-hover);
 }
 
+img {
+  max-width: 100%;
+}
+
 /* specific sections/objects */
 .wrapper {
   width: 90%;
