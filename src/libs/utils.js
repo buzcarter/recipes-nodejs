@@ -23,7 +23,7 @@ const RegExes = {
   // #endregion
 
   // #region Find Author Credit
-  AUTHOR: /^\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im
+  AUTHOR: /^(?:#{3,6})?\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im
   // #endregion
 };
 

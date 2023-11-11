@@ -128,8 +128,9 @@ describe('buildRecipes', () => {
     });
   });
 
-  describe('', () => {
+  describe('getAuthor', () => {
     const { getAuthor } = utils;
+
     it('should happy path', () => {
       const Tests = [{
         value: ``,
@@ -188,6 +189,14 @@ from Mellisa Clark at the New York Times
 by Jeff "Handsy" Smith aka "The Frugal Gourmet" (WBEZ Chicago)
         `,
         expectedResult: 'Jeff "Handsy" Smith aka "The Frugal Gourmet"',
+      }, {
+        value: `
+# Positively-the-Absolutely-Best-Chocolate-Chip Cookies
+### From Maida Heatter
+
+* Yield: **50** cookies.
+`,
+        expectedResult: 'Maida Heatter'
       }];
 
       Tests.forEach(({ value, expectedResult}) => {

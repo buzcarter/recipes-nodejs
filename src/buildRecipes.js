@@ -171,7 +171,8 @@ function getHelpSection(helpURLs, name) {
 
 function convertRecipe(outputHTML, recipeHTML, opts) {
   const {
-    name, image,
+    name,
+    heroImgURL: image,
     autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, includeHelpLinks, shortenURLs, titleSuffix,
   } = opts;
   let recipeName = '';

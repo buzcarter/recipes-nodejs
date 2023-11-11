@@ -4,9 +4,9 @@
   --color-view-btn-selected: var(--color-primary);
   --color-view-svg-selected: var(--color-neutral-00);
 
-  --color-filter-inactive: var(--color-neutral-25);
-  --color-filter-hover:    var(--color-neutral-80);
-  --color-filter-focus:    var(--color-neutral-50);
+  --color-filter-inactive:   var(--color-neutral-25);
+  --color-filter-hover:      var(--color-neutral-80);
+  --color-filter-focus:      var(--color-neutral-50);
 
   --search-input-height: 40px;
   --search-icon-length:  18px;
@@ -214,10 +214,11 @@ body .recipe-list .recipe-list__item--hidden {
 }
 
 .recipe-list__author {
-  display: block;
-  font-style: normal;
-  font-size: 90%;
   color: var(--color-neutral-50);
+  display: block;
+  font-size: 90%;
+  font-style: normal;
+  font-weight: 300;
 }
 
 /* Shared */
@@ -231,7 +232,6 @@ body .recipe-list .recipe-list__item--hidden {
   page-break-inside: avoid;
   break-inside: avoid-column;
 }
-
 
 /* view: Compact List */
 .view--compact-list .recipe-list__author,
