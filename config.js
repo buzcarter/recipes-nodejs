@@ -24,6 +24,12 @@ module.exports = {
    */
   useSmartQuotes: true,
 
+  /**
+   * **experimental**
+   * when enabled wraps `<img />` tags in link to open in new tab
+   */
+  addImageLinks: true,
+
   defaultTheme: 'default',
 
   /**

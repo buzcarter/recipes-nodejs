@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const { readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
 const prettyHtml = require('pretty');
-const { linkify, shorten, replaceFractions, replaceQuotes } = require('./libs/utils');
+const { linkify, shorten, replaceFractions, replaceQuotes, linkifyImages } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
 /* eslint-disable key-spacing */
@@ -132,7 +132,7 @@ const getInlineCss = heroImgURL => !heroImgURL
   : `
 <style>
   :root {
-    --hero-image-url: url("../${heroImgURL}");
+    --hero-image-url: url("${heroImgURL}");
   }
 </style>
 `;
@@ -235,7 +235,7 @@ function convertRecipe(outputHTML, recipeHTML, config, name, image) {
 }
 
 function buildRecipes(recipeTemplate, options, fileList, images) {
-  const { outputPath, useSmartQuotes } = options;
+  const { addImageLinks, outputPath, useSmartQuotes } = options;
 
   const converter = new showdown.Converter();
 
@@ -251,6 +251,9 @@ function buildRecipes(recipeTemplate, options, fileList, images) {
         markdown = replaceQuotes(markdown);
       }
       let html = converter.makeHtml(markdown);
+      if (addImageLinks) {
+        html = linkifyImages(html);
+      }
       html = prettyHtml(convertRecipe(recipeTemplate, html, options, name, heroImgURL), { ocd: true });
       writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
     });
