@@ -24,6 +24,18 @@ module.exports = {
    */
   useSmartQuotes: true,
 
+  /**
+   * **experimental**
+   * when enabled wraps `<img />` tags in link to open in new tab
+   */
+  addImageLinks: true,
+
+  /**
+   * **experimental**
+   * when enabled looks in raw file for author's name
+   */
+  findAuthor: true,
+
   defaultTheme: 'default',
 
   /**

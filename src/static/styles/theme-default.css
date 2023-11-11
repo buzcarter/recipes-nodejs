@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=PT+Sans+Narrow:wght@700&display=swap');
 
 :root {
-  --font-stack-default-body:     'Open Sans', Franklin, Arial, Helvetica, sans-serif;
+  --font-stack-default-body:      Franklin, Arial, Helvetica, sans-serif;
   --font-stack-default-headline: 'PT Sans Narrow', sans-serif;
 
   --font-family-body:   var(--font-stack-default-body);

@@ -127,4 +127,82 @@ describe('buildRecipes', () => {
       expect(result).toBe(expectedResult);
     });
   });
+
+  describe('getAuthor', () => {
+    const { getAuthor } = utils;
+
+    it('should happy path', () => {
+      const Tests = [{
+        value: ``,
+        expectedResult: '',
+      }, {
+        value: `
+ by Amanda Berry
+        `,
+        expectedResult: 'Amanda Berry',
+      }, {
+        value: `
+photo by Demples
+This is from the kitchen of Harriet McCormmick hereself
+from the kitchen of Aunt Bertha (my favorite auntie)
+
+        `,
+        expectedResult: 'Aunt Bertha',
+      }, {
+        value: `
+        courtesy of: Jenny
+        `,
+        expectedResult: 'Jenny',
+      }, {
+        value: `
+        courtesy of Derek
+        `,
+        expectedResult: 'Derek',
+      }, {
+        value: `BY Todd`,
+        expectedResult: 'Todd',
+      }, {
+        value: `BY the New York Times Staff`,
+        expectedResult: '',
+      }, {
+        value: `From the time my Unkle James was paroled`,
+        expectedResult: '',
+      }, {
+        value: `
+        courtesy of      :    Gavin
+
+            `,
+        expectedResult: 'Gavin',
+      }, {
+        value: `
+          courtesy of:Auntie Jim
+
+          `,
+        expectedResult: 'Auntie Jim',
+      }, {
+        value: `
+from Mellisa Clark at the New York Times
+        `,
+        expectedResult: 'Mellisa Clark at the New York Times',
+      }, {
+        value: `
+by Jeff "Handsy" Smith aka "The Frugal Gourmet" (WBEZ Chicago)
+        `,
+        expectedResult: 'Jeff "Handsy" Smith aka "The Frugal Gourmet"',
+      }, {
+        value: `
+# Positively-the-Absolutely-Best-Chocolate-Chip Cookies
+### From Maida Heatter
+
+* Yield: **50** cookies.
+`,
+        expectedResult: 'Maida Heatter'
+      }];
+
+      Tests.forEach(({ value, expectedResult}) => {
+        const result = getAuthor(value);
+        expect(result).toBe(expectedResult);
+      });
+    });
+  });
 });

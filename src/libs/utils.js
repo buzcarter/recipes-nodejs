@@ -8,6 +8,11 @@ const RegExes = {
   EMAIL: /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim,
   // #endregion
 
+  // #region LInkify Images
+  IMG_TAG: /<img\s+.*?src="([^"]+?)"[^>]+?>/,
+  IMG_ALT_PROP: /\balt="([^"]+?)"/,
+  // #endregion
+
   // #region Shorten
   textReg: /(?<=>)(https?:\/\/.*?)(?=<\/a>)/,
   simpleDomain: /((?:[\w-]+\.)+[\w-]+)/,
@@ -16,7 +21,16 @@ const RegExes = {
   // #region replaceFractions
   FRACTIONS: /(1\/[2-9]|2\/[35]|3\/[458]|4\/5|5\/[68])|7\/8/g,
   // #endregion
+
+  // #region Find Author Credit
+  AUTHOR: /^(?:#{3,6})?\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im
+  // #endregion
 };
+
+const Styles = Object.freeze({
+  LINKED_IMG: 'img-link',
+  JS_LINKED_IMG: 'js-img-link',
+});
 
 const FractionsHash = Object.freeze({
   '1/2': '½',
@@ -47,6 +61,25 @@ const linkify = value => value
   .replace(RegExes.EMAIL, '<a href="mailto:$1">$1</a>');
 
 /**
+ * Violating one of my goals to keep this "pure" -- all front-end
+ * aganostic, but should apply a class for future me to tinker.
+ */
+const linkifyImages = text => text
+  .replace(new RegExp(RegExes.IMG_TAG, 'gm'), (imgTag) => {
+    const [, src] = imgTag.match(RegExes.IMG_TAG);
+    const [, alt] = imgTag.match(RegExes.IMG_ALT_PROP) || [];
+    return `<a href="${src}" target="_blank" class="${Styles.LINKED_IMG} ${Styles.JS_LINKED_IMG}" title="${alt || ''}">${imgTag}</a>`;
+  });
+
+const getAuthor = (text) => {
+  let [, author] = `${text}`.match(RegExes.AUTHOR) || [];
+  if (!author) {
+    return '';
+  }
+  author = author.trim();
+  return /[A-Z]/.test(author[0]) ? author : '';
+};
+/**
  * Replaces complete URL with only the domain, i.e. strips
  * off path & protocol.
  * ex: `https://recipes.painswick.edu.uk/puddings/christmas.html`
@@ -65,7 +98,9 @@ const replaceFractions = value => value
 const replaceQuotes = value => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');
 
 module.exports = {
+  getAuthor,
   linkify,
+  linkifyImages,
   replaceFractions,
   replaceQuotes,
   shorten,
