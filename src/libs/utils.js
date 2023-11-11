@@ -21,6 +21,10 @@ const RegExes = {
   // #region replaceFractions
   FRACTIONS: /(1\/[2-9]|2\/[35]|3\/[458]|4\/5|5\/[68])|7\/8/g,
   // #endregion
+
+  // #region Find Author Credit
+  AUTHOR: /^\s*(?:by|courtesy of|from the kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im
+  // #endregion
 };
 
 const Styles = Object.freeze({
@@ -67,6 +71,14 @@ const linkifyImages = text => text
     return `<a href="${src}" target="_blank" class="${Styles.LINKED_IMG} ${Styles.JS_LINKED_IMG}" title="${alt || ''}">${imgTag}</a>`;
   });
 
+const getAuthor = (text) => {
+  let [, author] = `${text}`.match(RegExes.AUTHOR) || [];
+  if (!author) {
+    return '';
+  }
+  author = author.trim();
+  return /[A-Z]/.test(author[0]) ? author : '';
+};
 /**
  * Replaces complete URL with only the domain, i.e. strips
  * off path & protocol.
@@ -86,6 +98,7 @@ const replaceFractions = value => value
 const replaceQuotes = value => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');
 
 module.exports = {
+  getAuthor,
   linkify,
   linkifyImages,
   replaceFractions,
