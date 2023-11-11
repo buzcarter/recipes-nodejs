@@ -192,9 +192,15 @@ body .recipe-list .recipe-list__item--hidden {
   text-transform: capitalize;
 }
 
-.recipe-list__item a {
+.recipe-list__item-link {
   display: inline-block;
+  text-decoration: none;
   width: 100%;
+}
+
+.recipe-list__item-link:link,
+.recipe-list__item-link:visited {
+  text-decoration: inherit;
 }
 
 .recipe-list__photo img {
@@ -205,6 +211,13 @@ body .recipe-list .recipe-list__item--hidden {
 
 .recipe-list__name {
   display: inline-block;
+}
+
+.recipe-list__author {
+  display: block;
+  font-style: normal;
+  font-size: 90%;
+  color: var(--color-neutral-50);
 }
 
 /* Shared */
@@ -221,6 +234,7 @@ body .recipe-list .recipe-list__item--hidden {
 
 
 /* view: Compact List */
+.view--compact-list .recipe-list__author,
 .view--compact-list .recipe-list__photo {
   display: none;
 }
@@ -254,13 +268,13 @@ body .recipe-list .recipe-list__item--hidden {
 
 .view--grid .recipe-list__item a {
   height: 260px;
-  border: solid 1px transparent;
+  border: solid 1px var(--color-neutral-15);
   border-radius: 6px;
   overflow: hidden;
 }
 
 .view--grid .recipe-list__item a:hover {
-  border-color: black;
+  border-color: var(--color-neutral-100);
 }
 
 .view--grid .recipe-list__photo {
@@ -270,10 +284,12 @@ body .recipe-list .recipe-list__item--hidden {
 }
 
 .view--grid .recipe-list__name {
-  padding: 0 1em;
+  -webkit-line-clamp: 2;
   font-size: 110%;
   font-weight: 700;
   line-height: 1.4;
+  overflow: hidden;
+  padding: 0 1em;
   text-overflow: ellipsis;
 }
 

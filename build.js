@@ -156,7 +156,7 @@ function main(configs) {
     readFile(resolve(templatesPath, 'index.html'), { encoding: 'utf8' }),
     readFile(resolve(templatesPath, 'recipe.html'), { encoding: 'utf8' }),
   ])
-    .then(([markdownFiles, images, indexTemplate, recipeTemplate]) => {
+    .then(async ([markdownFiles, images, indexTemplate, recipeTemplate]) => {
       markdownFiles = filterByExtension(markdownFiles, recipesPath, ['.md']);
       images = filterByExtension(images, imagesPath, ['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
@@ -165,8 +165,8 @@ function main(configs) {
       makeThumbnails(outputPath, images);
       images = swapJpegForAvif(images);
 
-      buildRecipes(recipeTemplate, options, markdownFiles, images);
-      buildRecipeIndex(indexTemplate, options, markdownFiles, images);
+      const recipeInfo = await buildRecipes(recipeTemplate, options, markdownFiles, images);
+      buildRecipeIndex(indexTemplate, options, markdownFiles, images, recipeInfo);
 
       const endTime = new Date();
       console.log(`Processed ${markdownFiles.length} recipes in ${endTime - startTime}ms`);

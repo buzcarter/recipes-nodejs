@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const { readFile, writeFile } = require('fs');
 const showdown  = require('showdown');
 const prettyHtml = require('pretty');
-const { linkify, shorten, replaceFractions, replaceQuotes, linkifyImages } = require('./libs/utils');
+const { linkify, shorten, replaceFractions, replaceQuotes, linkifyImages, getAuthor } = require('./libs/utils');
 const SectionMgr = require('./libs/SectionManager');
 
 /* eslint-disable key-spacing */
@@ -169,10 +169,11 @@ function getHelpSection(helpURLs, name) {
 `;
 }
 
-function convertRecipe(outputHTML, recipeHTML, config, name, image) {
+function convertRecipe(outputHTML, recipeHTML, opts) {
   const {
+    name, image,
     autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, includeHelpLinks, shortenURLs, titleSuffix,
-  } = config;
+  } = opts;
   let recipeName = '';
 
   const sectionMgr = new SectionMgr({ definedTypes: SectionTypes, defaultType: SectionTypes.NOTES });
@@ -235,27 +236,37 @@ function convertRecipe(outputHTML, recipeHTML, config, name, image) {
 }
 
 function buildRecipes(recipeTemplate, options, fileList, images) {
-  const { addImageLinks, outputPath, useSmartQuotes } = options;
-
-  const converter = new showdown.Converter();
-
-  fileList.forEach(({ file: path, name }) => {
-    readFile(path, { encoding: 'utf8' }, (err, markdown) => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        return;
-      }
-      const heroImgURL = images.find(i => i.name === name);
-      if (useSmartQuotes) {
-        markdown = replaceQuotes(markdown);
-      }
-      let html = converter.makeHtml(markdown);
-      if (addImageLinks) {
-        html = linkifyImages(html);
-      }
-      html = prettyHtml(convertRecipe(recipeTemplate, html, options, name, heroImgURL), { ocd: true });
-      writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => null);
+  return new Promise((promResolve) => {
+    let fileCount = 0;
+    const { addImageLinks, findAuthor, outputPath, useSmartQuotes } = options;
+    const converter = new showdown.Converter();
+    const recipeInfo = [];
+    fileList.forEach(({ file: path, name }) => {
+      readFile(path, { encoding: 'utf8' }, (err, markdown) => {
+        if (err) {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          return;
+        }
+        const heroImgURL = images.find(i => i.name === name);
+        if (useSmartQuotes) {
+          markdown = replaceQuotes(markdown);
+        }
+        const author = findAuthor ? getAuthor(markdown) : '';
+        if (author) {
+          recipeInfo.push({ name, author });
+        }
+        let html = converter.makeHtml(markdown);
+        if (addImageLinks) {
+          html = linkifyImages(html);
+        }
+        html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, name, heroImgURL }), { ocd: true });
+        writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => {
+          if (fileList.length === ++fileCount) {
+            promResolve(recipeInfo);
+          }
+        });
+      });
     });
   });
 }

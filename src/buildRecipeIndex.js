@@ -9,14 +9,16 @@ const Substitutions = {
   // Head's meta-tags
   META_FAVICON:      '{{__favIcon__}}',
   META_DATE:         '{{__metaDateGenerated__}}',
-  META_OG_IMG:    '{{__metaOGImage__}}',
+  META_OG_IMG:       '{{__metaOGImage__}}',
   THEME_CSS:         '{{__theme__}}',
   // kickoff the on-page script
   STARTUP_JS:        '{{__startup__}}',
 };
 
 const Styles = Object.freeze({
+  AUTHOR:   'recipe-list__author',
   ITEM:     'recipe-list__item',
+  LINK:     'recipe-list__item-link',
   NAME:     'recipe-list__name',
   PHOTO:    'recipe-list__photo',
 });
@@ -30,7 +32,7 @@ const RegExes = {
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images) {
+function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -55,14 +57,17 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
     if (!ogImgURL && image) {
       ogImgURL = `images/${image.fileName}`;
     }
+    const author = recipeInfo.find(({ name: infoName }) => infoName === name)?.author || '';
     const imgPath = image
       ? `images/thumbnails/${image.name}.jpg`
       : 'images/placeholder.svg';
     recipeItems += `
 <li${isNewLetter ? ` id="${firstLetter}"` : ''} class="${Styles.ITEM}">
-  <a href="${name}.html">
+  <a href="${name}.html" class="${Styles.LINK}">
     <span class="${Styles.PHOTO}"><img src="${imgPath}" role="presentation"></span>
-    <span class="${Styles.NAME}">${displayName}</span>
+    <span class="${Styles.NAME}">${displayName}
+    ${author ? `<em class="${Styles.AUTHOR}">${author}</em>` : ''}
+    </span>
   </a>
 </li>
 `.replace(RegExes.END_SPACES, '');

@@ -2,6 +2,7 @@
   --font-stack-sans-serif: Georgia, serif;
 
   --color-neutral-00: rgb(255, 255, 255);
+  --color-neutral-15: rgb(230, 230, 230);
   --color-neutral-10: rgb(211, 211, 211);
   --color-neutral-20: rgb(200, 200, 200);
   --color-neutral-25: rgb(189, 189, 189);
@@ -12,6 +13,7 @@
   --color-neutral-60: rgb(102, 102, 102);
   --color-neutral-80: rgb(35, 35, 35);
   --color-neutral-90: rgb(27, 27, 27);
+  --color-neutral-100: rgb(0, 0, 0);
   /* --color-neutral-78: rgb(42, 42, 42); */
 
   --color-peach-30:   rgb(236, 169, 111);

@@ -30,6 +30,12 @@ module.exports = {
    */
   addImageLinks: true,
 
+  /**
+   * **experimental**
+   * when enabled looks in raw file for author's name
+   */
+  findAuthor: true,
+
   defaultTheme: 'default',
 
   /**
