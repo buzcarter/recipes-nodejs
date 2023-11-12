@@ -1,4 +1,3 @@
-/* global document, window */
 (() => {
   /* eslint-disable key-spacing */
   const Styles = Object.freeze({
