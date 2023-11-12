@@ -41,4 +41,15 @@ module.exports = {
       },
     }],
   },
+  overrides: [{
+    files: ['**/*.test.js'],
+    // env: {
+    //   'jest/globals': true,
+    // },
+    globals: {
+      describe: 'readonly',
+      it: 'readonly',
+      expect: 'readonly',
+    },
+  }],
 };

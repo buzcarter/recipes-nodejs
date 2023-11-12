@@ -10,7 +10,7 @@
     "dev": "nodemon --inspect --ignore output/ -e js,html,css,md,svg ./build.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "test": "jest --silent --config .jest/jest.config.js",
+    "test": "jest --silent --config .jest/jest.config.cjs",
     "test:watch": "npm test -- --watch",
     "test:cover": "npm test -- --coverage"
   },
@@ -27,6 +27,7 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "eslint": "^8.51.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.0",

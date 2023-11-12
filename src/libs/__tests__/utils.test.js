@@ -1,4 +1,5 @@
-const utils = require('../utils');
+// const utils = require('../utils');
+import * as utils from '../utils';
 
 describe('buildRecipes', () => {
   describe('linkify', () => {
@@ -133,7 +134,7 @@ describe('buildRecipes', () => {
 
     it('should happy path', () => {
       const Tests = [{
-        value: ``,
+        value: '',
         expectedResult: '',
       }, {
         value: `
@@ -159,13 +160,13 @@ from the kitchen of Aunt Bertha (my favorite auntie)
         `,
         expectedResult: 'Derek',
       }, {
-        value: `BY Todd`,
+        value: 'BY Todd',
         expectedResult: 'Todd',
       }, {
-        value: `BY the New York Times Staff`,
+        value: 'BY the New York Times Staff',
         expectedResult: '',
       }, {
-        value: `From the time my Unkle James was paroled`,
+        value: 'From the time my Unkle James was paroled',
         expectedResult: '',
       }, {
         value: `
@@ -196,10 +197,10 @@ by Jeff "Handsy" Smith aka "The Frugal Gourmet" (WBEZ Chicago)
 
 * Yield: **50** cookies.
 `,
-        expectedResult: 'Maida Heatter'
+        expectedResult: 'Maida Heatter',
       }];
 
-      Tests.forEach(({ value, expectedResult}) => {
+      Tests.forEach(({ value, expectedResult }) => {
         const result = getAuthor(value);
         expect(result).toBe(expectedResult);
       });
