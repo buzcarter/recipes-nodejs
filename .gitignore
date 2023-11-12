@@ -6,3 +6,5 @@ node_modules
 output
 *.zip
 *.rar
+recipeIndex.bundle.js
+recipeIndex.bundle.js.map

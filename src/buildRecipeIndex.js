@@ -1,6 +1,6 @@
-const { resolve } = require('path');
-const { writeFileSync } = require('fs');
-const prettyHtml = require('pretty');
+import { resolve } from 'path';
+import { writeFileSync } from 'fs';
+import prettyHtml from 'pretty';
 
 /* eslint-disable key-spacing */
 const Substitutions = {
@@ -32,7 +32,7 @@ const RegExes = {
  * and generate table of contents, plus a quick-nav list
  *  at the top
  */
-function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
+export default function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -53,7 +53,7 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
       prevLetter = firstLetter;
     }
 
-    const image = images.find(i => i.name === name);
+    const image = images.find((i) => i.name === name);
     if (!ogImgURL && image) {
       ogImgURL = `images/${image.fileName}`;
     }
@@ -86,9 +86,3 @@ function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, in
 
   writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
 }
-
-module.exports = buildRecipeIndex;
-
-/*
-show-thumbnails
-*/

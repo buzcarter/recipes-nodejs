@@ -1,9 +1,12 @@
-const { resolve } = require('path');
-const { readFile, writeFile } = require('fs');
-const showdown  = require('showdown');
-const prettyHtml = require('pretty');
-const { linkify, shorten, replaceFractions, replaceQuotes, linkifyImages, getAuthor } = require('./libs/utils');
-const SectionMgr = require('./libs/SectionManager');
+import { resolve } from 'path';
+import { readFile, writeFile } from 'fs';
+import showdown from 'showdown';
+import prettyHtml from 'pretty';
+
+import {
+  linkify, shorten, replaceFractions, replaceQuotes, linkifyImages, getAuthor,
+} from './libs/utils.js';
+import { SectionMgr } from './libs/SectionManager.js';
 
 /* eslint-disable key-spacing */
 /**
@@ -102,7 +105,7 @@ function getCustomizations(documentHtml) {
       const [, type, value] = a.match(RegExes.CUSTOMIZATIONS);
       return { type, value };
     })
-    .reduce((acc, { type, value }) => Object.assign(acc, {[type]: value }), {})
+    .reduce((acc, { type, value }) => Object.assign(acc, { [type]: value }), {})
     || {};
 }
 
@@ -117,17 +120,17 @@ function getSectionType(section) {
     return '';
   }
 
-  if (Object.keys(SectionTypes).some(key => SectionTypes[key] === type)) {
+  if (Object.keys(SectionTypes).some((key) => SectionTypes[key] === type)) {
     return type;
   }
 
   const aliasType = Object.keys(SectionAliases)
-    .find(key => SectionAliases[key].includes(type));
+    .find((key) => SectionAliases[key].includes(type));
 
   return aliasType || type;
 }
 
-const getInlineCss = heroImgURL => !heroImgURL
+const getInlineCss = (heroImgURL) => (!heroImgURL
   ? ''
   : `
 <style>
@@ -135,12 +138,12 @@ const getInlineCss = heroImgURL => !heroImgURL
     --hero-image-url: url("${heroImgURL}");
   }
 </style>
-`;
+`);
 
 function prettyBasedOnSection(section, shortenURLs) {
   // opt: remove cruft from 'based on' links
   return shortenURLs
-    ? section.replace(RegExes.ANCHORS_SHORT, anchor => shorten(anchor))
+    ? section.replace(RegExes.ANCHORS_SHORT, (anchor) => shorten(anchor))
     : section;
 }
 
@@ -148,7 +151,7 @@ function prettyBasedOnSection(section, shortenURLs) {
  * in the ingredients, make things in parentheses a bit lighter
  */
 function prettyIngredientsSection(section, useFractionSymbols) {
-  return section.replace(RegExes.LI, str => str
+  return section.replace(RegExes.LI, (str) => str
     .replace(RegExes.NUMERIC, (a, amount, name) => {
       if (useFractionSymbols) {
         amount = replaceFractions(amount);
@@ -196,6 +199,7 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
           section = prettyBasedOnSection(section, shortenURLs);
           break;
         case SectionTypes.HEADER:
+          // eslint-disable-next-line prefer-destructuring
           recipeName = section.match(RegExes.TITLE)[1];
           section = section.replace(RegExes.TITLE, '');
           break;
@@ -216,6 +220,7 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
   const heroImgURL = image ? `images/${image.fileName}` : '';
 
   if (sectionMgr.hasWarnings) {
+    // eslint-disable-next-line no-console
     console.warn(`${name}.md contains unknown sections [${sectionMgr.warnings}] that are included under "${SectionTypes.NOTES}"`);
   }
 
@@ -231,12 +236,12 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       customizations.style || '',
       customizations['body-class'] || '',
-      ...sectionMgr.sectionsInUse.map(n => `${n}--visible`),
-      ...sectionMgr.sectionsUnused.map(n => `${n}--hidden`),
+      ...sectionMgr.sectionsInUse.map((n) => `${n}--visible`),
+      ...sectionMgr.sectionsUnused.map((n) => `${n}--hidden`),
     ].join(' '));
 }
 
-function buildRecipes(recipeTemplate, options, fileList, images) {
+export default function buildRecipes(recipeTemplate, options, fileList, images) {
   return new Promise((promResolve) => {
     let fileCount = 0;
     const { addImageLinks, findAuthor, outputPath, useSmartQuotes } = options;
@@ -249,7 +254,7 @@ function buildRecipes(recipeTemplate, options, fileList, images) {
           console.error(err);
           return;
         }
-        const heroImgURL = images.find(i => i.name === name);
+        const heroImgURL = images.find((i) => i.name === name);
         if (useSmartQuotes) {
           markdown = replaceQuotes(markdown);
         }
@@ -262,7 +267,7 @@ function buildRecipes(recipeTemplate, options, fileList, images) {
           html = linkifyImages(html);
         }
         html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, name, heroImgURL }), { ocd: true });
-        writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8'}, () => {
+        writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8' }, () => {
           if (fileList.length === ++fileCount) {
             promResolve(recipeInfo);
           }
@@ -272,10 +277,7 @@ function buildRecipes(recipeTemplate, options, fileList, images) {
   });
 }
 
-module.exports = {
-  __test__: {
-    prettyIngredientsSection,
-    NumericRegEx: RegExes.NUMERIC,
-  },
-  buildRecipes,
+export const __test__ = {
+  prettyIngredientsSection,
+  NumericRegEx: RegExes.NUMERIC,
 };
