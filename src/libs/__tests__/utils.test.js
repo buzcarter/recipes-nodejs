@@ -1,6 +1,6 @@
-// const utils = require('../utils');
 import * as utils from '../utils';
 
+// TODO: handle "https://www.getabiggerwagon.com/blog/posts/pineapple_pecan_loaf.html"
 describe('buildRecipes', () => {
   describe('linkify', () => {
     const { linkify } = utils;
@@ -198,6 +198,23 @@ by Jeff "Handsy" Smith aka "The Frugal Gourmet" (WBEZ Chicago)
 * Yield: **50** cookies.
 `,
         expectedResult: 'Maida Heatter',
+      }, {
+        value: `
+# Positively-the-Absolutely-Best-Chocolate-Chip Cookies
+From Billie's Kitchen
+
+* Yield: **50** cookies.
+`,
+        expectedResult: 'Billie\'s Kitchen',
+      }, {
+        value: `
+Time: 3 years
+
+Source: America's Test Kitchen
+
+Yield: **50** cookies.
+`,
+        expectedResult: 'America\'s Test Kitchen',
       }];
 
       Tests.forEach(({ value, expectedResult }) => {
