@@ -41,6 +41,7 @@ const clearInput = () => {
   input.value = '';
   input.focus();
   filter('');
+  updateKey(KeyNames.SEARCH, '');
 };
 
 export function init(initalValue) {
