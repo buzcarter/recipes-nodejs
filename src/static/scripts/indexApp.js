@@ -6,7 +6,6 @@ function run() {
   const view = getKey(KeyNames.VIEW, 'content');
   const search = getKey(KeyNames.SEARCH, '');
 
-  // TODO: for now always init search first
   initSearchBox(search);
   initViewBtns(view);
 }
