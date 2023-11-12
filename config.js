@@ -8,7 +8,7 @@ const yelpLocation = 'Bloomfield, NJ'; // no need for fancy formatting, just do 
 * (these are mostly things that folks might want to change, but
 * of course you can customize the code too)
 */
-module.exports = {
+export default {
   imageDir: './images',
   outputDir: './output',
   recipeDir: './recipes',
@@ -53,20 +53,20 @@ module.exports = {
    */
   helpURLs: [{
     label: 'Image search',
-    url: `https://www.google.com/search?q=${RECIPE_NAME}&tbm=isch`
+    url: `https://www.google.com/search?q=${RECIPE_NAME}&tbm=isch`,
   },
   {
     label: 'Serious Eats',
-    url: `https://www.seriouseats.com/search?q=${RECIPE_NAME}&site=recipes`
+    url: `https://www.seriouseats.com/search?q=${RECIPE_NAME}&site=recipes`,
   },
   {
     label: 'More recipes',
-    url: `https://www.google.com/search?q=${RECIPE_NAME}+recipe`
+    url: `https://www.google.com/search?q=${RECIPE_NAME}+recipe`,
   },
   {
     label: 'Yelp (takeout pls)',
-    url: `https://www.yelp.com/search?find_loc=${yelpLocation}&find_desc=${RECIPE_NAME}`
-  }
+    url: `https://www.yelp.com/search?find_loc=${yelpLocation}&find_desc=${RECIPE_NAME}`,
+  },
   ],
 
   /**

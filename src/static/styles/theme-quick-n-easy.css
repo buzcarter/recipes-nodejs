@@ -1,0 +1,101 @@
+:root {
+  --quick-n-easy-font-stack: Georgia, Times New Roman, serif;
+
+  --quick-n-easy-prime:          #e4a601;
+  --quick-n-easy-blue-dust:      #f1ede2;
+
+  --font-family-body:   var(--quick-n-easy-font-stack);
+  --font-family-header: var(--quick-n-easy-font-stack);
+  --font-family-steps:  var(--quick-n-easy-font-stack);
+
+  --color-primary:          var(--quick-n-easy-prime);
+  --color-highlight-bg:     var(--quick-n-easy-blue-dust);
+  --color-link:             var(--quick-n-easy-prime);
+  --color-link-hover:       var(--quick-n-easy-prime);
+  --color-link-bg-hover:    transparent;
+  --color-back-arrow-hover: var(--quick-n-easy-prime);
+}
+
+.quick-n-easy .section--heroimage {
+  max-height: 300px;
+  min-height: 200px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.section--heroimage img {
+  width: 100%;
+  height: 100%;
+}
+
+.quick-n-easy .recipe__name {
+  font-size: 30px;
+  font-weight: normal;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.quick-n-easy .section--steps li {
+  margin-left: 0;
+  margin-top: 40px;
+}
+
+.quick-n-easy .section--steps ol li:before {
+  content: 'Step 'counter(step-counter);
+  counter-increment: step-counter;
+  font-size: 95%;
+  position: absolute;
+  left: 0;
+  top: -25px;
+}
+
+.quick-n-easy .header__body {
+  font-family: var(--quick-n-easy-font-stack);
+  font-size: 18px;
+  text-align: left;
+}
+
+.quick-n-easy .header__body p {
+  line-height: 1.6;
+}
+
+.quick-n-easy h2 {
+  color: var(--color-primary);
+  text-transform: capitalize;
+}
+
+hr {
+  display: none;
+}
+
+@media screen and (min-width: 820px) {
+  .quick-n-easy .section--heroimage {
+    float: right;
+    margin-left: 25px;
+    max-width: 50%;
+
+    max-height: unset;
+    overflow: unset;
+    min-height: unset;
+  }
+
+  .section--heroimage img {
+    width: unset;
+    height: unset;
+  }
+
+  .quick-n-easy .section--title {
+    padding-top: 10px;
+  }
+
+  .quick-n-easy .recipe__name {
+    font-size: 36px;
+  }
+
+  .quick-n-easy .section--ingredients,
+  .quick-n-easy .section--steps {
+    float: none;
+    width: unset;
+  }
+}

@@ -23,7 +23,7 @@ const RegExes = {
   // #endregion
 
   // #region Find Author Credit
-  AUTHOR: /^(?:#{3,6})?\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im
+  AUTHOR: /^(?:#{3,6})?\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im,
   // #endregion
 };
 
@@ -55,7 +55,7 @@ const FractionsHash = Object.freeze({
  * handy function to create links in the markdown text
  * @see https://stackoverflow.com/a/3890175/1167783
  */
-const linkify = value => value
+export const linkify = (value) => value
   .replace(RegExes.URL_WITH_PROTOCOL, '<a href="$1">$1</a>')
   .replace(RegExes.URL_WITH_WWW, '$1<a href="http://$2">$2</a>')
   .replace(RegExes.EMAIL, '<a href="mailto:$1">$1</a>');
@@ -64,14 +64,14 @@ const linkify = value => value
  * Violating one of my goals to keep this "pure" -- all front-end
  * aganostic, but should apply a class for future me to tinker.
  */
-const linkifyImages = text => text
+export const linkifyImages = (text) => text
   .replace(new RegExp(RegExes.IMG_TAG, 'gm'), (imgTag) => {
     const [, src] = imgTag.match(RegExes.IMG_TAG);
     const [, alt] = imgTag.match(RegExes.IMG_ALT_PROP) || [];
     return `<a href="${src}" target="_blank" class="${Styles.LINKED_IMG} ${Styles.JS_LINKED_IMG}" title="${alt || ''}">${imgTag}</a>`;
   });
 
-const getAuthor = (text) => {
+export const getAuthor = (text) => {
   let [, author] = `${text}`.match(RegExes.AUTHOR) || [];
   if (!author) {
     return '';
@@ -85,23 +85,14 @@ const getAuthor = (text) => {
  * ex: `https://recipes.painswick.edu.uk/puddings/christmas.html`
  * is converted to just `recipes.painswick.edu.uk`
  */
-const shorten = value => value
+export const shorten = (value) => value
   .replace(RegExes.textReg, (match) => {
     const [, domain] = match.match(RegExes.simpleDomain);
     return domain;
   });
 
 /** brute-force approach: replaces `1/2` with `½` */
-const replaceFractions = value => value
-  .replace(RegExes.FRACTIONS, m => FractionsHash[m]);
+export const replaceFractions = (value) => value
+  .replace(RegExes.FRACTIONS, (m) => FractionsHash[m]);
 
-const replaceQuotes = value => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');
-
-module.exports = {
-  getAuthor,
-  linkify,
-  linkifyImages,
-  replaceFractions,
-  replaceQuotes,
-  shorten,
-};
+export const replaceQuotes = (value) => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');

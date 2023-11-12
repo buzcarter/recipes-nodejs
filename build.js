@@ -1,18 +1,23 @@
 /* eslint-disable no-console */
-const { basename, extname, join, resolve } = require('path');
-const { rmSync, mkdirSync, rename } = require('fs');
-const { cp, readdir, readFile } = require('fs/promises');
-const sharp = require('sharp');
+import {
+  basename, dirname, extname, join, resolve,
+} from 'path';
+import { rmSync, mkdirSync, rename } from 'fs';
+import { cp, readdir, readFile } from 'fs/promises';
+import sharp from 'sharp';
+import { fileURLToPath } from 'url';
 
-const { buildRecipes } = require('./src/buildRecipes');
-const buildRecipeIndex = require('./src/buildRecipeIndex');
-const configs = require('./config');
+export const __dirname = dirname(fileURLToPath(import.meta.url));
+
+import buildRecipes from './src/buildRecipes.js';
+import buildRecipeIndex from './src/buildRecipeIndex.js';
+import configs from './config.js';
 
 const THUMBNAIL_WIDTH = 260;
 
 const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
-  .filter(fileName => allowedExtensions.includes(extname(fileName)))
-  .map(fileName => ({
+  .filter((fileName) => allowedExtensions.includes(extname(fileName)))
+  .map((fileName) => ({
     file: resolve(basePath, fileName),
     fileName,
     name: basename(fileName, extname(fileName)),
@@ -31,13 +36,13 @@ function changeExtension(mdDestinationPath) {
   return new Promise((promResolve) => {
     readdir(mdDestinationPath)
       .then((filelist) => {
-        const onError = e => e && console.log(e);
+        const onError = (e) => e && console.log(e);
         filelist.forEach((file) => {
           if (extname(file) !== '.md') {
             return;
           }
           const originalPath = join(mdDestinationPath, file);
-          const newPath = join(mdDestinationPath, basename(file, '.md') + '.txt');
+          const newPath = join(mdDestinationPath, `${basename(file, '.md')}.txt`);
           rename(originalPath, newPath, onError);
         });
       })
@@ -57,11 +62,11 @@ function legacyImageType(imgDestinationPath) {
             return;
           }
           const originalPath = join(imgDestinationPath, file);
-          const imgPath = join(imgDestinationPath, basename(file, '.avif') + '.jpg');
+          const imgPath = join(imgDestinationPath, `${basename(file, '.avif')}.jpg`);
           sharp(originalPath)
             .jpeg({ quality: 70 })
             .toFile(imgPath)
-            .catch(err => console.error(`Problem generating ${imgPath}`, err));
+            .catch((err) => console.error(`Problem generating ${imgPath}`, err));
         });
       })
       .then(() => {
@@ -73,12 +78,13 @@ function legacyImageType(imgDestinationPath) {
 function swapJpegForAvif(images) {
   images
     .filter(({ fileName }) => extname(fileName) === '.avif')
-    .forEach(img => img.fileName = img.fileName.replace(/avif$/, 'jpg'));
+    // eslint-disable-next-line no-return-assign
+    .forEach((img) => img.fileName = img.fileName.replace(/avif$/, 'jpg'));
 
   return images;
 }
 
-function copyStatic({staticPath, imagesPath, outputPath, recipesPath}) {
+function copyStatic({ staticPath, imagesPath, outputPath, recipesPath }) {
   const mdDestinationPath = resolve(outputPath, 'sources');
   const imgDestinationPath = resolve(outputPath, 'images');
 
@@ -104,7 +110,7 @@ function makeThumbnails(outputPath, images) {
         .resize(THUMBNAIL_WIDTH)
         .jpeg({ quality: 70 })
         .toFile(thumbnailPath)
-        .catch(err => console.error(`Problem generating ${thumbnailPath}`, err));
+        .catch((err) => console.error(`Problem generating ${thumbnailPath}`, err));
     });
 }
 
@@ -133,16 +139,16 @@ function getCommanLineOverrides(args) {
   return cmdArgs;
 }
 
-function main(configs) {
+function main(opts) {
   const startTime = new Date();
-  const imagesPath = resolve(__dirname, configs.imageDir);
-  const outputPath = resolve(__dirname, configs.outputDir);
-  const recipesPath = resolve(__dirname, configs.recipeDir);
+  const imagesPath = resolve(__dirname, opts.imageDir);
+  const outputPath = resolve(__dirname, opts.outputDir);
+  const recipesPath = resolve(__dirname, opts.recipeDir);
   const staticPath = resolve(__dirname, './src/static/');
   const templatesPath = resolve(__dirname, './src/templates/');
 
   const options = {
-    ...configs,
+    ...opts,
     imagesPath,
     outputPath,
     recipesPath,
@@ -161,7 +167,7 @@ function main(configs) {
       images = filterByExtension(images, imagesPath, ['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
       setupOutputDir(outputPath);
-      copyStatic({staticPath, imagesPath, outputPath, recipesPath});
+      copyStatic({ staticPath, imagesPath, outputPath, recipesPath });
       makeThumbnails(outputPath, images);
       images = swapJpegForAvif(images);
 
