@@ -23,7 +23,7 @@ const RegExes = {
   // #endregion
 
   // #region Find Author Credit
-  AUTHOR: /^(?:#{3,6})?\s*(?:by|courtesy of|from(?: the)? kitchen of|from)\s*[ :-]\s*([A-Z][\w "]+)/im,
+  AUTHOR: /^(?:#{3,6})?\s*(?:adapted by|author|by|courtesy of|from(?: the)? kitchen of|from|source)\s*[ :-]\s*([A-Z][\w '"]+)/im,
   // #endregion
 };
 
@@ -79,6 +79,7 @@ export const getAuthor = (text) => {
   author = author.trim();
   return /[A-Z]/.test(author[0]) ? author : '';
 };
+
 /**
  * Replaces complete URL with only the domain, i.e. strips
  * off path & protocol.

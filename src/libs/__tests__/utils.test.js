@@ -1,5 +1,6 @@
-const utils = require('../utils');
+import * as utils from '../utils';
 
+// TODO: handle "https://www.getabiggerwagon.com/blog/posts/pineapple_pecan_loaf.html"
 describe('buildRecipes', () => {
   describe('linkify', () => {
     const { linkify } = utils;
@@ -133,7 +134,7 @@ describe('buildRecipes', () => {
 
     it('should happy path', () => {
       const Tests = [{
-        value: ``,
+        value: '',
         expectedResult: '',
       }, {
         value: `
@@ -159,13 +160,13 @@ from the kitchen of Aunt Bertha (my favorite auntie)
         `,
         expectedResult: 'Derek',
       }, {
-        value: `BY Todd`,
+        value: 'BY Todd',
         expectedResult: 'Todd',
       }, {
-        value: `BY the New York Times Staff`,
+        value: 'BY the New York Times Staff',
         expectedResult: '',
       }, {
-        value: `From the time my Unkle James was paroled`,
+        value: 'From the time my Unkle James was paroled',
         expectedResult: '',
       }, {
         value: `
@@ -196,10 +197,35 @@ by Jeff "Handsy" Smith aka "The Frugal Gourmet" (WBEZ Chicago)
 
 * Yield: **50** cookies.
 `,
-        expectedResult: 'Maida Heatter'
+        expectedResult: 'Maida Heatter',
+      }, {
+        value: `
+# Positively-the-Absolutely-Best-Chocolate-Chip Cookies
+From Billie's Kitchen
+
+* Yield: **50** cookies.
+`,
+        expectedResult: 'Billie\'s Kitchen',
+      }, {
+        value: `
+Time: 3 years
+
+Source: America's Test Kitchen
+
+Yield: **50** cookies.
+`,
+        expectedResult: 'America\'s Test Kitchen',
+      }, {
+        value: `
+Total Time: 6 minutes | Servings: 1 : Calories: 215kcal
+
+Author: Robin Gagnon
+
+Dalgona coffee is a whipped coffee drink`,
+        expectedResult: 'Robin Gagnon',
       }];
 
-      Tests.forEach(({ value, expectedResult}) => {
+      Tests.forEach(({ value, expectedResult }) => {
         const result = getAuthor(value);
         expect(result).toBe(expectedResult);
       });

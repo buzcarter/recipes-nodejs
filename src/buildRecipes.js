@@ -49,6 +49,7 @@ const Substitutions = Object.freeze({
 const Styles = Object.freeze({
   HELP_LINK:        'help-link',
   HERO_IMG:         'hero-img',
+  HERO_IMG_LINK:    'hero-img-link',
   PAREN:            'paren',
 
   HAS_NUMERIC:      'ingredient--has-amt',
@@ -228,7 +229,7 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
 
   return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
-    .replace(Substitutions.HERO_IMG, heroImgURL ? `<img class=${Styles.HERO_IMG} src="${heroImgURL}">` : '')
+    .replace(Substitutions.HERO_IMG, heroImgURL ? `<a class=${Styles.HERO_IMG_LINK} href="${heroImgURL}" target="_blank"><img class=${Styles.HERO_IMG} src="${heroImgURL}"></a>` : '')
     .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
     .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL))
     .replace(Substitutions.TEXT_LINK, `sources/${name}.txt`)
