@@ -6,7 +6,8 @@ const Styles = {
 };
 
 const Selectors = {
-  RECIPE_ITEMS: '.recipe-list li',
+  RECIPE_LIST:  '#recipe-list',
+  RECIPE_ITEMS: '#recipe-list li',
   SEARCH:       '#filter-field',
   CLEAR_BTN:    '#clear-filter-btn',
 };
@@ -45,12 +46,16 @@ const clearInput = () => {
 };
 
 export function init(initalValue) {
+  // must build the index, and want to do that while everything is visible (using `innerText`)
+  const list = document.querySelector(Selectors.RECIPE_LIST);
+  list.style.opacity = '0';
   // eslint-disable-next-line no-return-assign
   document.querySelectorAll(Selectors.RECIPE_ITEMS).forEach((item) => item.dataset.searchText = scrub(item.innerText));
 
   const input = document.querySelector(Selectors.SEARCH);
   input.value = initalValue || '';
   filter(initalValue);
+  list.style.opacity = '100%';
 
   input.addEventListener('keyup', function onKeyUp() {
     updateKey(KeyNames.SEARCH, this.value);
