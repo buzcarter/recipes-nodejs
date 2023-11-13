@@ -215,6 +215,14 @@ Source: America's Test Kitchen
 Yield: **50** cookies.
 `,
         expectedResult: 'America\'s Test Kitchen',
+      }, {
+        value: `
+Total Time: 6 minutes | Servings: 1 : Calories: 215kcal
+
+Author: Robin Gagnon
+
+Dalgona coffee is a whipped coffee drink`,
+        expectedResult: 'Robin Gagnon',
       }];
 
       Tests.forEach(({ value, expectedResult }) => {
