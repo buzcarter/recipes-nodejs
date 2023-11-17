@@ -261,6 +261,7 @@ img {
   width: 90%;
   max-width: 900px;
   margin: 0 auto;
+  min-width: 320px;
   padding: 1em 0 4em 0;
 }
 
