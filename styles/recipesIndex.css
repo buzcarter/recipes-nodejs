@@ -44,6 +44,11 @@
   color: var(--color-view-svg-selected);
 }
 
+.nav-view__list {
+  display: inline-block;
+  text-wrap: nowrap;
+}
+
 /* View radio buttons */
 html body .nav-view__item {
   display: inline-block;
@@ -145,7 +150,6 @@ html body .nav-view__item {
   width: var(--small-btn-length);
   position: absolute;
   right: calc(5px + var(--small-btn-length) + var(--search-icon-length));
-  ;
   top: calc((var(--search-input-height) - var(--small-btn-length)) / 2);
 }
 
@@ -253,6 +257,7 @@ body .recipe-list .recipe-list__item--hidden {
 
 .view--grid .recipe-list__item {
   display: block;
+  line-height: 1.12;
   margin: 0;
 }
 
@@ -277,7 +282,6 @@ body .recipe-list .recipe-list__item--hidden {
   -webkit-line-clamp: 2;
   font-size: 110%;
   font-weight: 700;
-  line-height: 1.4;
   overflow: hidden;
   padding: 0 1em;
   text-overflow: ellipsis;

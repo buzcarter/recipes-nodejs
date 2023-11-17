@@ -11,7 +11,7 @@
 
 .complete {
   font-style: italic;
-  opacity: 80%;
+  opacity: 33%;
   text-decoration: line-through;
   text-decoration-color: var(--color-complete-line-through);
 }
@@ -40,13 +40,19 @@ hr {
   font-style: normal;
 }
 
+.back-link::after {
+  content: '';
+  display: block;
+  clear: right;
+}
+
 .back-link__link:hover {
   background: none;
 }
 
 .back-link__svg {
-  display: none;
-  width: 24px;
+  display: inline-block;
+  width: 18px;
 }
 
 .link-svg {
@@ -252,7 +258,8 @@ a:hover .link-svg {
   }
 
   .back-link__svg {
-    display: block;
+    /* display: inline-block; */
+    width: 24px;
   }
 
   .section--title {
