@@ -84,7 +84,7 @@ const RegExes = Object.freeze({
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 
   /** Custom meta tags */
-  CUSTOMIZATIONS:  /^\s*<!--\s+recipe-(style|theme|body-class)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
+  CUSTOMIZATIONS:  /^\s*<!--\s+recipe[- ](style|theme|body-class)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
 });
 /* eslint-enable key-spacing */
 

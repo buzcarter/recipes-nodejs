@@ -19,7 +19,7 @@
   --color-peach-30:   rgb(236, 169, 111);
   --color-peach-80:   rgb(193, 89, 0);
 
-  --color-olive-50:   rgba(255, 255, 0, 0.5);
+  --color-olive-50:   rgb(255 250 225); /* rgba(255, 255, 0, 0.5); */
   --color-olive-90:   rgba(255, 255, 0, 0.25);
 
   /*-----*: GLobal :*-----*/
