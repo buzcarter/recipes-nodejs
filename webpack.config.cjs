@@ -2,7 +2,7 @@ const { resolve } = require('path');
 
 module.exports = [{
   entry: {
-    'recipeIndex.bundle.js': './src/static/scripts/indexApp.js',
+    'recipeIndex.bundle.js': './src/static/scripts/index.js',
   },
   output: {
     filename: '[name]',
