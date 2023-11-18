@@ -8,9 +8,6 @@ module.exports = {
   env: {
     amd: true,
     browser: true,
-    // commonjs,
-    // es6: true,
-    // node: true,
   },
   extends: [
     './node_modules/eslint-config-airbnb-base/rules/best-practices',
@@ -21,11 +18,11 @@ module.exports = {
     './node_modules/eslint-config-airbnb-base/rules/es6',
     './node_modules/eslint-config-airbnb-base/rules/strict',
   ].map(require.resolve),
+  globals: {},
   parserOptions: {
     ecmaVersion: 'latest',
     // sourceType: 'commonjs',
   },
-  globals: {},
   rules: {
     'default-case': OFF,
     'function-paren-newline': OFF,
