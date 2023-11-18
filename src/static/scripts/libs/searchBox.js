@@ -1,4 +1,5 @@
-import { KeyNames, updateKey } from './preferences.js';
+import { KeyNames, updateKey, updateMRUList } from './preferences.js';
+import { debounce } from './utils.js';
 
 /* eslint-disable key-spacing */
 const Styles = {
@@ -15,7 +16,10 @@ const Selectors = {
 const KeyCodes = {
   ESCAPE: 27,
 };
-  /* eslint-enable key-spacing */
+/* eslint-enable key-spacing */
+
+const MAX_LIST_LENGTH = 8;
+const HISTORY_DEBOUNCE_DELAY = 2.25 * 1000;
 
 const scrub = (value) => value
   .trim()
@@ -36,6 +40,13 @@ function filter(filterText) {
       item.classList.toggle(Styles.HIDDEN, !isMatch);
     });
 }
+
+const updateHistory = () => {
+  const { value } = document.querySelector(Selectors.SEARCH);
+  if (value.trim()) {
+    updateMRUList(KeyNames.SEARCH_HISTORY, MAX_LIST_LENGTH, value);
+  }
+};
 
 const clearInput = () => {
   const input = document.querySelector(Selectors.SEARCH);
@@ -61,6 +72,7 @@ export function init(initalValue) {
     updateKey(KeyNames.SEARCH, this.value);
     filter(this.value);
   });
+  input.addEventListener('keyup', debounce(updateHistory, HISTORY_DEBOUNCE_DELAY));
 
   input.addEventListener('keydown', (e) => e.which === KeyCodes.ESCAPE && clearInput());
 
