@@ -2,7 +2,6 @@ export class Ledger {
   constructor(id, name, newMaxLength = null) {
     this.json = {
       id,
-      locked: id < 100,
       name,
       newMaxLength,
     };
@@ -18,19 +17,19 @@ export class Ledger {
 
   #locked = false;
 
-  add(id, date) {
+  add(id, value) {
     const item = this.find(id);
     // this.maxLength
     if (!item) {
-      this.#items.push({ id, date });
+      this.#items.push({ id, value });
     } else {
-      item.date = date;
+      item.value = value;
     }
     return this.#items.length; // index? yah
   }
 
   find(id) {
-    return null;
+    return this.#items.find((item) => item.id === id);
   }
 
   remove(id) {
@@ -40,13 +39,19 @@ export class Ledger {
   get json() {
     return {
       id: this.#id,
+      items: this.#items, // [{ id: 9, value: '11/2018' }],
       locked: this.#locked,
+      maxLength: this.#maxLength,
       name: this.#name,
-      items: [{ id: 9, date: '11/2018' }],
     };
   }
 
-  set json(data = {}) {
+  set json({ id, name, items = [], maxLength = null } = {}) {
+    this.#id = id;
+    this.#items = Array.isArray(items) ? items : [];
+    this.#locked = id < 100;
+    this.#maxLength = maxLength;
+    this.#name = name;
   }
 
   toString() {

@@ -17,3 +17,14 @@ export const store = {
     new Ledger(SystemLists.MADE, 'Made', true),
   ],
 };
+
+// listId, key, content
+store.add('Recent', 'my-first-name-is-pickles');
+store.getAll('Recent');
+
+store.add('Favorites', 'my-first-name-is-pickles');
+store.remove('Favorites', 'my-first-name-is-pickles');
+store.includes('Favorites', 'my-first-name-is-pickles');
+
+store.add('Made', 'tamale-pie', 'tasted bland, add...', '11/24');
+store.get('Made', 'tamale-pie');
