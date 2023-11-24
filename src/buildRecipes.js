@@ -90,9 +90,9 @@ const RegExes = Object.freeze({
 
 const LINK_SUB_NAME = '<name>';
 
-function setHeadMeta(documentHtml, { favicon, ogImgURL, recipeName, titleSuffix }) {
+function setHeadMeta(documentHtml, { author, favicon, ogImgURL, recipeName, titleSuffix }) {
   return documentHtml
-    .replace(RegExes.PAGE_TITLE, `<title>${recipeName}${titleSuffix || ''}</title>`)
+    .replace(RegExes.PAGE_TITLE, `<title>${recipeName}${author ? ` by ${author}` : ''}${titleSuffix || ''}</title>`)
     .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
     .replace(Substitutions.META_OG_IMG, ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : '')
     .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
@@ -175,7 +175,7 @@ function getHelpSection(helpURLs, name) {
 
 function convertRecipe(outputHTML, recipeHTML, opts) {
   const {
-    name,
+    author, name,
     heroImgURL: image,
     autoUrlSections, defaultTheme, favicon, useFractionSymbols, helpURLs, includeHelpLinks, shortenURLs, titleSuffix,
   } = opts;
@@ -227,7 +227,7 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
 
   outputHTML = sectionMgr.replace(outputHTML);
 
-  return setHeadMeta(outputHTML, { favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
+  return setHeadMeta(outputHTML, { author, favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<a class=${Styles.HERO_IMG_LINK} href="${heroImgURL}" target="_blank"><img class=${Styles.HERO_IMG} src="${heroImgURL}"></a>` : '')
     .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
@@ -267,7 +267,7 @@ export default function buildRecipes(recipeTemplate, options, fileList, images) 
         if (addImageLinks) {
           html = linkifyImages(html);
         }
-        html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, name, heroImgURL }), { ocd: true });
+        html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, author, heroImgURL, name }), { ocd: true });
         writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8' }, () => {
           if (fileList.length === ++fileCount) {
             promResolve(recipeInfo);
