@@ -107,10 +107,20 @@ html body .nav-view__item {
   left: 10px;
   width: 25px;
   height: 25px;
+/*
   background-color: transparent;
   border: none;
   cursor: pointer;
+   */
 }
+
+.icon--recents {
+  width: 80%;
+}
+
+/* .icon--recents path {
+  fill: pink;
+} */
 
 /* Filter/Search */
 .filter__wrap {
