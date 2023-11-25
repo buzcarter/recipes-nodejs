@@ -1,5 +1,4 @@
-import { KeyNames, updateKey, updateMRUList } from './preferences.js';
-import { debounce } from './utils.js';
+import { KeyNames, getKey, updateKey, updateMRUList } from './preferences.js';
 
 /* eslint-disable key-spacing */
 const Styles = {
@@ -7,10 +6,11 @@ const Styles = {
 };
 
 const Selectors = {
-  RECIPE_LIST:  '#recipe-list',
-  RECIPE_ITEMS: '#recipe-list li',
-  SEARCH:       '#filter-field',
-  CLEAR_BTN:    '#clear-filter-btn',
+  RECIPE_LIST:     '#recipe-list',
+  RECIPE_ITEMS:    '#recipe-list li',
+  SEARCH:          '#filter-field',
+  CLEAR_BTN:       '#clear-filter-btn',
+  SEARCH_HISTORY:  '#filter-suggestions',
 };
 
 const KeyCodes = {
@@ -19,7 +19,6 @@ const KeyCodes = {
 /* eslint-enable key-spacing */
 
 const MAX_LIST_LENGTH = 8;
-const HISTORY_DEBOUNCE_DELAY = 2.25 * 1000;
 
 const scrub = (value) => value
   .trim()
@@ -41,11 +40,32 @@ function filter(filterText) {
     });
 }
 
+function updateHistoryUL() {
+  const list = getKey(KeyNames.SEARCH_HISTORY, []);
+  const listEle = document.querySelector(Selectors.SEARCH_HISTORY);
+  // TODO: unsafe HTML entities
+  listEle.innerHTML = list.reduce((acc, value) => `${acc}<li>${value}</li>`, '');
+  listEle.dataset.count = list.length || '';
+}
+
 const updateHistory = () => {
   const { value } = document.querySelector(Selectors.SEARCH);
   if (value.trim()) {
     updateMRUList(KeyNames.SEARCH_HISTORY, MAX_LIST_LENGTH, value);
+    updateHistoryUL();
   }
+};
+
+const onHistoryClick = (e) => {
+  if (e.target.tagName !== 'LI') {
+    return;
+  }
+
+  const value = e.target.innerText;
+  document.querySelector(Selectors.SEARCH).value = value;
+  updateKey(KeyNames.SEARCH, value);
+  filter(value);
+  updateHistory();
 };
 
 const clearInput = () => {
@@ -72,9 +92,13 @@ export function init(initalValue) {
     updateKey(KeyNames.SEARCH, this.value);
     filter(this.value);
   });
-  input.addEventListener('keyup', debounce(updateHistory, HISTORY_DEBOUNCE_DELAY));
 
   input.addEventListener('keydown', (e) => e.which === KeyCodes.ESCAPE && clearInput());
 
   document.querySelector(Selectors.CLEAR_BTN).addEventListener('click', clearInput);
+
+  // wire-up search history
+  input.addEventListener('focusout', updateHistory);
+  document.querySelector(Selectors.SEARCH_HISTORY).addEventListener('click', onHistoryClick);
+  updateHistoryUL();
 }

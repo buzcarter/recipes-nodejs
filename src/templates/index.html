@@ -32,7 +32,7 @@
         <div class="filter__wrap">
           <label>
             <span class="sr-only">Filter</span>
-            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off">
+            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off" spellcheck="false">
             <span class="filter__icons">
               <svg class="filter__icon filter__search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
@@ -54,6 +54,8 @@
                 <span class="sr-only">Clear filter input</span>
               </button>
             </span>
+            <ul id="filter-suggestions" class="filter__suggestions" data-count="">
+            </ul>
           </label>
         </div>
         <!-- View/Arrangement/Layout Buttons -->
