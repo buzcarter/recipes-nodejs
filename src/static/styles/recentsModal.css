@@ -1,14 +1,13 @@
-.modal--recents {
-  position: absolute;
-  top: 50px;
-  left: 10px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  border: solid 1px gray;
-  max-width: 300px;
-  box-shadow: 4px 4px 4px rgb(0, 0, 0, .3);
+.modal {
+  background-color: var(--color-neutral-00);
+  bottom: 0;
   display: none;
+  left: 0;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: var(--z-index-modal);
 }
 
 .modal--is-active {
@@ -27,16 +26,16 @@
 }
 
 .modal__close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 16px;
-  height: 16px;
-  fill: #000;
-  cursor: pointer;
-  border: none;
-  padding: 0;
   background: transparent;
+  border: none;
+  cursor: pointer;
+  fill: #000;
+  height: 16px;
+  padding: 0;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 16px;
 }
 
 .modal__close-btn:hover {
@@ -46,4 +45,22 @@
 .modal__close-icon {
   width: 100%;
   height: 100%;
+}
+
+@media screen and (min-width: 580px) {
+  .modal {
+    border-radius: var(--default-border-radius);
+    border: solid 1px var(--color-filter-hover);
+    bottom: unset;
+    box-shadow: 5px 8px 8px rgba(0,0,0,.2);
+    left: 0;
+    right: unset;
+    top: 0;
+  }
+
+  .modal.modal--recents {
+    top: 50px;
+    left: 10px;
+    max-width: 300px;
+  }
 }

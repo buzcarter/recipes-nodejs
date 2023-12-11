@@ -3,9 +3,13 @@ const StorageKeys = {
 };
 
 export const KeyNames = Object.freeze({
+  /** most recently viewed recipe list */
   RECENT: 'recent',
+  /** last search term */
   SEARCH: 'search',
+  /** most recent search term list */
   SEARCH_HISTORY: 'searchHistory',
+  /** most recently selected view/layout */
   VIEW: 'content',
 });
 
