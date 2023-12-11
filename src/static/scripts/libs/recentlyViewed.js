@@ -18,9 +18,11 @@ const Styles = {
   MODAL_ACTIVE: 'modal--is-active',
 };
 
-const toDisplay = (value) => value
+export const toDisplay = (value) => value
   .replace(/-/g, ' ')
-  .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+  .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+  .replace(/\s+/g, ' ')
+  .trim();
 
 function onRecipeLinkClick(e) {
   const anchor = e.target.tagName === 'A'

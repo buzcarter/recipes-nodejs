@@ -22,6 +22,7 @@ module.exports = {
     },
   },
   rootDir: resolve(__dirname, '../'),
+  setupFiles: ['<rootDir>/.jest/jest.setup.cjs'],
   setupFilesAfterEnv: [],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.test.js',

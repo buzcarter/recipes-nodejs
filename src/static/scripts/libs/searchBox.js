@@ -17,7 +17,7 @@ const KeyCodes = {
 };
 /* eslint-enable key-spacing */
 
-const scrub = (value) => value
+export const scrub = (value) => value
   .trim()
   .toLowerCase()
   .replace(/\W/g, '')

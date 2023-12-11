@@ -59,7 +59,7 @@ export const updateMRUList = (key, maxLength, value) => {
   list.unshift(value);
 
   if (list.length > maxLength) {
-    list = list.slice(0, maxLength - 1);
+    list = list.slice(0, maxLength);
   }
 
   updateKey(key, list);
