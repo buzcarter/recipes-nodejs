@@ -1,4 +1,4 @@
-import { KeyNames, getKey, updateKey, updateMRUList } from './preferences.js';
+import { KeyNames, updateKey } from './preferences.js';
 
 /* eslint-disable key-spacing */
 const Styles = {
@@ -6,19 +6,16 @@ const Styles = {
 };
 
 const Selectors = {
-  RECIPE_LIST:     '#recipe-list',
-  RECIPE_ITEMS:    '#recipe-list li',
-  SEARCH:          '#filter-field',
-  CLEAR_BTN:       '#clear-filter-btn',
-  SEARCH_HISTORY:  '#filter-suggestions',
+  RECIPE_LIST:  '#recipe-list',
+  RECIPE_ITEMS: '#recipe-list li',
+  SEARCH:       '#filter-field',
+  CLEAR_BTN:    '#clear-filter-btn',
 };
 
 const KeyCodes = {
   ESCAPE: 27,
 };
 /* eslint-enable key-spacing */
-
-const MAX_LIST_LENGTH = 8;
 
 const scrub = (value) => value
   .trim()
@@ -39,34 +36,6 @@ function filter(filterText) {
       item.classList.toggle(Styles.HIDDEN, !isMatch);
     });
 }
-
-function updateHistoryUL() {
-  const list = getKey(KeyNames.SEARCH_HISTORY, []);
-  const listEle = document.querySelector(Selectors.SEARCH_HISTORY);
-  // TODO: unsafe HTML entities
-  listEle.innerHTML = list.reduce((acc, value) => `${acc}<li>${value}</li>`, '');
-  listEle.dataset.count = list.length || '';
-}
-
-const updateHistory = () => {
-  const { value } = document.querySelector(Selectors.SEARCH);
-  if (value.trim()) {
-    updateMRUList(KeyNames.SEARCH_HISTORY, MAX_LIST_LENGTH, value);
-    updateHistoryUL();
-  }
-};
-
-const onHistoryClick = (e) => {
-  if (e.target.tagName !== 'LI') {
-    return;
-  }
-
-  const value = e.target.innerText;
-  document.querySelector(Selectors.SEARCH).value = value;
-  updateKey(KeyNames.SEARCH, value);
-  filter(value);
-  updateHistory();
-};
 
 const clearInput = () => {
   const input = document.querySelector(Selectors.SEARCH);
@@ -96,9 +65,4 @@ export function init(initalValue) {
   input.addEventListener('keydown', (e) => e.which === KeyCodes.ESCAPE && clearInput());
 
   document.querySelector(Selectors.CLEAR_BTN).addEventListener('click', clearInput);
-
-  // wire-up search history
-  input.addEventListener('focusout', updateHistory);
-  document.querySelector(Selectors.SEARCH_HISTORY).addEventListener('click', onHistoryClick);
-  updateHistoryUL();
 }

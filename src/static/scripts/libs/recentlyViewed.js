@@ -2,14 +2,17 @@ import { KeyNames, getKey, updateMRUList } from './preferences.js';
 
 const MAX_LIST_LENGTH = 50;
 
+/* eslint-disable key-spacing */
 const Selectors = {
-  RECIPE_LIST: '#recipe-list',
-  RECENTLY_VIEWED_BTN: '#show-recents-btn',
+  RECIPE_LIST:           '#recipe-list',
 
-  MODAL: '#show-recents-modal',
-  MODAL_CONTENT: '#show-recents-content',
-  MODAL_CLOST_BTN: '#show-recents-close-btn',
+  RECENTLY_VIEWED_BTN:   '#show-recents-btn',
+
+  MODAL:                 '#show-recents-modal',
+  MODAL_CONTENT:         '#show-recents-content',
+  MODAL_CLOST_BTN:       '#show-recents-close-btn',
 };
+/* eslint-enable key-spacing */
 
 const Styles = {
   MODAL_ACTIVE: 'modal--is-active',
