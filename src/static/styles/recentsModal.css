@@ -1,0 +1,47 @@
+.modal--recents {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  border: solid 1px gray;
+  max-width: 300px;
+  box-shadow: 4px 4px 4px rgb(0,0,0,.3);
+  display: none;
+}
+
+.modal--is-active {
+  display: block;
+}
+
+.modal__title {
+text-transform: capitalize ;
+color: #666;
+}
+
+.modal__content a {
+  display: block;
+  padding: .54em 0;
+  text-decoration: none;
+}
+
+.modal__close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  fill: #000;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+.modal__close-btn:hover {
+  fill: #666;
+}
+.modal__close-icon {
+  width: 100%;
+  height: 100%;
+}

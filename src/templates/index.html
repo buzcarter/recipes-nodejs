@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="styles/vars.css">
   <link rel="stylesheet" href="styles/{{__theme__}}.css">
   <link rel="stylesheet" href="styles/stylesheet.css">
+  <link rel="stylesheet" href="styles/recentsModal.css">
   <link rel="stylesheet" href="styles/recipesIndex.css">
 </head>
 
@@ -28,8 +29,8 @@
           <h3 class="sr-only">Jump To Recipes </h3>
           {{__letters-index__}}
         </nav>
-        <!-- Show "Recently Visited" -->
-        <button id="show-recents-btn" class="nav-view__btn btn__show-recent">
+        <!-- Show "Recently Visited", Modal Trigger Button -->
+        <button id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
           <span class="sr-only">View Recently Visited</span>
           <svg class="icon--recents" width="24px" height="24px" viewBox="0 0 24 24">
             <path d="M5.089,13.344c0.175,4.348,3.827,7.743,8.173,7.597c4.295-0.146,7.684-3.759,7.684-8.03c0-4.241-3.469-7.709-7.687-7.85
@@ -38,6 +39,21 @@
             l3.629,3.578L16.27,17.461z"/>
           </svg>
         </button>
+        <!-- Recents Flyout/Modal -->
+        <aside id="show-recents-modal" class="hidden modal modal--recents" role="dialog" aria-labelledby="show-recents-title" aria-modal="true" aria-hidden="true">
+          <div class="modal__inner">
+            <h2 id="show-recents-title" class="modal__title">Recently Visited</h2>
+            <button id="show-recents-close-btn" class="modal__close-btn" aria-label="Close Modal"><svg class="modal__close-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
+              <path d="M-118.495,140.277c-0.202,0-0.403-0.076-0.556-0.23c-0.307-0.307-0.305-0.804,0.003-1.109l6.478-6.438l-6.477-6.438
+                c-0.309-0.307-0.31-0.804-0.003-1.109c0.306-0.307,0.802-0.309,1.108-0.004l6.484,6.445l6.398-6.36
+                c0.308-0.306,0.804-0.304,1.109,0.004c0.307,0.308,0.305,0.804-0.003,1.108l-6.394,6.354l6.393,6.354
+                c0.309,0.307,0.309,0.804,0.003,1.109c-0.305,0.309-0.802,0.309-1.108,0.004l-6.399-6.361l-6.484,6.445
+                C-118.096,140.202-118.295,140.277-118.495,140.277z"/>
+              </svg></button>
+            <ul class="modal__content" id="show-recents-content">
+            </ul>
+          </div>
+        </aside>
         <!-- Filter/Search Input Field-->
         <div class="filter__wrap">
           <label>
