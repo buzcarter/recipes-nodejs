@@ -15,9 +15,9 @@ const Selectors = {
 const KeyCodes = {
   ESCAPE: 27,
 };
-  /* eslint-enable key-spacing */
+/* eslint-enable key-spacing */
 
-const scrub = (value) => value
+export const scrub = (value) => value
   .trim()
   .toLowerCase()
   .replace(/\W/g, '')

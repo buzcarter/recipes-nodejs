@@ -62,6 +62,8 @@
   /*-----*: Transition Speeds :*-----*/
   --transition-color-duration: 350ms;
 
+  /* z-index */
+  --z-index-modal: 1;
 
   /**
    *-----*: Device break points :*-----*
