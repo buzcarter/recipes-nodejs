@@ -15,10 +15,32 @@
   <link rel="stylesheet" href="styles/vars.css">
   <link rel="stylesheet" href="styles/{{__theme__}}.css">
   <link rel="stylesheet" href="styles/stylesheet.css">
+  <link rel="stylesheet" href="styles/recentsModal.css">
   <link rel="stylesheet" href="styles/recipesIndex.css">
 </head>
 
 <body class="view--content">
+  <svg style="display: none;">
+    <defs>
+      <path id="svg-icon-watch" d="M5.089,13.344c0.175,4.348,3.827,7.743,8.173,7.597c4.295-0.146,7.684-3.759,7.684-8.03c0-4.241-3.469-7.709-7.687-7.85
+        C8.567,4.904,5.089,8.821,5.089,13.344z M5.453,6.825C9.025,2.553,15.545,2.072,19.65,5.876c3.99,3.697,4.093,10.179,0.225,14.008
+        c-3.722,3.709-9.901,3.808-13.668,0.136C2.466,16.382,2.585,10.939,5.453,6.825z M16.27,17.461l-4.151-4.117V7.527h1.805v5.075
+        l3.629,3.578L16.27,17.461z"/>
+      <path id="svg-icon-magnifying-lens" d="M15.426,14.367l-3.774-3.792c0.832-1.074,1.333-2.42,1.333-3.883c0-3.494-2.833-6.338-6.314-6.338S0.355,3.198,0.355,6.692
+        c0,3.496,2.833,6.341,6.315,6.341c1.486,0,2.852-0.521,3.932-1.388l3.763,3.779c0.146,0.146,0.339,0.221,0.531,0.221
+        c0.19,0,0.383-0.072,0.528-0.219C15.717,15.136,15.718,14.661,15.426,14.367z M6.668,11.533c-2.655,0-4.815-2.171-4.815-4.841
+        c0-2.668,2.16-4.838,4.815-4.838s4.814,2.17,4.814,4.838C11.483,9.362,9.323,11.533,6.668,11.533z"/>
+      <path id="svg-icon-x" d="M-118.495,140.277c-0.202,0-0.403-0.076-0.556-0.23c-0.307-0.307-0.305-0.804,0.003-1.109l6.478-6.438l-6.477-6.438
+        c-0.309-0.307-0.31-0.804-0.003-1.109c0.306-0.307,0.802-0.309,1.108-0.004l6.484,6.445l6.398-6.36
+        c0.308-0.306,0.804-0.304,1.109,0.004c0.307,0.308,0.305,0.804-0.003,1.108l-6.394,6.354l6.393,6.354
+        c0.309,0.307,0.309,0.804,0.003,1.109c-0.305,0.309-0.802,0.309-1.108,0.004l-6.399-6.361l-6.484,6.445
+        C-118.096,140.202-118.295,140.277-118.495,140.277z"/>
+      <path id="svg-icon-list-view" d="M5.5 6h13v1.5h-13V6Zm13 3.5h-13V11h13V9.5ZM5.5 13h13v1.5h-13V13Zm0 3.5h13V18h-13v-1.5Z" />
+      <path id="svg-icon-content-view" d="M5,5h3v3H5V5z M19,7V5h-8.5v2H19z M5,10.5h3v3H5V10.5z M10.5,12.5v-2H19v2H10.5z M8,16 H5v3h3V16z M19,18v-2h-8.5v2H19z" />
+      <path id="svg-icon-grid-view" fill-rule="evenodd" clip-rule="evenodd" d="M11 11H5V5h6v6ZM9.5 6.5h-3v3h3v-3ZM13 11V5h6v6h-6Zm1.5-1.5h3v-3h-3v3ZM5 19h6v-6H5v6Zm1.5-4.5h3v3h-3v-3ZM19 19h-6v-6h6v6Zm-1.5-4.5h-3v3h3v-3Z" />
+    </defs>
+  </svg>
+
   <main class="wrapper index">
     <section class="toc">
       <header>
@@ -28,29 +50,40 @@
           <h3 class="sr-only">Jump To Recipes </h3>
           {{__letters-index__}}
         </nav>
+        <!-- Show "Recently Visited", Modal Trigger Button -->
+        <button id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
+          <span class="sr-only">View Recently Visited</span>
+          <svg class="icon--recents" width="24px" height="24px" viewBox="0 0 24 24">
+            <use xlink:href="#svg-icon-watch" />
+          </svg>
+        </button>
+        <!-- Recents Flyout/Modal -->
+        <aside id="show-recents-modal" class="hidden modal modal--recents" role="dialog" aria-labelledby="show-recents-title" aria-modal="true" aria-hidden="true">
+          <div class="modal__inner">
+            <h2 id="show-recents-title" class="modal__title">Recently Visited</h2>
+            <button id="show-recents-close-btn" class="modal__close-btn" aria-label="Close Modal">
+              <svg class="modal__close-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
+                <use xlink:href="#svg-icon-x" />
+              </svg>
+            </button>
+            <ul class="modal__content" id="show-recents-content">
+            </ul>
+          </div>
+        </aside>
         <!-- Filter/Search Input Field-->
         <div class="filter__wrap">
           <label>
             <span class="sr-only">Filter</span>
-            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off">
+            <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off" spellcheck="false">
             <span class="filter__icons">
-              <svg class="filter__icon filter__search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-             <path d="M15.426,14.367l-3.774-3.792c0.832-1.074,1.333-2.42,1.333-3.883c0-3.494-2.833-6.338-6.314-6.338S0.355,3.198,0.355,6.692
-               c0,3.496,2.833,6.341,6.315,6.341c1.486,0,2.852-0.521,3.932-1.388l3.763,3.779c0.146,0.146,0.339,0.221,0.531,0.221
-               c0.19,0,0.383-0.072,0.528-0.219C15.717,15.136,15.718,14.661,15.426,14.367z M6.668,11.533c-2.655,0-4.815-2.171-4.815-4.841
-               c0-2.668,2.16-4.838,4.815-4.838s4.814,2.17,4.814,4.838C11.483,9.362,9.323,11.533,6.668,11.533z"/>
-             </svg>
+              <svg class="filter__icon filter__search-icon" width="16px" height="16px" viewBox="0 0 16 16">
+                <use xlink:href="#svg-icon-magnifying-lens" />
+              </svg>
 
               <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
-                <svg class="filter__icon filter__cancel-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                  width="16px" height="16px" viewBox="-119.5 124.5 16 16" enable-background="new -119.5 124.5 16 16" xml:space="preserve">
-               <path d="M-118.495,140.277c-0.202,0-0.403-0.076-0.556-0.23c-0.307-0.307-0.305-0.804,0.003-1.109l6.478-6.438l-6.477-6.438
-                 c-0.309-0.307-0.31-0.804-0.003-1.109c0.306-0.307,0.802-0.309,1.108-0.004l6.484,6.445l6.398-6.36
-                 c0.308-0.306,0.804-0.304,1.109,0.004c0.307,0.308,0.305,0.804-0.003,1.108l-6.394,6.354l6.393,6.354
-                 c0.309,0.307,0.309,0.804,0.003,1.109c-0.305,0.309-0.802,0.309-1.108,0.004l-6.399-6.361l-6.484,6.445
-                 C-118.096,140.202-118.295,140.277-118.495,140.277z"/>
-               </svg>
+                <svg class="filter__icon filter__cancel-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
+                  <use xlink:href="#svg-icon-x" />
+                </svg>
                 <span class="sr-only">Clear filter input</span>
               </button>
             </span>
@@ -63,16 +96,16 @@
               <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="compact-list">
                 <svg class="nav-view__img">
                   <title>Compact List View</title>
-                  <path d="M5.5 6h13v1.5h-13V6Zm13 3.5h-13V11h13V9.5ZM5.5 13h13v1.5h-13V13Zm0 3.5h13V18h-13v-1.5Z" />
+                  <use xlink:href="#svg-icon-list-view" />
                 </svg>
-                <span class="sr-only">View as list</span>
+                <span class="sr-only">View as text list</span>
               </button>
             </li>
             <li class="nav-view__item">
               <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="content">
                 <svg class="nav-view__img" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24">
                   <title>Content View</title>
-                  <path d="M5,5h3v3H5V5z M19,7V5h-8.5v2H19z M5,10.5h3v3H5V10.5z M10.5,12.5v-2H19v2H10.5z M8,16 H5v3h3V16z M19,18v-2h-8.5v2H19z" />
+                  <use xlink:href="#svg-icon-content-view" />
                 </svg>
                 <span class="sr-only">View as list with images</span>
               </button>
@@ -81,7 +114,7 @@
               <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="grid">
                 <svg class="nav-view__img" viewBox="0 0 24 24" width="24" height="24">
                   <title>Large Grid View</title>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11 11H5V5h6v6ZM9.5 6.5h-3v3h3v-3ZM13 11V5h6v6h-6Zm1.5-1.5h3v-3h-3v3ZM5 19h6v-6H5v6Zm1.5-4.5h3v3h-3v-3ZM19 19h-6v-6h6v6Zm-1.5-4.5h-3v3h3v-3Z" />
+                  <use xlink:href="#svg-icon-grid-view" />
                 </svg>
                 <span class="sr-only">View as recipe cards</span>
               </button>

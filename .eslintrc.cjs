@@ -44,9 +44,10 @@ module.exports = {
     //   'jest/globals': true,
     // },
     globals: {
+      beforeEach: 'readonly',
       describe: 'readonly',
-      it: 'readonly',
       expect: 'readonly',
+      it: 'readonly',
     },
   }],
 };

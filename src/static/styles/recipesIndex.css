@@ -8,10 +8,13 @@
   --color-filter-hover:      var(--color-neutral-80);
   --color-filter-focus:      var(--color-neutral-50);
 
-  --search-input-height: 40px;
-  --search-icon-length:  18px;
+  --default-border-radius: 4px;
 
   --small-btn-length:    24px;
+
+  --search-input-height: 40px;
+  --search-icon-length:  18px;
+  --search-input-max-width: calc(14em + var(--small-btn-length) + var(--search-icon-length));
 }
 
 .mainTitle {
@@ -58,7 +61,7 @@ html body .nav-view__item {
 .nav-view__btn {
   background-color: transparent;
   border: solid 1px var(--color-view-btn-inactive);
-  border-radius: 4px;
+  border-radius: var(--default-border-radius);
   padding: 0;
   display: inline-block;
   width: 26px;
@@ -97,6 +100,19 @@ html body .nav-view__item {
   width: 24px;
 }
 
+/*  */
+.btn__show-recent {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 25px;
+  height: 25px;
+}
+
+.icon--recents {
+  width: 80%;
+}
+
 /* Filter/Search */
 .filter__wrap {
   float: right;
@@ -120,7 +136,7 @@ html body .nav-view__item {
 .filter__text-field:not(:placeholder-shown),
 .filter__text-field:focus {
   border-color: var(--color-filter-focus);
-  width: calc(14em + var(--small-btn-length) + var(--search-icon-length));
+  width: var(--search-input-max-width);
 }
 
 .filter__icon {
@@ -143,7 +159,7 @@ html body .nav-view__item {
 
 .filter__cancel-btn {
   border: solid 1px var(--color-filter-focus);
-  border-radius: 4px;
+  border-radius: var(--default-border-radius);
   cursor: pointer;
   display: none;
   height: var(--small-btn-length);

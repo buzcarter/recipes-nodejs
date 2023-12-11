@@ -1,5 +1,6 @@
-import { init as initViewBtns } from './libs/viewPicker.js';
+import { init as initRecentlyViewed } from './libs/recentlyViewed.js';
 import { init as initSearchBox } from './libs/searchBox.js';
+import { init as initViewBtns } from './libs/viewPicker.js';
 import { KeyNames, getKey } from './libs/preferences.js';
 
 function run() {
@@ -8,6 +9,7 @@ function run() {
 
   initSearchBox(search);
   initViewBtns(view);
+  initRecentlyViewed();
 }
 
 run();
