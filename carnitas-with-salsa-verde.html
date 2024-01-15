@@ -6,10 +6,16 @@
     <!-- basics -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="date" content="Mon Dec 11 2023 03:13:26 GMT+0000 (Coordinated Universal Time)">
+    <meta name="date" content="Mon Jan 15 2024 18:18:31 GMT+0000 (Coordinated Universal Time)">
+    <meta property="og:image" content="images/carnitas-with-salsa-verde.jpg">
     <link rel="icon" type="image/png" href="measuring-cup-favicon.svg">
 
     <!-- font and styles -->
+    <style>
+      :root {
+        --hero-image-url: url("images/carnitas-with-salsa-verde.jpg");
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles/vars.css">
@@ -17,7 +23,7 @@
     <link rel="stylesheet" href="styles/stylesheet.css">
     <link rel="stylesheet" href="styles/recipe.css">
   </head>
-  <body class="heroimage--hidden   header--visible ingredients--visible steps--visible notes--visible basedon--visible info--hidden">
+  <body class="heroimage--visible   header--visible ingredients--visible steps--visible notes--visible basedon--visible info--hidden">
     <main class="wrapper recipe">
 
       <!-- back button -->
@@ -38,7 +44,7 @@
 
       <!-- recipe -->
       <article>
-        <figure class="section section--heroimage"></figure>
+        <figure class="section section--heroimage"><a class=hero-img-link href="images/carnitas-with-salsa-verde.jpg" target="_blank"><img class=hero-img src="images/carnitas-with-salsa-verde.jpg"></a></figure>
         <header class="section section--title">
           <h1 class="recipe__name">Carnitas with Salsa Verde</h1>
           <div class="html header__body">
