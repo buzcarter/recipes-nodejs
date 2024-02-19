@@ -1,4 +1,7 @@
-import { readFile } from 'fs';
+/* eslint-disable no-console */
+import { basename, dirname, extname, resolve } from 'path';
+import { readdir, readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
 
 const RegExes = {
   // Can ignore "MENU" directive
@@ -74,15 +77,37 @@ function parseMenuFile(content) {
   return menuObj;
 }
 
+const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
+  .filter((fileName) => allowedExtensions.includes(extname(fileName)))
+  .map((fileName) => ({
+    file: resolve(basePath, fileName),
+    fileName,
+    name: basename(fileName, extname(fileName)),
+  }));
+
 function main() {
-  readFile('./recipes/my-holiday-bakes.menu', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    const json = parseMenuFile(data);
-    console.log(json);
-  });
+  const startTime = Date.now();
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+
+  const recipesPath = resolve(__dirname, '../recipes/');
+  readdir(recipesPath)
+    .then((menuFiles) => {
+      menuFiles = filterByExtension(menuFiles, recipesPath, ['.menu']);
+      menuFiles.forEach(({ file }) => {
+        readFile(resolve(recipesPath, file), 'utf8')
+          .then((data) => {
+            const json = parseMenuFile(data);
+            console.log(json);
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            const endTime = Date.now();
+            console.info(`Processed ${menuFiles.length} menus in ${endTime - startTime}ms`);
+          });
+      });
+    });
 }
 
 main();
