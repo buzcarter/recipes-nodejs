@@ -1,27 +1,15 @@
 /* eslint-disable no-console */
-import {
-  basename, dirname, extname, join, resolve,
-} from 'path';
+import { basename, extname, join, resolve } from 'path';
 import { rmSync, mkdirSync, rename } from 'fs';
 import { cp, readdir, readFile } from 'fs/promises';
 import sharp from 'sharp';
-import { fileURLToPath } from 'url';
-
-export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import buildRecipes from './src/buildRecipes.js';
 import buildRecipeIndex from './src/buildRecipeIndex.js';
 import configs from './config.js';
+import { __dirname, filterByExtension } from './src/libs/fsUtils.js';
 
 const THUMBNAIL_WIDTH = 260;
-
-const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
-  .filter((fileName) => allowedExtensions.includes(extname(fileName)))
-  .map((fileName) => ({
-    file: resolve(basePath, fileName),
-    fileName,
-    name: basename(fileName, extname(fileName)),
-  }));
 
 function setupOutputDir(outputPath) {
   rmSync(outputPath, { recursive: true, force: true });

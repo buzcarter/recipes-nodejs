@@ -232,3 +232,35 @@ Dalgona coffee is a whipped coffee drink`,
     });
   });
 });
+
+describe('titleCase', () => {
+  const { titleCase } = utils;
+
+  it('should convert string to title case', () => {
+    const tests = [
+      { value: 'hello world', expectedResult: 'Hello World' },
+      { value: '   this is a test    ', expectedResult: 'This Is A Test' },
+    ];
+
+    tests.forEach(({ value, expectedResult }) => {
+      const result = titleCase(value);
+      expect(result).toBe(expectedResult);
+    });
+  });
+});
+
+describe('fileNameToTitleCase', () => {
+  const { fileNameToTitleCase } = utils;
+
+  it('should convert file name to title case', () => {
+    const tests = [
+      { value: 'hello-world.js', expectedResult: 'Hello World.Js' },
+      { value: '   anotherexample             html---my--pie.lady', expectedResult: 'Anotherexample Html My Pie.Lady' },
+    ];
+
+    tests.forEach(({ value, expectedResult }) => {
+      const result = fileNameToTitleCase(value);
+      expect(result).toBe(expectedResult);
+    });
+  });
+});

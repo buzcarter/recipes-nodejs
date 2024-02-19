@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import { basename, dirname, extname, resolve } from 'path';
+import { resolve } from 'path';
 import { readdir, readFile } from 'fs/promises';
-import { fileURLToPath } from 'url';
+import { __dirname, filterByExtension } from './libs/fsUtils.js';
+import { fileNameToTitleCase } from './libs/utils.js';
 
 const RegExes = {
   // Can ignore "MENU" directive
@@ -77,36 +78,32 @@ function parseMenuFile(content) {
   return menuObj;
 }
 
-const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
-  .filter((fileName) => allowedExtensions.includes(extname(fileName)))
-  .map((fileName) => ({
-    file: resolve(basePath, fileName),
-    fileName,
-    name: basename(fileName, extname(fileName)),
-  }));
-
 function main() {
   const startTime = Date.now();
-  const __dirname = dirname(fileURLToPath(import.meta.url));
 
-  const recipesPath = resolve(__dirname, '../recipes/');
+  const recipesPath = resolve(__dirname, './recipes/');
+  let menuCount = 0;
   readdir(recipesPath)
     .then((menuFiles) => {
       menuFiles = filterByExtension(menuFiles, recipesPath, ['.menu']);
-      menuFiles.forEach(({ file }) => {
+      menuCount = menuFiles.length;
+      menuFiles.forEach(({ file, fileName, name }) => {
         readFile(resolve(recipesPath, file), 'utf8')
           .then((data) => {
             const json = parseMenuFile(data);
-            console.log(json);
+            if (!json.title) {
+              json.title = fileNameToTitleCase(name);
+            }
+            console.log(fileName, json);
           })
           .catch((err) => {
-            console.error(err);
-          })
-          .finally(() => {
-            const endTime = Date.now();
-            console.info(`Processed ${menuFiles.length} menus in ${endTime - startTime}ms`);
+            console.error(`BuildMenuLists: Problem reading "${fileName}"`, err);
           });
       });
+    })
+    .finally(() => {
+      const endTime = Date.now();
+      console.info(`Processed ${menuCount} menus in ${endTime - startTime}ms`);
     });
 }
 

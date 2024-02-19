@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { writeFileSync } from 'fs';
 import prettyHtml from 'pretty';
+import { fileNameToTitleCase } from './libs/utils.js';
 
 /* eslint-disable key-spacing */
 const Substitutions = {
@@ -43,7 +44,7 @@ export default function buildRecipeIndex(indexTemplate, { defaultTheme, favicon,
 
   fileList.forEach(({ name }) => {
     const firstLetter = name.charAt(0).toUpperCase();
-    const displayName = name.replace(/-/g, ' ');
+    const displayName = fileNameToTitleCase(name);
 
     // if the first letter of the recipe hasn't been
     // seen yet, add to list of letters and put an achor in

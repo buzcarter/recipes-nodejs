@@ -36,6 +36,18 @@ The .menu file extension indicates that the file contains data related to a menu
 
 ## Example Usage
 
+The minimal `.menu` file is just a list of recipes:
+
+```yaml
+#EXTMENU
+aunt-carolyns-70s-throwback-ambrosia-salad
+banana-curry-bread-pudding-with-toffee-drizzle
+easy-apple-pie
+icelandic-pepper-cookies
+lemon-and-poppy-seed-cake
+mango-and-coconut-vegan-pancakes
+```
+
 Here is an example `.menu` file that contains three recipes for a festive menu of baked goods:
 
 ```yaml
