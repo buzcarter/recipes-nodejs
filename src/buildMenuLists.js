@@ -79,8 +79,6 @@ function parseMenuFile(content) {
 }
 
 function main() {
-  const startTime = Date.now();
-
   const recipesPath = resolve(__dirname, './recipes/');
   let menuCount = 0;
   readdir(recipesPath)
@@ -102,8 +100,7 @@ function main() {
       });
     })
     .finally(() => {
-      const endTime = Date.now();
-      console.info(`Processed ${menuCount} menus in ${endTime - startTime}ms`);
+      console.info(`Processing ${menuCount} menus`);
     });
 }
 
