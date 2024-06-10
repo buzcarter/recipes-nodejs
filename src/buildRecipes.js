@@ -81,7 +81,7 @@ const RegExes = Object.freeze({
    * "1/4 teaspoon vanilla extract"
    * "1.5 oz gin"
    */
-  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
+  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|cup|oz|ml|lb|kg|gm|tsp|Tbsp)?\.?)\s+(.*)\s*<\/li>/,
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 
   /** Custom meta tags */
