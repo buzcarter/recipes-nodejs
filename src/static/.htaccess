@@ -1,0 +1,7 @@
+AddDefaultCharset UTF-8
+<FilesMatch "\.(txt|md)$">
+  AddCharset UTF-8 .txt .md
+</FilesMatch>
+<FilesMatch "\.md$">
+  ForceType text/plain
+</FilesMatch>

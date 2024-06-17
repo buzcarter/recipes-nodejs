@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'fs';
 import showdown from 'showdown';
 import prettyHtml from 'pretty';
 
+import { ColorTypes, Colors } from './libs/ConsoleColors.js';
 import {
   linkify, shorten, replaceFractions, replaceQuotes, linkifyImages, getAuthor,
 } from './libs/utils.js';
@@ -80,7 +81,7 @@ const RegExes = Object.freeze({
    * "1/4 teaspoon vanilla extract"
    * "1.5 oz gin"
    */
-  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|oz|ml|lb|kg)?\.?)\s+(.*)\s*<\/li>/,
+  NUMERIC:          /<li>(~?[\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞/ .–-]+(?:(?:to|-) \d+)?(?:["gcltT]|cup|oz|ml|lb|kg|gm|tsp|Tbsp)?\.?)\s+(.*)\s*<\/li>/,
   FRACTION_SYMBOL:  /([½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞])/g,
 
   /** Custom meta tags */
@@ -89,6 +90,27 @@ const RegExes = Object.freeze({
 /* eslint-enable key-spacing */
 
 const LINK_SUB_NAME = '<name>';
+
+let warnNbr = 0;
+const showWarnings = (name, warnings) => {
+  const { Reset } = ColorTypes;
+  const { Magenta, Cyan, Orange, CoolYellow, Yellow } = Colors;
+  if (warnNbr === 0) {
+    // eslint-disable-next-line no-console
+    console.warn(`\n${
+      Yellow}Somw recipes contain unrecognized sections. Content for these sections will be appear under the "${
+      Magenta}${SectionTypes.NOTES}${
+      Yellow}" section.${
+      Reset}\n`);
+  }
+  // eslint-disable-next-line no-console
+  console.warn(`${
+    CoolYellow}${++warnNbr}. ${
+    Cyan}${name}.md${
+    CoolYellow}: ${
+    Orange}${warnings}${
+    Reset}`);
+};
 
 function setHeadMeta(documentHtml, { author, favicon, ogImgURL, recipeName, titleSuffix }) {
   return documentHtml
@@ -221,8 +243,7 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
   const heroImgURL = image ? `images/${image.fileName}` : '';
 
   if (sectionMgr.hasWarnings) {
-    // eslint-disable-next-line no-console
-    console.warn(`${name}.md contains unknown sections [${sectionMgr.warnings}] that are included under "${SectionTypes.NOTES}"`);
+    showWarnings(name, sectionMgr.warnings);
   }
 
   outputHTML = sectionMgr.replace(outputHTML);

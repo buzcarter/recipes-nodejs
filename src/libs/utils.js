@@ -92,8 +92,30 @@ export const shorten = (value) => value
     return domain;
   });
 
-/** brute-force approach: replaces `1/2` with `½` */
+/**
+ * brute-force approach: replaces `1/2` with `½`
+ */
 export const replaceFractions = (value) => value
   .replace(RegExes.FRACTIONS, (m) => FractionsHash[m]);
 
+/**
+ * Replaces "straight" quotes with HTML encoded "curly" quotes. Avoids replacing quotes in HTML tags.
+ */
 export const replaceQuotes = (value) => value.replace(/(?<!=)"([^"\n>]+)"(?=[\s<])/g, '&ldquo;$1&rdquo;');
+
+/**
+ * Converts a string to title case by replacing the first character of each word with uppercase.
+ * @param {string} value - The string to convert to title case.
+ * @returns {string} The string in title case.
+ */
+export const titleCase = (value) => value.trim().replace(/\b\w/g, (word) => word.toUpperCase());
+
+/**
+ * Replaces "-" with spaces, removes double spaces, and returns the title case of the result.
+ * @param {string} value - The string to process.
+ * @returns {string} The processed string in title case.
+ */
+export const fileNameToTitleCase = (value) => {
+  const processedString = value.trim().replace(/-/g, ' ').replace(/\s+/g, ' ');
+  return titleCase(processedString);
+};
