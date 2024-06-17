@@ -1,27 +1,40 @@
 /* eslint-disable no-console */
-import {
-  basename, dirname, extname, join, resolve,
-} from 'path';
+import { basename, extname, join, resolve } from 'path';
 import { rmSync, mkdirSync, rename } from 'fs';
 import { cp, readdir, readFile } from 'fs/promises';
 import sharp from 'sharp';
-import { fileURLToPath } from 'url';
-
-export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import buildRecipes from './src/buildRecipes.js';
 import buildRecipeIndex from './src/buildRecipeIndex.js';
 import configs from './config.js';
+import { __dirname, filterByExtension } from './src/libs/fsUtils.js';
+
+import { ColorTypes, Colors } from './src/libs/ConsoleColors.js';
 
 const THUMBNAIL_WIDTH = 260;
 
-const filterByExtension = (fileList, basePath, allowedExtensions) => fileList
-  .filter((fileName) => allowedExtensions.includes(extname(fileName)))
-  .map((fileName) => ({
-    file: resolve(basePath, fileName),
-    fileName,
-    name: basename(fileName, extname(fileName)),
-  }));
+const showOverrideMsg = (cmdArgs) => {
+  const { Reset } = ColorTypes;
+  const { Orange, Cyan, Yellow, Magenta } = Colors;
+  console.log(`\n${
+    Yellow}Using command line overrides:\n${Magenta}${JSON
+    .stringify(cmdArgs, null, 3)
+    .replace(/^(\s*)"([^"]+)": ("?)(.*?)("?)(,?)$/gm, `$1${Magenta}"${Orange}$2${Magenta}": ${Magenta}$3${Cyan}$4${Magenta}$5$6`)}${
+    Reset}\n`);
+};
+
+const showDoneMsg = (recipeCount, time) => {
+  const { Reset } = ColorTypes;
+  const { Orange, Cyan, Yellow } = Colors;
+  console.log(`\n${
+    Yellow}Processed ${
+    Cyan}${recipeCount}${
+    Yellow} recipes in ${
+    Cyan}${time}${
+    Orange}ms${
+    Reset
+  }\n`);
+};
 
 function setupOutputDir(outputPath) {
   rmSync(outputPath, { recursive: true, force: true });
@@ -134,7 +147,7 @@ function getCommanLineOverrides(args) {
     }, {});
 
   if (cmdArgs && Object.keys(cmdArgs).length) {
-    console.log(`Using command line overrides: ${JSON.stringify(cmdArgs, null, 3)}`);
+    showOverrideMsg(cmdArgs);
   }
   return cmdArgs;
 }
@@ -175,7 +188,7 @@ function main(opts) {
       buildRecipeIndex(indexTemplate, options, markdownFiles, images, recipeInfo);
 
       const endTime = new Date();
-      console.log(`Processed ${markdownFiles.length} recipes in ${endTime - startTime}ms`);
+      showDoneMsg(markdownFiles.length, endTime - startTime);
     })
     .catch((err) => {
       console.error(err);
