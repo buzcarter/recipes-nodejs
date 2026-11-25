@@ -287,6 +287,9 @@ export default function buildRecipes(recipeTemplate, options, fileList, images) 
           recipeInfo.push({ name, author });
         }
         let html = converter.makeHtml(markdown);
+        // local links to other recipes (`foo.md`, `./foo.md#bar`) point at the converted `.html`;
+        // skips anything with a scheme (http:, mailto:) or protocol-relative (//)
+        html = html.replace(/(href=")(?![a-z][a-z0-9+.-]*:|\/\/)([^"#?]*?)\.md([#?][^"]*)?(")/gi, '$1$2.html$3$4');
         if (addImageLinks) {
           html = linkifyImages(html);
         }
