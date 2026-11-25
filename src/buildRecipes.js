@@ -277,6 +277,8 @@ export default function buildRecipes(recipeTemplate, options, fileList, images) 
           return;
         }
         const heroImgURL = images.find((i) => i.name === name);
+        // treat "• " bullets the same as "* "
+        markdown = markdown.replace(/^([ \t]*)•[ \t]+/gm, '$1* ');
         if (useSmartQuotes) {
           markdown = replaceQuotes(markdown);
         }
