@@ -66,7 +66,7 @@ export const linkify = (value) => value
 
 /**
  * Violating one of my goals to keep this "pure" -- all front-end
- * aganostic, but should apply a class for future me to tinker.
+ * agnostic, but should apply a class for future me to tinker.
  */
 export const linkifyImages = (text) => text
   .replace(new RegExp(RegExes.IMG_TAG, 'gm'), (imgTag) => {

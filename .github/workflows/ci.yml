@@ -1,6 +1,6 @@
 name: CI
 
-# Lint, test, and build every pull request so problems surface before merge.
+# Lint, type-check, test, and build every pull request so problems surface before merge.
 # (Deploying happens separately, in publishRecipeBook.yml, on pushes to main.)
 on:
   pull_request:
@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
+      - name: Type Check
+        run: npm run typecheck
       - name: Test
         run: npm test
       # builds the sample recipes into ./output; fails the check if any page, image, or copy step fails

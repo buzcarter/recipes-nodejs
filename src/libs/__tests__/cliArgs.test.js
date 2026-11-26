@@ -1,4 +1,4 @@
-const { UsageError, getUsage, parseCommandLine } = require('../cliArgs');
+import { UsageError, getUsage, parseCommandLine } from '../cliArgs.js';
 
 const Defaults = {
   outputDir: './output',

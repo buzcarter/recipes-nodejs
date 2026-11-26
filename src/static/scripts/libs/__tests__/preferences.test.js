@@ -3,7 +3,7 @@ import {
   updateKey,
   getKey,
   updateMRUList,
-} from '../preferences';
+} from '../preferences.js';
 
 describe('preferences', () => {
   beforeEach(() => {

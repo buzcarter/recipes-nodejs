@@ -40,7 +40,7 @@ const RegExes = Object.freeze({
 const SECTION_HEADINGS = new Set(['h1', 'h2']);
 
 /**
- * @typedef {import('markdown-it/lib/token.mjs').default} Token
+ * @typedef {import('markdown-it').Token} Token
  *
  * @typedef {object} ParsedRecipe
  * @property {string} title the `# heading`, as HTML (`''` if missing)
@@ -102,7 +102,7 @@ function rewriteLocalLinks(tokens) {
     .flatMap(({ children }) => children || [])
     .filter(({ type }) => type === 'link_open')
     .forEach((link) => {
-      const href = link.attrGet('href');
+      const href = String(link.attrGet('href') ?? '');
       if (href && RegExes.LOCAL_MD_HREF.test(href)) {
         link.attrSet('href', href.replace(RegExes.LOCAL_MD_HREF, '$1.html$2'));
       }
@@ -152,6 +152,7 @@ function demoteHeading([open, , close]) {
  * @returns {{ title: string, customizations: object, sections: SectionMgr }}
  */
 export function splitSections(markdown, options) {
+  /** @type {import('markdown-it').Env} */
   const env = {};
   const tokens = md.parse(markdown, env);
   addHeadingIds(tokens);
@@ -170,7 +171,7 @@ export function splitSections(markdown, options) {
 
   chunkBySection(tokens).forEach(({ heading, tokens: chunkTokens }) => {
     const isH1 = heading.tag === 'h1';
-    const id = isH1 ? '' : heading.attrGet('id');
+    const id = isH1 ? '' : String(heading.attrGet('id'));
     const sectionType = isH1 ? SectionTypes.HEADER : getSectionType(id);
 
     let bodyTokens = chunkTokens;

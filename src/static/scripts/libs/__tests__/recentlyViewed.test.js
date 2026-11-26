@@ -1,4 +1,4 @@
-import { toDisplay } from '../recentlyViewed';
+import { toDisplay } from '../recentlyViewed.js';
 
 describe('recentlyViewed', () => {
   describe('toDisplay', () => {

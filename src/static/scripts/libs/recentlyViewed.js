@@ -58,12 +58,12 @@ function createListItem(name) {
 function openModal() {
   document.querySelector(Selectors.MODAL_CONTENT)
     .replaceChildren(...getKey(KeyNames.RECENT, []).map(createListItem));
-  document.querySelector(Selectors.MODAL).showModal();
+  /** @type {HTMLDialogElement} */ (document.querySelector(Selectors.MODAL)).showModal();
   document.querySelector(Selectors.RECENTLY_VIEWED_BTN).setAttribute('aria-expanded', 'true');
 }
 
 export function init() {
-  const modal = document.querySelector(Selectors.MODAL);
+  const modal = /** @type {HTMLDialogElement} */ (document.querySelector(Selectors.MODAL));
   const openBtn = document.querySelector(Selectors.RECENTLY_VIEWED_BTN);
 
   openBtn.addEventListener('click', openModal);

@@ -1,4 +1,4 @@
-const { prettyIngredientsSection, NumericRegEx } = require('../sections');
+import { prettyIngredientsSection, NumericRegEx } from '../sections.js';
 
 describe('sections', () => {
   describe('prettyIngredientsSection', () => {

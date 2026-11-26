@@ -1,4 +1,4 @@
-import { isMatch, scrub } from '../searchBox';
+import { isMatch, scrub } from '../searchBox.js';
 
 describe('searchBox', () => {
   describe('scrub', () => {

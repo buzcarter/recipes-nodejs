@@ -1,4 +1,4 @@
-import * as utils from '../utils';
+import * as utils from '../utils.js';
 
 // TODO: handle "https://www.getabiggerwagon.com/blog/posts/pineapple_pecan_loaf.html"
 describe('buildRecipes', () => {

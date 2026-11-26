@@ -54,6 +54,7 @@ const RegExes = Object.freeze({
 
 export const NumericRegEx = RegExes.NUMERIC;
 
+/** @type {Set<string>} */
 const definedTypes = new Set(Object.values(SectionTypes));
 
 /** `true` for one of the standard `SectionTypes`. */
