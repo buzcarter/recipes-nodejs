@@ -199,13 +199,14 @@ You can also include other images in the recipe using Markdown's image syntax: `
 
 ## OTHER OPTIONS  
 
-The `recipe.html` template file also includes some more options you can customize:
+`config.js` also includes some more options you can customize:
 
+* `initialIndexView`: the index page's layout until a visitor picks one: `content` (list with photos, the default), `compact-list`, or `grid`. A visitor's own choice is remembered in their browser.
 * `yelpLocation`: the city/state where you're located to make Yelp searches easier! No need for fancy formatting, this will work fine: `Minneapolis MN`  
 * `helpURLs`: dictionary with the `label` (text displayed) and `url` in template form. The string `<name>` will be replaced with your recipe's name  
-* `lookForHeroImage`: on by default, but you can turn it off if you never intend to include hero images  
+* `lookForHeroImage`: on by default; turn it off to leave out hero images (and index thumbnails) even when a matching image exists  
 * `autoUrlSections`: list of sections in the recepe template where you want raw URLs (ex: www.instagram.com) to be turned into real links. Great for the `Based On` section but not so good if you want to include Markdown-formatted links in other sections  
-* `shortenUrls`: turns a super-long url into just the main domain name (link will still work as normal, just less cluttered). Off by default but exists if you want it
+* `shortenURLs`: turns a super-long url into just the main domain name (link will still work as normal, just less cluttered). Off by default but exists if you want it
 
 ## Advanced customizations
 
@@ -225,13 +226,31 @@ The build deletes `outputDir` before writing to it, so it refuses any output fol
 
 ### Command Line Arguments
 
- If you'd prefer _not_ editing `config.js` (perhaps you maintain a couple recipe collections, or, like me: just want to keep personal recipes separate from this repo) you may specify the image, recipe, and output directories via command line.
- 
- (examples show paths for a Mac)
+If you'd prefer _not_ editing `config.js` (perhaps you maintain a couple recipe collections, or, like me: just want to keep personal recipes separate from this repo) you may set the image, recipe, and output directories, or any other text or true/false setting, on the command line. These win over both `config.js` and `config.local.js`.
 
- ```sh
- npm run build imageDir="$HOME/documents/recipes/images" recipeDir="$HOME/documents/recipes/recipes" outputDir="$HOME/websites/recipes/html"
- ```
+(examples show paths for a Mac)
+
+```sh
+npm run build imageDir="$HOME/documents/recipes/images" recipeDir="$HOME/documents/recipes/recipes" outputDir="$HOME/websites/recipes/html"
+```
+
+True/false settings take `true` or `false` (`yes`/`no` and `1`/`0` work too):
+
+```sh
+npm run build includeHelpLinks=true findAuthor=false
+```
+
+`--setting value` style works as well; with `npm run`, put `--` first so npm passes the options along:
+
+```sh
+npm run build -- --outputDir "$HOME/websites/recipes/html" --includeHelpLinks --no-findAuthor
+```
+
+A misspelled setting stops the build with an error, rather than being silently ignored. To list every setting:
+
+```sh
+node build.js --help
+```
 
 (I keep my personal recipes outside this which makes keeping this app's code up-to-date easy, just a `git pull` away)
 

@@ -7,10 +7,13 @@ export const KeyNames = Object.freeze({
   RECENT: 'recent',
   /** last search term */
   SEARCH: 'search',
-  /** most recent search term list */
-  SEARCH_HISTORY: 'searchHistory',
   /** most recently selected view/layout */
-  VIEW: 'content',
+  VIEW: 'view',
+});
+
+/** Storage keys that were renamed: old name → current name. */
+const RenamedKeys = Object.freeze({
+  content: KeyNames.VIEW,
 });
 
 const setAppData = (payload) => localStorage.setItem(StorageKeys.APP_NAME, JSON.stringify(payload));
@@ -20,9 +23,17 @@ export function getAppData() {
   payload = payload && JSON.parse(payload);
 
   if (!payload) {
-    payload = {
+    payload = {};
+    setAppData(payload);
+  }
 
-    };
+  // carry values saved under an old key name over to the new one
+  const renamed = Object.keys(RenamedKeys).filter((oldKey) => oldKey in payload);
+  if (renamed.length) {
+    renamed.forEach((oldKey) => {
+      payload[RenamedKeys[oldKey]] ??= payload[oldKey];
+      delete payload[oldKey];
+    });
     setAppData(payload);
   }
 

@@ -94,4 +94,19 @@ describe('preferences', () => {
       expect(updatedList).toEqual([value3, value2]);
     });
   });
+
+  describe('renamed keys', () => {
+    it('moves a layout saved under the old "content" key to KeyNames.VIEW', () => {
+      localStorage.setItem('RecipeNodeJs', JSON.stringify({ content: 'grid', search: 'pie' }));
+
+      expect(getKey(KeyNames.VIEW, 'content')).toBe('grid');
+      expect(JSON.parse(localStorage.getItem('RecipeNodeJs'))).toEqual({ view: 'grid', search: 'pie' });
+    });
+
+    it('keeps a value already saved under the new key', () => {
+      localStorage.setItem('RecipeNodeJs', JSON.stringify({ content: 'grid', view: 'compact-list' }));
+
+      expect(getKey(KeyNames.VIEW)).toBe('compact-list');
+    });
+  });
 });

@@ -4,7 +4,8 @@ import { init as initViewBtns } from './libs/viewPicker.js';
 import { KeyNames, getKey } from './libs/preferences.js';
 
 function run() {
-  const view = getKey(KeyNames.VIEW, 'content');
+  // the visitor's last choice wins over the site's configured default (`initialIndexView`)
+  const view = getKey(KeyNames.VIEW, document.body.dataset.defaultView || 'content');
   const search = getKey(KeyNames.SEARCH, '');
 
   initSearchBox(search);

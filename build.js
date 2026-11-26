@@ -12,6 +12,7 @@ import buildRecipeIndex from './src/buildRecipeIndex.js';
 import configs from './config.js';
 import { __dirname, assertSafeOutputDir, filterByExtension } from './src/libs/fsUtils.js';
 import { settleAll } from './src/libs/asyncUtils.js';
+import { UsageError, getUsage, parseCommandLine } from './src/libs/cliArgs.js';
 
 import { ColorTypes, Colors } from './src/libs/ConsoleColors.js';
 
@@ -141,28 +142,23 @@ function makeThumbnails(outputPath, images) {
 }
 
 /**
- * Intended for, well, me: makes it easier to have my own private directory of images outside
- * of this git repo. For example, on a Mac you might use:
+ * Settings given on the command line (see `parseCommandLine`). Intended for, well, me: makes it
+ * easy to keep a private folder of recipes and images outside of this git repo:
  *
  * ```sh
  * npm run build imageDir="$HOME/documents/recipes/images" recipeDir="$HOME/documents/recipes/recipes" outputDir="$HOME/websites/recipes/html"
  * ```
  */
-function getCommanLineOverrides(args) {
-  const cmdArgs = args
-    ?.filter((z, index) => index > 1)
-    .reduce((acc, arg) => {
-      const [key, value] = arg.split('=');
-      if (key && value) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
-  if (cmdArgs && Object.keys(cmdArgs).length) {
-    showOverrideMsg(cmdArgs);
+function getCommandLineOverrides(args) {
+  const { overrides, help } = parseCommandLine(args, configs);
+  if (help) {
+    console.log(getUsage(configs));
+    process.exit(0);
   }
-  return cmdArgs;
+  if (Object.keys(overrides).length) {
+    showOverrideMsg(overrides);
+  }
+  return overrides;
 }
 
 /** Loads `config.local.js` when present; returns `{}` otherwise. */
@@ -209,7 +205,9 @@ async function main(opts) {
   await setupOutputDir(outputPath);
 
   const buildPages = async () => {
-    const pageImages = swapJpegForAvif(await addImageDimensions(images.map((img) => ({ ...img }))));
+    const pageImages = opts.lookForHeroImage === false
+      ? []
+      : swapJpegForAvif(await addImageDimensions(images.map((img) => ({ ...img }))));
     const { recipeInfo, errors } = await buildRecipes(recipeTemplate, options, markdownFiles, pageImages);
     await buildRecipeIndex(indexTemplate, options, markdownFiles, pageImages, recipeInfo);
     return errors;
@@ -229,15 +227,21 @@ async function main(opts) {
 }
 
 try {
+  // command line first, so a typo fails fast, before anything else is read
+  const overrides = getCommandLineOverrides(process.argv.slice(2));
   const errorCount = await main({
     ...configs,
     ...await getLocalConfig(),
-    ...getCommanLineOverrides(process.argv),
+    ...overrides,
   });
   if (errorCount) {
     process.exitCode = 1;
   }
 } catch (err) {
-  console.error(err);
+  if (err instanceof UsageError) {
+    console.error(`${Colors.Red}${err.message}${ColorTypes.Reset}\n\n${getUsage(configs)}`);
+  } else {
+    console.error(err);
+  }
   process.exitCode = 1;
 }
