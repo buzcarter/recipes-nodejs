@@ -45,7 +45,7 @@ function toggleModal(isActive) {
 
 function onViewBtnClick() {
   toggleModal(true);
-  document.querySelector(Selectors.MODAL_CONTENT).innerHTML = getKey(KeyNames.RECENT)
+  document.querySelector(Selectors.MODAL_CONTENT).innerHTML = getKey(KeyNames.RECENT, [])
     .map((value) => `<li><a href="${value}.html">${toDisplay(value)}</a></li>`)
     .join('');
 }
