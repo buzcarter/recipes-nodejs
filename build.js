@@ -88,6 +88,33 @@ function legacyImageType(imgDestinationPath) {
   });
 }
 
+/** images within this long:short side ratio are treated as "square" (1.25 = 5:4 or 4:5) */
+const SQUARISH_MAX_RATIO = 1.25;
+
+/**
+ * Reads each image's dimensions (honoring EXIF rotation) and adds `width`, `height`, and
+ * `orientation` ('landscape' | 'portrait' | 'square') so CSS can adapt to the image's shape.
+ */
+function addImageDimensions(images) {
+  return Promise.all(images.map(async (img) => {
+    try {
+      const { width, height, orientation: exif = 1 } = await sharp(img.file).metadata();
+      // EXIF orientations 5-8 are rotated 90°, so the stored width/height are swapped
+      const [w, h] = exif >= 5 ? [height, width] : [width, height];
+      img.width = w;
+      img.height = h;
+      const ratio = Math.max(w, h) / Math.min(w, h);
+      if (ratio <= SQUARISH_MAX_RATIO) {
+        img.orientation = 'square';
+      } else {
+        img.orientation = w > h ? 'landscape' : 'portrait';
+      }
+    } catch (err) {
+      console.error(`Unable to read dimensions of ${img.file}`, err);
+    }
+  })).then(() => images);
+}
+
 function swapJpegForAvif(images) {
   images
     .filter(({ fileName }) => extname(fileName) === '.avif')
@@ -182,7 +209,7 @@ function main(opts) {
       setupOutputDir(outputPath);
       copyStatic({ staticPath, imagesPath, outputPath, recipesPath });
       makeThumbnails(outputPath, images);
-      images = swapJpegForAvif(images);
+      images = swapJpegForAvif(await addImageDimensions(images));
 
       const recipeInfo = await buildRecipes(recipeTemplate, options, markdownFiles, images);
       buildRecipeIndex(indexTemplate, options, markdownFiles, images, recipeInfo);

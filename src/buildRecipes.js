@@ -153,12 +153,13 @@ function getSectionType(section) {
   return aliasType || type;
 }
 
-const getInlineCss = (heroImgURL) => (!heroImgURL
+const getInlineCss = (heroImgURL, { width, height } = {}) => (!heroImgURL
   ? ''
   : `
 <style>
   :root {
-    --hero-image-url: url("${heroImgURL}");
+    --hero-image-url: url("${heroImgURL}");${width && height ? `
+    --hero-aspect-ratio: ${width} / ${height};` : ''}
   }
 </style>
 `);
@@ -252,10 +253,11 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
     .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
     .replace(Substitutions.HERO_IMG, heroImgURL ? `<a class=${Styles.HERO_IMG_LINK} href="${heroImgURL}" target="_blank"><img class=${Styles.HERO_IMG} src="${heroImgURL}"></a>` : '')
     .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
-    .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL))
+    .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL, image))
     .replace(Substitutions.TEXT_LINK, `sources/${name}.txt`)
     .replace(Substitutions.BODY_CLASS, [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
+      heroImgURL && image.orientation ? `heroimage--${image.orientation}` : '',
       customizations.style || '',
       customizations['body-class'] || '',
       ...sectionMgr.sectionsInUse.map((n) => `${n}--visible`),

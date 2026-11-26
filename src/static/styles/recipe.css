@@ -282,18 +282,3 @@ a:hover .link-svg {
     width: 66%;
   }
 }
-
-/* print is not dead */
-@media print {
-  .section--title {
-    text-align: left !important;
-  }
-
-  .back-link {
-    display: inline-block;
-  }
-
-  .section--help {
-    display: none;
-  }
-}
