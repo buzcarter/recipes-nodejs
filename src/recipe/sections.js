@@ -14,7 +14,7 @@ export const SectionTypes = Object.freeze({
   STEPS:          'steps',
 });
 
-/** Other heading names accepted for a section (compared against showdown's heading id). */
+/** Other heading names accepted for a section (compared against the heading's id, see `headingId`). */
 const SectionAliases = Object.freeze({
   [SectionTypes.BASED_ON]: ['credits', 'resources', 'source'],
   [SectionTypes.NOTES]:    ['tips', 'variations', 'nutritioninfo', 'nutrition', 'nutritionalfacts'],
@@ -30,8 +30,7 @@ const Styles = Object.freeze({
 });
 
 const RegExes = Object.freeze({
-  H2:               /<h2 id="(.+?)">(.+?)<\/h2>/,
-  /** showdown de-duplicates heading ids by appending `-1`, `-2`, … */
+  /** repeated heading ids are de-duplicated by appending `-1`, `-2`, … */
   DUPLICATE_ID:     /-\d+$/,
   LI:               /<li>(.|\n)+?<\/li>/gm,
   ANCHORS_SHORT:    /<a [^>]*?href="[^"]{10,}"[^>]*?>[^<]{10,}<\/a>/g,
@@ -61,20 +60,13 @@ const definedTypes = new Set(Object.values(SectionTypes));
 export const isDefinedType = (sectionType) => definedTypes.has(sectionType);
 
 /**
- * The `id` of a section's `<h2>`, lower-cased (`''` when the section has none).
- * @param {string} sectionHtml
- */
-export const getH2Id = (sectionHtml) => sectionHtml.match(RegExes.H2)?.[1].toLowerCase() || '';
-
-/**
- * Which section an `<h2>`-led chunk of HTML belongs to: a `SectionTypes` value, an alias's
- * section, or — for an unrecognized heading — the heading id itself.
+ * Which section a heading starts: a `SectionTypes` value, an alias's section, or — for an
+ * unrecognized heading — the heading id itself.
  *
- * @param {string} sectionHtml
- * @returns {string} `''` when the chunk has no `<h2>`
+ * @param {string} id the heading's id (see `headingId` in `parseRecipe.js`), e.g. `nutritioninfo`
+ * @returns {string} `''` when `id` is empty
  */
-export function getSectionType(sectionHtml) {
-  const id = getH2Id(sectionHtml);
+export function getSectionType(id) {
   if (!id) {
     return '';
   }

@@ -1,9 +1,6 @@
-const showdown = require('showdown');
 const { default: parseRecipe, getCustomizations, splitSections } = require('../parseRecipe');
 const { default: renderRecipe } = require('../renderRecipe');
 const { getSectionType } = require('../sections');
-
-const converter = new showdown.Converter();
 
 const Template = `<html><head><title>x</title>{{__favIcon__}}</head>
 <body class="{{__bodyClass__}}"><h1>{{__title__}}</h1>{{__heroImg__}}
@@ -23,12 +20,12 @@ const Options = {
 
 describe('getSectionType', () => {
   it.each([
-    ['<h2 id="steps">Steps</h2>', 'steps'],
-    ['<h2 id="steps-1">Steps</h2>', 'steps'],
-    ['<h2 id="method">Method</h2>', 'steps'],
-    ['<h2 id="nutritioninfo-2">Nutrition Info</h2>', 'notes'],
-    ['<h2 id="wine-pairing">Wine Pairing</h2>', 'wine-pairing'],
-    ['<p>no heading</p>', ''],
+    ['steps', 'steps'],
+    ['steps-1', 'steps'],
+    ['method', 'steps'],
+    ['nutritioninfo-2', 'notes'],
+    ['winepairing', 'winepairing'],
+    ['', ''],
   ])('%s → "%s"', (html, expected) => {
     expect(getSectionType(html)).toBe(expected);
   });
@@ -47,8 +44,7 @@ describe('getCustomizations', () => {
 
 describe('splitSections', () => {
   it('merges a repeated heading into the first, as a subheading', () => {
-    const html = converter.makeHtml('# Toast\n## Steps\n1. step one\n\n## Notes\nnote\n## Method\n1. step two');
-    const { title, sections } = splitSections(html, Options);
+    const { title, sections } = splitSections('# Toast\n## Steps\n1. step one\n\n## Notes\nnote\n## Method\n1. step two', Options);
 
     expect(title).toBe('Toast');
     expect(sections.sectionsInUse).toEqual(['header', 'steps', 'notes']);
@@ -57,9 +53,21 @@ describe('splitSections', () => {
     expect(sections.hasWarnings).toBe(false);
   });
 
+  it('keeps the first # as the title; a later one becomes a subheading', () => {
+    const { title, sections } = splitSections('# Salad\nintro\n# How to Roast\nroast it\n## Steps\n1. toss', Options);
+
+    expect(title).toBe('Salad');
+    expect(sections.sections.header).toMatch(/<p>intro<\/p>\n<h3 id="howtoroast">How to Roast<\/h3>\n<p>roast it<\/p>/);
+  });
+
+  it('turns "..." into an ellipsis outside of code', () => {
+    const { sections } = splitSections('## Notes\nwait... then `a...b`', Options);
+
+    expect(sections.sections.notes).toContain('wait… then <code>a...b</code>');
+  });
+
   it('keeps unrecognized headings separate', () => {
-    const html = converter.makeHtml('## Wine\nred\n## Wine\nwhite');
-    const { sections } = splitSections(html, Options);
+    const { sections } = splitSections('## Wine\nred\n## Wine\nwhite', Options);
 
     expect(sections.unknownTypes).toEqual(['wine', 'wine-1']);
   });
@@ -80,7 +88,7 @@ By Pat O'Brien
 1. Toast it. See [jam](jam.md#top).
 `;
 
-  const recipe = parseRecipe(converter, markdown, Options);
+  const recipe = parseRecipe(markdown, Options);
   const html = renderRecipe(Template, recipe, {
     name: 'mom\'s "best" toast',
     image: { fileName: 'mom\'s "best" toast.jpg', orientation: 'landscape' },
@@ -103,7 +111,7 @@ By Pat O'Brien
   });
 
   it('escapes the author and suffix in <title>', () => {
-    expect(html).toContain('<title>Mom\'s "Best" Toast by Pat O&#39;Brien - Recipes</title>');
+    expect(html).toContain('<title>Mom\'s &quot;Best&quot; Toast by Pat O&#39;Brien - Recipes</title>');
   });
 
   it('encodes file names in URLs', () => {

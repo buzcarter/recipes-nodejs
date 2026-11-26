@@ -24,8 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "js-beautify": "^2.0.3",
-    "sharp": "^0.35.5",
-    "showdown": "^2.1.0"
+    "markdown-it": "^15.0.3",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.23.3",
