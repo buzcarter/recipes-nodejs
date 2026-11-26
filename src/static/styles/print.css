@@ -1,0 +1,40 @@
+/* print is not dead */
+.section--title {
+  text-align: left !important;
+}
+
+.back-link {
+  display: inline-block;
+}
+
+.section--help {
+  display: none;
+}
+
+/*
+ * Hero image shouldn't eat the page: cap at 20% of page height.
+ * Build adds `heroimage--landscape|portrait|square` to <body> and `--hero-aspect-ratio`.
+ * Default (unknown shape): full width, cropped to fit.
+ */
+.section--heroimage img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 20vh !important;
+  object-fit: cover;
+}
+
+/* landscape: use the full width, crop only the excess height */
+.heroimage--landscape .section--heroimage img {
+  aspect-ratio: var(--hero-aspect-ratio);
+}
+
+/* portrait/square: show the whole image at the height cap rather than cropping it */
+.heroimage--portrait .section--heroimage img,
+.heroimage--square .section--heroimage img {
+  width: auto !important;
+  height: 20vh !important;
+  max-width: 100% !important;
+  margin: 0 auto;
+  object-fit: contain;
+}

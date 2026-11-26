@@ -1,6 +1,6 @@
 import { resolve } from 'path';
-import { writeFileSync } from 'fs';
-import prettyHtml from 'pretty';
+import { writeFile } from 'fs/promises';
+import formatHtml from './libs/formatHtml.js';
 import { fileNameToTitleCase } from './libs/utils.js';
 
 /* eslint-disable key-spacing */
@@ -30,10 +30,22 @@ const RegExes = {
 /* eslint-enable key-spacing */
 
 /**
- * and generate table of contents, plus a quick-nav list
- *  at the top
+ * Alphabetical, case-insensitive, with numbers in natural order ("2 eggs" before "10 eggs").
+ * `readdir` order is filesystem-dependent (Linux returns hash order), so always sort explicitly.
  */
-export default function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
+const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+
+/**
+ * Writes `index.html`: the table of contents for every recipe, plus a quick-nav list of
+ * first letters at the top.
+ *
+ * @param {string} indexTemplate contents of `templates/index.html`
+ * @param {object} options build options (`defaultTheme`, `favicon`, `outputPath`, `initialIndexView`)
+ * @param {Array<{ name: string }>} fileList recipe files, in any order
+ * @param {Array<{ name: string, fileName: string }>} images available recipe images
+ * @param {Array<{ name: string, author: string }>} recipeInfo detected authors, by recipe name
+ */
+export default async function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
   // create anchor and name from url
   let lettersIndex = '';
   // create list of recipes
@@ -42,27 +54,29 @@ export default function buildRecipeIndex(indexTemplate, { defaultTheme, favicon,
 
   let prevLetter = '';
 
-  fileList.forEach(({ name }) => {
-    const firstLetter = name.charAt(0).toUpperCase();
-    const displayName = fileNameToTitleCase(name);
+  [...fileList]
+    .sort((a, b) => collator.compare(a.name, b.name))
+    .forEach(({ name }) => {
+      const firstLetter = name.charAt(0).toUpperCase();
+      const displayName = fileNameToTitleCase(name);
 
-    // if the first letter of the recipe hasn't been
-    // seen yet, add to list of letters and put an achor in
-    const isNewLetter = firstLetter !== prevLetter;
-    if (isNewLetter) {
-      lettersIndex += `<a href="#${firstLetter}">${firstLetter}</a>`;
-      prevLetter = firstLetter;
-    }
+      // if the first letter of the recipe hasn't been
+      // seen yet, add to list of letters and put an anchor in
+      const isNewLetter = firstLetter !== prevLetter;
+      if (isNewLetter) {
+        lettersIndex += `<a href="#${firstLetter}">${firstLetter}</a>`;
+        prevLetter = firstLetter;
+      }
 
-    const image = images.find((i) => i.name === name);
-    if (!ogImgURL && image) {
-      ogImgURL = `images/${image.fileName}`;
-    }
-    const author = recipeInfo.find(({ name: infoName }) => infoName === name)?.author || '';
-    const imgPath = image
-      ? `images/thumbnails/${image.name}.jpg`
-      : 'images/placeholder.svg';
-    recipeItems += `
+      const image = images.find((i) => i.name === name);
+      if (!ogImgURL && image) {
+        ogImgURL = `images/${image.fileName}`;
+      }
+      const author = recipeInfo.find(({ name: infoName }) => infoName === name)?.author || '';
+      const imgPath = image
+        ? `images/thumbnails/${image.name}.jpg`
+        : 'images/placeholder.svg';
+      recipeItems += `
 <li${isNewLetter ? ` id="${firstLetter}"` : ''} class="${Styles.ITEM}">
   <a href="${name}.html" class="${Styles.LINK}">
     <span class="${Styles.PHOTO}"><img src="${imgPath}" role="presentation"></span>
@@ -72,18 +86,19 @@ export default function buildRecipeIndex(indexTemplate, { defaultTheme, favicon,
   </a>
 </li>
 `.replace(RegExes.END_SPACES, '');
-  });
+    });
 
+  // function replacers keep `$&`, `$$`, etc. in names/authors literal (see buildRecipes.js)
   const contents = indexTemplate
     // add recipes to page...
-    .replace(Substitutions.RECIPE_LIST, recipeItems)
+    .replace(Substitutions.RECIPE_LIST, () => recipeItems)
     // ...and the list of first-letters for quick nav
-    .replace(Substitutions.LETTERS_INDEX, lettersIndex)
-    .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
-    .replace(Substitutions.THEME_CSS, `theme-${defaultTheme}`)
-    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
-    .replace(Substitutions.META_OG_IMG, ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : '')
-    .replace(Substitutions.STARTUP_JS, `recipeIndex.init("${initialIndexView || 'content'}")`);
+    .replace(Substitutions.LETTERS_INDEX, () => lettersIndex)
+    .replace(Substitutions.META_DATE, () => `<meta name="date" content="${new Date()}">`)
+    .replace(Substitutions.THEME_CSS, () => `theme-${defaultTheme}`)
+    .replace(Substitutions.META_FAVICON, () => (favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : ''))
+    .replace(Substitutions.META_OG_IMG, () => (ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : ''))
+    .replace(Substitutions.STARTUP_JS, () => `recipeIndex.init("${initialIndexView || 'content'}")`);
 
-  writeFileSync(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
+  await writeFile(resolve(outputPath, 'index.html'), formatHtml(contents), { encoding: 'utf8' });
 }

@@ -90,6 +90,27 @@ describe('buildRecipes', () => {
         expect(result).toBe(expectedResult);
       });
     });
+
+    it('should leave fractions without a symbol unchanged', () => {
+      const tests = [{
+        value: '1/9 cup',
+        expectedResult: '1/9 cup',
+      }, {
+        value: '3/7 cup',
+        expectedResult: '3/7 cup',
+      }, {
+        value: '1/25 oz',
+        expectedResult: '1/25 oz',
+      }, {
+        value: '1/10 tsp',
+        expectedResult: '1/10 tsp',
+      }];
+
+      tests.forEach(({ value, expectedResult }) => {
+        const result = replaceFractions(value);
+        expect(result).toBe(expectedResult);
+      });
+    });
   });
 
   describe('replaceQuotes', () => {

@@ -75,7 +75,7 @@ EXAMPLE: below a recipe with a few ingredients "ticked" off (indicating they've 
 
 ## Installation
 
-This requires Node16 or later.
+This requires Node 20.9 or later (see `.nvmrc` for the version CI uses).
 
 After cloning this repo or downloading the zip file from github simply install, add your recipes, and build:
 
@@ -209,6 +209,20 @@ The `recipe.html` template file also includes some more options you can customiz
 
 ## Advanced customizations
 
+### Personal Settings (`config.local.js`)
+
+To keep your own paths or preferences out of git, create a `config.local.js` in the project root. It's git-ignored, and any keys it exports override `config.js`:
+
+```js
+export default {
+  imageDir: '/Users/me/Documents/Recipes/images',
+  recipeDir: '/Users/me/Documents/Recipes',
+  outputDir: '/Users/me/Sites/recipes',
+};
+```
+
+The build deletes `outputDir` before writing to it, so it refuses any output folder that is a filesystem root, your home directory, this project, or a folder containing your recipes or images.
+
 ### Command Line Arguments
 
  If you'd prefer _not_ editing `config.js` (perhaps you maintain a couple recipe collections, or, like me: just want to keep personal recipes separate from this repo) you may specify the image, recipe, and output directories via command line.
@@ -216,7 +230,7 @@ The `recipe.html` template file also includes some more options you can customiz
  (examples show paths for a Mac)
 
  ```sh
- npm run build imageDir="~/documents/recipes/images" recipeDir="~/documents/recipes/recipes" outputDir="~/websites/recipes/html"
+ npm run build imageDir="$HOME/documents/recipes/images" recipeDir="$HOME/documents/recipes/recipes" outputDir="$HOME/websites/recipes/html"
  ```
 
 (I keep my personal recipes outside this which makes keeping this app's code up-to-date easy, just a `git pull` away)

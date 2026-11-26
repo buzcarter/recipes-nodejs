@@ -50,7 +50,7 @@ describe('buildRecipes', () => {
 <ul>
 <li class="ingredient--has-amt"><span class="ingredient__amt">6</span> <span class="ingredient__text">tablespoons/85 grams unsalted butter</span></li>
 <li>salt</li>
-<li class="ingredient--has-amt"><span class="ingredient__amt">1/2</span> <span class="ingredient__text">cup sweetened shredded coconut</span></li>
+<li class="ingredient--has-amt"><span class="ingredient__amt">1/2 cup</span> <span class="ingredient__text">sweetened shredded coconut</span></li>
 <li class="ingredient--has-amt"><span class="ingredient__amt">1</span> <span class="ingredient__text">large orange</span></li>
 <li>dash of white whine</li>
 <li class="ingredient--has-amt"><span class="ingredient__amt">1</span> <span class="ingredient__text">can sweetened condensed milk</span></li>
@@ -112,6 +112,22 @@ describe('buildRecipes', () => {
       {
         input: '1.5 oz egg yolks',
         expectedResult: 'amount: 1.5 oz, name: egg yolks',
+      }, {
+        input: '1/2 cup egg yolks',
+        expectedResult: 'amount: 1/2 cup, name: egg yolks',
+      }, {
+        // unit must be followed by whitespace, so "cup/120 ml" stays with the name
+        input: '½ cup/120 ml egg yolks',
+        expectedResult: 'amount: ½, name: cup/120 ml egg yolks',
+      }, {
+        input: '2 tsp egg yolks',
+        expectedResult: 'amount: 2 tsp, name: egg yolks',
+      }, {
+        input: '1 Tbsp. egg yolks',
+        expectedResult: 'amount: 1 Tbsp., name: egg yolks',
+      }, {
+        input: '30 gm egg yolks',
+        expectedResult: 'amount: 30 gm, name: egg yolks',
       }, {
         input: '3–4 whole chilies (em-dash)',
         expectedResult: 'amount: 3–4, name: whole chilies (em-dash)',
