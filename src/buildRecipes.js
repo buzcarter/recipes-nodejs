@@ -1,9 +1,10 @@
 import { resolve } from 'path';
-import { readFile, writeFile } from 'fs';
+import { readFile, writeFile } from 'fs/promises';
 import showdown from 'showdown';
 import prettyHtml from 'pretty';
 
 import { ColorTypes, Colors } from './libs/ConsoleColors.js';
+import { settleAll } from './libs/asyncUtils.js';
 import {
   linkify, shorten, replaceFractions, replaceQuotes, linkifyImages, getAuthor,
 } from './libs/utils.js';
@@ -112,13 +113,19 @@ const showWarnings = (name, warnings) => {
     Reset}`);
 };
 
+/*
+ * NOTE: template placeholders are always filled with a *function* replacer, e.g.
+ * `.replace(KEY, () => value)`. With a plain string, `String.replace` treats `$&`, `$$`, `` $` ``
+ * and `$'` inside the recipe's own text as special patterns and silently corrupts it.
+ */
+
 function setHeadMeta(documentHtml, { author, favicon, ogImgURL, recipeName, titleSuffix }) {
   return documentHtml
-    .replace(RegExes.PAGE_TITLE, `<title>${recipeName}${author ? ` by ${author}` : ''}${titleSuffix || ''}</title>`)
-    .replace(Substitutions.META_DATE, `<meta name="date" content="${new Date()}">`)
-    .replace(Substitutions.META_OG_IMG, ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : '')
-    .replace(Substitutions.META_FAVICON, favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : '')
-    .replace(Substitutions.TITLE, recipeName);
+    .replace(RegExes.PAGE_TITLE, () => `<title>${recipeName}${author ? ` by ${author}` : ''}${titleSuffix || ''}</title>`)
+    .replace(Substitutions.META_DATE, () => `<meta name="date" content="${new Date()}">`)
+    .replace(Substitutions.META_OG_IMG, () => (ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : ''))
+    .replace(Substitutions.META_FAVICON, () => (favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : ''))
+    .replace(Substitutions.TITLE, () => recipeName);
 }
 
 function getCustomizations(documentHtml) {
@@ -188,7 +195,7 @@ function prettyIngredientsSection(section, useFractionSymbols) {
 
 function getHelpSection(helpURLs, name) {
   const recipeName = name.replace(' ', '+');
-  const links = helpURLs.map(({ label, url }) => `<li><a class=${Styles.HELP_LINK} href="${url.replace(LINK_SUB_NAME, recipeName)}" target="blank">${label}</a></li>`);
+  const links = helpURLs.map(({ label, url }) => `<li><a class=${Styles.HELP_LINK} href="${url.replace(LINK_SUB_NAME, () => recipeName)}" target="blank">${label}</a></li>`);
 
   return `
 <h2>help!</h2>
@@ -250,12 +257,12 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
   outputHTML = sectionMgr.replace(outputHTML);
 
   return setHeadMeta(outputHTML, { author, favicon, ogImgURL: heroImgURL, recipeName, titleSuffix })
-    .replace(Substitutions.HELP, showHelp ? getHelpSection(helpURLs, name) : '')
-    .replace(Substitutions.HERO_IMG, heroImgURL ? `<a class=${Styles.HERO_IMG_LINK} href="${heroImgURL}" target="_blank"><img class=${Styles.HERO_IMG} src="${heroImgURL}"></a>` : '')
-    .replace(Substitutions.THEME_CSS, `theme-${customizations.style || defaultTheme}`)
-    .replace(Substitutions.INLINE_CSS, getInlineCss(heroImgURL, image))
-    .replace(Substitutions.TEXT_LINK, `sources/${name}.txt`)
-    .replace(Substitutions.BODY_CLASS, [
+    .replace(Substitutions.HELP, () => (showHelp ? getHelpSection(helpURLs, name) : ''))
+    .replace(Substitutions.HERO_IMG, () => (heroImgURL ? `<a class=${Styles.HERO_IMG_LINK} href="${heroImgURL}" target="_blank"><img class=${Styles.HERO_IMG} src="${heroImgURL}"></a>` : ''))
+    .replace(Substitutions.THEME_CSS, () => `theme-${customizations.style || defaultTheme}`)
+    .replace(Substitutions.INLINE_CSS, () => getInlineCss(heroImgURL, image))
+    .replace(Substitutions.TEXT_LINK, () => `sources/${name}.txt`)
+    .replace(Substitutions.BODY_CLASS, () => [
       `heroimage--${heroImgURL ? 'visible' : 'hidden'}`,
       heroImgURL && image.orientation ? `heroimage--${image.orientation}` : '',
       customizations.style || '',
@@ -265,45 +272,55 @@ function convertRecipe(outputHTML, recipeHTML, opts) {
     ].join(' '));
 }
 
-export default function buildRecipes(recipeTemplate, options, fileList, images) {
-  return new Promise((promResolve) => {
-    let fileCount = 0;
-    const { addImageLinks, findAuthor, outputPath, useSmartQuotes } = options;
-    const converter = new showdown.Converter();
-    const recipeInfo = [];
-    fileList.forEach(({ file: path, name }) => {
-      readFile(path, { encoding: 'utf8' }, (err, markdown) => {
-        if (err) {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          return;
-        }
-        const heroImgURL = images.find((i) => i.name === name);
-        // treat "• " bullets the same as "* "
-        markdown = markdown.replace(/^([ \t]*)•[ \t]+/gm, '$1* ');
-        if (useSmartQuotes) {
-          markdown = replaceQuotes(markdown);
-        }
-        const author = findAuthor ? getAuthor(markdown) : '';
-        if (author) {
-          recipeInfo.push({ name, author });
-        }
-        let html = converter.makeHtml(markdown);
-        // local links to other recipes (`foo.md`, `./foo.md#bar`) point at the converted `.html`;
-        // skips anything with a scheme (http:, mailto:) or protocol-relative (//)
-        html = html.replace(/(href=")(?![a-z][a-z0-9+.-]*:|\/\/)([^"#?]*?)\.md([#?][^"]*)?(")/gi, '$1$2.html$3$4');
-        if (addImageLinks) {
-          html = linkifyImages(html);
-        }
-        html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, author, heroImgURL, name }), { ocd: true });
-        writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8' }, () => {
-          if (fileList.length === ++fileCount) {
-            promResolve(recipeInfo);
-          }
-        });
-      });
-    });
-  });
+/**
+ * Converts one markdown recipe to a finished HTML page and writes it to `outputPath`.
+ * @returns {Promise<{ name: string, author: string }>}
+ */
+async function buildRecipe(converter, recipeTemplate, options, { file, name }, images) {
+  const { addImageLinks, findAuthor, outputPath, useSmartQuotes } = options;
+
+  let markdown = await readFile(file, { encoding: 'utf8' });
+  const heroImgURL = images.find((i) => i.name === name);
+  // treat "• " bullets the same as "* "
+  markdown = markdown.replace(/^([ \t]*)•[ \t]+/gm, '$1* ');
+  if (useSmartQuotes) {
+    markdown = replaceQuotes(markdown);
+  }
+  const author = findAuthor ? getAuthor(markdown) : '';
+
+  let html = converter.makeHtml(markdown);
+  // local links to other recipes (`foo.md`, `./foo.md#bar`) point at the converted `.html`;
+  // skips anything with a scheme (http:, mailto:) or protocol-relative (//)
+  html = html.replace(/(href=")(?![a-z][a-z0-9+.-]*:|\/\/)([^"#?]*?)\.md([#?][^"]*)?(")/gi, '$1$2.html$3$4');
+  if (addImageLinks) {
+    html = linkifyImages(html);
+  }
+  html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, author, heroImgURL, name }), { ocd: true });
+  await writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8' });
+
+  return { name, author };
+}
+
+/**
+ * Builds every recipe page concurrently. A recipe that fails is logged and skipped; the rest
+ * are still written.
+ *
+ * @returns {Promise<{ recipeInfo: Array<{ name: string, author: string }>, errors: unknown[] }>}
+ *   `recipeInfo` lists recipes with a detected author; `errors` holds per-recipe failures
+ */
+export default async function buildRecipes(recipeTemplate, options, fileList, images) {
+  const converter = new showdown.Converter();
+  const { values, errors } = await settleAll('Recipe', fileList.map((recipeFile) => (
+    buildRecipe(converter, recipeTemplate, options, recipeFile, images)
+      .catch((err) => {
+        throw new Error(`${recipeFile.name}.md: ${err.message}`, { cause: err });
+      })
+  )));
+
+  return {
+    recipeInfo: values.filter(({ author }) => author),
+    errors,
+  };
 }
 
 export const __test__ = {

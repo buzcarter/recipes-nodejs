@@ -40,10 +40,15 @@ export class SectionMgr {
     this.sections[sectionType] = `${this.sections[sectionType] || ''}<div class="subsection--${subsectionName || sectionType}">${sectionHTML}</div>`;
   }
 
+  /**
+   * Fills each `{{__<sectionType>__}}` placeholder in `documentHTML` with its section's HTML,
+   * and blanks the placeholders of defined sections that weren't used.
+   */
   replace(documentHTML) {
     Object.keys(this.sections)
+      // function replacer: a string replacement would treat `$&`, `$$`, etc. in recipe text as patterns
       // eslint-disable-next-line no-return-assign
-      .forEach((sectionType) => documentHTML = documentHTML.replace(`{{__${sectionType}__}}`, this.sections[sectionType]));
+      .forEach((sectionType) => documentHTML = documentHTML.replace(`{{__${sectionType}__}}`, () => this.sections[sectionType]));
 
     // clean-up unused sections
     this.definedTypes

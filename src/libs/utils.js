@@ -19,7 +19,11 @@ const RegExes = {
   // #endregion
 
   // #region replaceFractions
-  FRACTIONS: /(1\/[2-9]|2\/[35]|3\/[458]|4\/5|5\/[68])|7\/8/g,
+  /**
+   * single-digit `n/d`; a leading digit is allowed for compact mixed numbers ("23/4" → "2¾"),
+   * a trailing one is not ("1/25", "1/10" are left alone). Unmapped pairs are left as-is.
+   */
+  FRACTIONS: /[1-7]\/[2-8](?!\d)/g,
   // #endregion
 
   // #region Find Author Credit
@@ -93,10 +97,11 @@ export const shorten = (value) => value
   });
 
 /**
- * brute-force approach: replaces `1/2` with `½`
+ * Replaces plain fractions with their Unicode symbol, e.g. `1/2` → `½`. Fractions without a
+ * symbol (such as `3/7`) are returned unchanged.
  */
 export const replaceFractions = (value) => value
-  .replace(RegExes.FRACTIONS, (m) => FractionsHash[m]);
+  .replace(RegExes.FRACTIONS, (m) => FractionsHash[m] ?? m);
 
 /**
  * Replaces "straight" quotes with HTML encoded "curly" quotes. Avoids replacing quotes in HTML tags.

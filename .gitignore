@@ -8,3 +8,6 @@ output
 *.rar
 recipeIndex.bundle.js
 recipeIndex.bundle.js.map
+
+# Personal settings (paths etc.), merged over config.js at build time
+config.local.js
