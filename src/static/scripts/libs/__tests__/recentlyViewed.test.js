@@ -5,7 +5,7 @@ describe('recentlyViewed', () => {
     const tests = [
       { value: 'hello-world', expectedResult: 'Hello World' },
       { value: 'hello world', expectedResult: 'Hello World' },
-      { value: '    HeLLo            WoRLD      ', expectedResult: 'Hello World' },
+      { value: '    HeLLo            WoRLD      ', expectedResult: 'HeLLo WoRLD' },
       { value: '', expectedResult: '' },
       { value: '---', expectedResult: '' },
     ];

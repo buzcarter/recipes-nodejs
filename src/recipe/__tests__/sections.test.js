@@ -1,9 +1,7 @@
-const buildRecipes = require('../buildRecipes');
+const { prettyIngredientsSection, NumericRegEx } = require('../sections');
 
-describe('buildRecipes', () => {
+describe('sections', () => {
   describe('prettyIngredientsSection', () => {
-    const { __test__: { prettyIngredientsSection, NumericRegEx } } = buildRecipes;
-
     it('should add parens class (Happy Path)', () => {
       const html = `
 <ul>
