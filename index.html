@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta property="og:image" content="images/aunt-carolyns-70s-throwback-ambrosia-salad.jpg">
-    <meta name="date" content="2026-11-26T18:39:20.167Z">
+    <meta name="date" content="2026-11-26T20:52:16.809Z">
     <link rel="icon" type="image/svg+xml" href="measuring-cup-favicon.svg">
     <!-- font and styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,25 +51,25 @@
             <a href="#A">A</a><a href="#B">B</a><a href="#C">C</a><a href="#E">E</a><a href="#G">G</a><a href="#H">H</a><a href="#I">I</a><a href="#L">L</a><a href="#M">M</a><a href="#P">P</a><a href="#R">R</a><a href="#S">S</a>
           </nav>
           <!-- Show "Recently Visited", Modal Trigger Button -->
-          <button id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
+          <button type="button" id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
             <span class="sr-only">View Recently Visited</span>
             <svg class="icon--recents" width="24px" height="24px" viewBox="0 0 24 24">
-              <use xlink:href="#svg-icon-watch" />
+              <use href="#svg-icon-watch" />
             </svg>
           </button>
           <!-- Recents Flyout/Modal -->
-          <aside id="show-recents-modal" class="hidden modal modal--recents" role="dialog" aria-labelledby="show-recents-title" aria-modal="true" aria-hidden="true">
+          <dialog id="show-recents-modal" class="modal modal--recents" aria-labelledby="show-recents-title">
             <div class="modal__inner">
               <h2 id="show-recents-title" class="modal__title">Recently Visited</h2>
-              <button id="show-recents-close-btn" class="modal__close-btn" aria-label="Close Modal">
+              <button type="button" id="show-recents-close-btn" class="modal__close-btn" aria-label="Close">
                 <svg class="modal__close-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
-                  <use xlink:href="#svg-icon-x" />
+                  <use href="#svg-icon-x" />
                 </svg>
               </button>
               <ul class="modal__content" id="show-recents-content">
               </ul>
             </div>
-          </aside>
+          </dialog>
           <!-- Filter/Search Input Field-->
           <div class="filter__wrap">
             <label>
@@ -77,12 +77,12 @@
               <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off" spellcheck="false">
               <span class="filter__icons">
               <svg class="filter__icon filter__search-icon" width="16px" height="16px" viewBox="0 0 16 16">
-                <use xlink:href="#svg-icon-magnifying-lens" />
+                <use href="#svg-icon-magnifying-lens" />
               </svg>
 
               <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
                 <svg class="filter__icon filter__cancel-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
-                  <use xlink:href="#svg-icon-x" />
+                  <use href="#svg-icon-x" />
                 </svg>
                 <span class="sr-only">Clear filter input</span>
               </button>
@@ -93,28 +93,28 @@
           <div class="nav-view">
             <ul role="radiogroup" class="nav-view__list">
               <li class="nav-view__item">
-                <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="compact-list">
+                <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="compact-list">
                   <svg class="nav-view__img">
                     <title>Compact List View</title>
-                    <use xlink:href="#svg-icon-list-view" />
+                    <use href="#svg-icon-list-view" />
                   </svg>
                   <span class="sr-only">View as text list</span>
                 </button>
               </li>
               <li class="nav-view__item">
-                <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="content">
+                <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="content">
                   <svg class="nav-view__img" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24">
                     <title>Content View</title>
-                    <use xlink:href="#svg-icon-content-view" />
+                    <use href="#svg-icon-content-view" />
                   </svg>
                   <span class="sr-only">View as list with images</span>
                 </button>
               </li>
               <li class="nav-view__item">
-                <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="grid">
+                <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="grid">
                   <svg class="nav-view__img" viewBox="0 0 24 24" width="24" height="24">
                     <title>Large Grid View</title>
-                    <use xlink:href="#svg-icon-grid-view" />
+                    <use href="#svg-icon-grid-view" />
                   </svg>
                   <span class="sr-only">View as recipe cards</span>
                 </button>
@@ -126,7 +126,7 @@
         <ul class="recipe-list" id="recipe-list">
           <li id="A" class="recipe-list__item">
             <a href="aunt-carolyns-70s-throwback-ambrosia-salad.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/aunt-carolyns-70s-throwback-ambrosia-salad.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/aunt-carolyns-70s-throwback-ambrosia-salad.jpg" alt=""></span>
               <span class="recipe-list__name">Aunt Carolyns 70s Throwback Ambrosia Salad
 <em class="recipe-list__author">Carolyn Bumbercatch</em>
 </span>
@@ -134,21 +134,21 @@
           </li>
           <li class="recipe-list__item">
             <a href="austro-hungarian-cream-of-horseradish-soup.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/austro-hungarian-cream-of-horseradish-soup.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/austro-hungarian-cream-of-horseradish-soup.jpg" alt=""></span>
               <span class="recipe-list__name">Austro Hungarian Cream Of Horseradish Soup
 </span>
             </a>
           </li>
           <li id="B" class="recipe-list__item">
             <a href="bagels.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/bagels.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/bagels.jpg" alt=""></span>
               <span class="recipe-list__name">Bagels
 </span>
             </a>
           </li>
           <li class="recipe-list__item">
             <a href="banana-curry-bread-pudding-with-toffee-drizzle.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/banana-curry-bread-pudding-with-toffee-drizzle.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/banana-curry-bread-pudding-with-toffee-drizzle.jpg" alt=""></span>
               <span class="recipe-list__name">Banana Curry Bread Pudding With Toffee Drizzle
 <em class="recipe-list__author">Pipa Kokur</em>
 </span>
@@ -156,14 +156,14 @@
           </li>
           <li id="C" class="recipe-list__item">
             <a href="carnitas-with-salsa-verde.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/carnitas-with-salsa-verde.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/carnitas-with-salsa-verde.jpg" alt=""></span>
               <span class="recipe-list__name">Carnitas With Salsa Verde
 </span>
             </a>
           </li>
           <li class="recipe-list__item">
             <a href="cheesy-chicken-and-rice-casserole.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/cheesy-chicken-and-rice-casserole.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/cheesy-chicken-and-rice-casserole.jpg" alt=""></span>
               <span class="recipe-list__name">Cheesy Chicken And Rice Casserole
 <em class="recipe-list__author">Krum Kake</em>
 </span>
@@ -171,7 +171,7 @@
           </li>
           <li class="recipe-list__item">
             <a href="coconut-and-passion-fruit-pudding.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/coconut-and-passion-fruit-pudding.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/coconut-and-passion-fruit-pudding.jpg" alt=""></span>
               <span class="recipe-list__name">Coconut And Passion Fruit Pudding
 <em class="recipe-list__author">Goro Waffle</em>
 </span>
@@ -179,7 +179,7 @@
           </li>
           <li class="recipe-list__item">
             <a href="creamy-tomato-soup-with-grilled-cheese-croutons.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/creamy-tomato-soup-with-grilled-cheese-croutons.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/creamy-tomato-soup-with-grilled-cheese-croutons.jpg" alt=""></span>
               <span class="recipe-list__name">Creamy Tomato Soup With Grilled Cheese Croutons
 <em class="recipe-list__author">Goro Waffle</em>
 </span>
@@ -187,7 +187,7 @@
           </li>
           <li id="E" class="recipe-list__item">
             <a href="easy-apple-pie.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/easy-apple-pie.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/easy-apple-pie.jpg" alt=""></span>
               <span class="recipe-list__name">Easy Apple Pie
 <em class="recipe-list__author">Pipa Kokur</em>
 </span>
@@ -195,7 +195,7 @@
           </li>
           <li id="G" class="recipe-list__item">
             <a href="greek-salad-with-chicken.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/greek-salad-with-chicken.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/greek-salad-with-chicken.jpg" alt=""></span>
               <span class="recipe-list__name">Greek Salad With Chicken
 <em class="recipe-list__author">Pipa Kokur</em>
 </span>
@@ -203,7 +203,7 @@
           </li>
           <li id="H" class="recipe-list__item">
             <a href="hot-wings-dip-with-honey-and-sriracha.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/hot-wings-dip-with-honey-and-sriracha.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/hot-wings-dip-with-honey-and-sriracha.jpg" alt=""></span>
               <span class="recipe-list__name">Hot Wings Dip With Honey And Sriracha
 <em class="recipe-list__author">Fatti Mann</em>
 </span>
@@ -211,7 +211,7 @@
           </li>
           <li id="I" class="recipe-list__item">
             <a href="icelandic-pepper-cookies.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/icelandic-pepper-cookies.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/icelandic-pepper-cookies.jpg" alt=""></span>
               <span class="recipe-list__name">Icelandic Pepper Cookies
 <em class="recipe-list__author">Nissa Krumkake</em>
 </span>
@@ -219,7 +219,7 @@
           </li>
           <li id="L" class="recipe-list__item">
             <a href="lemon-and-poppy-seed-cake.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/lemon-and-poppy-seed-cake.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/lemon-and-poppy-seed-cake.jpg" alt=""></span>
               <span class="recipe-list__name">Lemon And Poppy Seed Cake
 <em class="recipe-list__author">Klen Ater</em>
 </span>
@@ -227,7 +227,7 @@
           </li>
           <li id="M" class="recipe-list__item">
             <a href="mango-and-coconut-vegan-pancakes.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/mango-and-coconut-vegan-pancakes.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/mango-and-coconut-vegan-pancakes.jpg" alt=""></span>
               <span class="recipe-list__name">Mango And Coconut Vegan Pancakes
 <em class="recipe-list__author">Krum Kake</em>
 </span>
@@ -235,21 +235,21 @@
           </li>
           <li id="P" class="recipe-list__item">
             <a href="pizza-dough.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/pizza-dough.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/pizza-dough.jpg" alt=""></span>
               <span class="recipe-list__name">Pizza Dough
 </span>
             </a>
           </li>
           <li id="R" class="recipe-list__item">
             <a href="raspberry-and-elderflower-gin-and-tonic.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/raspberry-and-elderflower-gin-and-tonic.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/raspberry-and-elderflower-gin-and-tonic.jpg" alt=""></span>
               <span class="recipe-list__name">Raspberry And Elderflower Gin And Tonic
 </span>
             </a>
           </li>
           <li class="recipe-list__item">
             <a href="roasted-vegetable-salad-with-quinoa.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/roasted-vegetable-salad-with-quinoa.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/roasted-vegetable-salad-with-quinoa.jpg" alt=""></span>
               <span class="recipe-list__name">Roasted Vegetable Salad With Quinoa
 <em class="recipe-list__author">Klen Ater</em>
 </span>
@@ -257,7 +257,7 @@
           </li>
           <li id="S" class="recipe-list__item">
             <a href="simple-and-tasty-mustard.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/simple-and-tasty-mustard.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/simple-and-tasty-mustard.jpg" alt=""></span>
               <span class="recipe-list__name">Simple And Tasty Mustard
 <em class="recipe-list__author">Klen Ater</em>
 </span>
@@ -265,7 +265,7 @@
           </li>
           <li class="recipe-list__item">
             <a href="slow-cooker-pulled-pork-sandwiches.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/slow-cooker-pulled-pork-sandwiches.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/slow-cooker-pulled-pork-sandwiches.jpg" alt=""></span>
               <span class="recipe-list__name">Slow Cooker Pulled Pork Sandwiches
 <em class="recipe-list__author">Fatti Mann</em>
 </span>
@@ -273,7 +273,7 @@
           </li>
           <li class="recipe-list__item">
             <a href="spicy-chicken-and-vegetable-curry.html" class="recipe-list__item-link">
-              <span class="recipe-list__photo"><img src="images/thumbnails/spicy-chicken-and-vegetable-curry.jpg" role="presentation"></span>
+              <span class="recipe-list__photo"><img src="images/thumbnails/spicy-chicken-and-vegetable-curry.jpg" alt=""></span>
               <span class="recipe-list__name">Spicy Chicken And Vegetable Curry
 <em class="recipe-list__author">John Bigbutae</em>
 </span>

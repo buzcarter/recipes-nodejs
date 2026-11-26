@@ -1,17 +1,25 @@
+/* a native <dialog>, opened with showModal(): the browser shows/hides it and puts it on top */
 .modal {
   background-color: var(--color-neutral-00);
-  bottom: 0;
-  display: none;
-  left: 0;
-  padding: 20px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: var(--z-index-modal);
+  border: none;
+  color: inherit;
+  height: auto;
+  inset: 0;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+  position: fixed;
+  width: auto;
 }
 
-.modal--is-active {
-  display: block;
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, .15);
+}
+
+/* padding lives here, so a click on the <dialog> itself is always a backdrop click */
+.modal__inner {
+  padding: 20px;
 }
 
 .modal__title {
@@ -51,16 +59,14 @@
   .modal {
     border-radius: var(--default-border-radius);
     border: solid 1px var(--color-filter-hover);
-    bottom: unset;
     box-shadow: 5px 8px 8px rgba(0,0,0,.2);
-    left: 0;
-    right: unset;
-    top: 0;
   }
 
   .modal.modal--recents {
-    top: 50px;
-    left: 10px;
+    inset: 50px auto auto 10px;
+    width: max-content;
+    max-height: calc(100vh - 70px);
     max-width: 300px;
+    overflow-y: auto;
   }
 }
