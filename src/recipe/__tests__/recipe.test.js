@@ -46,15 +46,22 @@ describe('getCustomizations', () => {
 });
 
 describe('splitSections', () => {
-  it('merges a repeated heading into the same section', () => {
-    const html = converter.makeHtml('# Toast\n## Steps\nstep one\n## Steps\nstep two');
+  it('merges a repeated heading into the first, as a subheading', () => {
+    const html = converter.makeHtml('# Toast\n## Steps\n1. step one\n\n## Notes\nnote\n## Method\n1. step two');
     const { title, sections } = splitSections(html, Options);
 
     expect(title).toBe('Toast');
-    expect(sections.sectionsInUse).toEqual(['header', 'steps']);
-    expect(sections.sections.steps).toContain('step one');
-    expect(sections.sections.steps).toContain('step two');
+    expect(sections.sectionsInUse).toEqual(['header', 'steps', 'notes']);
+    expect(sections.sections.steps).toMatch(/<h2 id="steps">Steps<\/h2>[\s\S]*step one[\s\S]*<\/ol>\n?<h3 id="method">Method<\/h3>[\s\S]*step two/);
+    expect(sections.sections.steps.match(/class="subsection--/g)).toHaveLength(1);
     expect(sections.hasWarnings).toBe(false);
+  });
+
+  it('keeps unrecognized headings separate', () => {
+    const html = converter.makeHtml('## Wine\nred\n## Wine\nwhite');
+    const { sections } = splitSections(html, Options);
+
+    expect(sections.unknownTypes).toEqual(['wine', 'wine-1']);
   });
 });
 

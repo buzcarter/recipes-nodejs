@@ -1,6 +1,8 @@
 import { getAuthor, linkifyImages, replaceQuotes } from '../libs/utils.js';
 import { SectionMgr } from '../libs/SectionManager.js';
-import { SectionTypes, getH2Id, getSectionType, transformSection } from './sections.js';
+import {
+  SectionTypes, getH2Id, getSectionType, isDefinedType, transformSection,
+} from './sections.js';
 
 /* eslint-disable key-spacing */
 const RegExes = Object.freeze({
@@ -14,6 +16,8 @@ const RegExes = Object.freeze({
   /** each section starts at an `<h1>` or `<h2>` */
   SECTION_SPLIT:    /(?=<h[12])/,
   TITLE:            /<h1(?:\s+id=".*?")?>(.*?)<\/h1>/i,
+  /** a section's leading `<h2>…</h2>` */
+  H2_TAGS:          /<h2(\s[^>]*)?>([\s\S]*?)<\/h2>/,
   /** `<!-- recipe-style: foo -->`, `<!-- recipe-body-class: foo -->`, … */
   CUSTOMIZATIONS:   /^\s*<!--\s+recipe[- ](style|theme|body-class)\s*[:=]\s*([\w-]+)\s+-->\s*$/,
 });
@@ -66,9 +70,15 @@ export function markdownToHtml(converter, markdown, { addImageLinks }) {
   return addImageLinks ? linkifyImages(html) : html;
 }
 
+/** Demotes a section's `<h2>` to an `<h3>`, so it reads as a subheading of the section above. */
+const demoteHeading = (sectionHtml) => sectionHtml.replace(RegExes.H2_TAGS, '<h3$1>$2</h3>');
+
 /**
- * Splits recipe HTML into its sections (at each `<h1>`/`<h2>`) and formats each one. Content
- * under an unrecognized heading goes into the "notes" section (see `sections.unknownTypes`).
+ * Splits recipe HTML into its sections (at each `<h1>`/`<h2>`) and formats each one.
+ * * A standard section that appears again (a second "## Steps", or "## Method" after "## Steps")
+ *   is merged into the first, its heading demoted to `<h3>` — the same as writing `### …`.
+ * * Content under an unrecognized heading goes into the "notes" section
+ *   (see `sections.unknownTypes`).
  *
  * @param {string} html output of `markdownToHtml`
  * @param {object} options build options (`autoUrlSections`, `shortenURLs`, `useFractionSymbols`)
@@ -76,6 +86,10 @@ export function markdownToHtml(converter, markdown, { addImageLinks }) {
  */
 export function splitSections(html, options) {
   const sections = new SectionMgr({ definedTypes: SectionTypes, defaultType: SectionTypes.NOTES });
+  /** @type {Array<{ type: string, html: string }>} in document order */
+  const parts = [];
+  /** first part of each standard section, which repeats are merged into */
+  const partsByType = new Map();
   let title = '';
 
   html
@@ -93,8 +107,20 @@ export function splitSections(html, options) {
         [, title] = titleMatch;
         sectionHtml = sectionHtml.replace(RegExes.TITLE, '');
       }
-      sections.add(sectionType, getH2Id(sectionHtml), sectionHtml);
+
+      const existing = partsByType.get(sectionType);
+      if (existing) {
+        existing.html += demoteHeading(sectionHtml);
+        return;
+      }
+      const part = { type: sectionType, html: sectionHtml };
+      parts.push(part);
+      if (isDefinedType(sectionType)) {
+        partsByType.set(sectionType, part);
+      }
     });
+
+  parts.forEach(({ type, html: sectionHtml }) => sections.add(type, getH2Id(sectionHtml), sectionHtml));
 
   return { title, sections };
 }

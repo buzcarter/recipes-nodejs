@@ -57,6 +57,9 @@ export const NumericRegEx = RegExes.NUMERIC;
 
 const definedTypes = new Set(Object.values(SectionTypes));
 
+/** `true` for one of the standard `SectionTypes`. */
+export const isDefinedType = (sectionType) => definedTypes.has(sectionType);
+
 /**
  * The `id` of a section's `<h2>`, lower-cased (`''` when the section has none).
  * @param {string} sectionHtml
