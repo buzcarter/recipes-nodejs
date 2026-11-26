@@ -49,8 +49,14 @@ function getHelpSection(helpURLs, name) {
 `;
 }
 
-const getHeroImg = (url) => (url
-  ? `<a class="${Styles.HERO_IMG_LINK}" href="${escapeHtml(url)}" target="_blank"><img class="${Styles.HERO_IMG}" src="${escapeHtml(url)}" alt=""></a>`
+/**
+ * The hero image, linked to the full-size file. Its `alt` is the recipe's name, which also gives
+ * the link its accessible name.
+ * @param {string} url
+ * @param {string} altText already-escaped text (e.g. `stripTags` of the title)
+ */
+const getHeroImg = (url, altText) => (url
+  ? `<a class="${Styles.HERO_IMG_LINK}" href="${escapeHtml(url)}" target="_blank"><img class="${Styles.HERO_IMG}" src="${escapeHtml(url)}" alt="${altText}"></a>`
   : '');
 
 const getInlineCss = (url, { width, height } = {}) => (!url
@@ -102,7 +108,7 @@ export default function renderRecipe(template, recipe, { name, image }, options)
     ...getHeadMeta({ favicon, ogImgURL: heroImgURL, theme: customizations.style || defaultTheme }),
     [Placeholders.TITLE]: title,
     [Placeholders.HELP]: showHelp ? getHelpSection(helpURLs, name) : '',
-    [Placeholders.HERO_IMG]: getHeroImg(heroImgURL),
+    [Placeholders.HERO_IMG]: getHeroImg(heroImgURL, stripTags(title)),
     [Placeholders.INLINE_CSS]: getInlineCss(heroImgURL, image),
     [Placeholders.TEXT_LINK]: fileUrl('sources', `${name}.txt`),
     [Placeholders.BODY_CLASS]: getBodyClasses(recipe, image),

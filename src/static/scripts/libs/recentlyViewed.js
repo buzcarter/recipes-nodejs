@@ -11,13 +11,9 @@ const Selectors = {
 
   MODAL:                 '#show-recents-modal',
   MODAL_CONTENT:         '#show-recents-content',
-  MODAL_CLOST_BTN:       '#show-recents-close-btn',
+  MODAL_CLOSE_BTN:       '#show-recents-close-btn',
 };
 /* eslint-enable key-spacing */
-
-const Styles = {
-  MODAL_ACTIVE: 'modal--is-active',
-};
 
 /** Display name for a recipe's file name; the same text the index page shows. */
 export const toDisplay = fileNameToTitleCase;
@@ -45,12 +41,6 @@ function onRecipeLinkClick(e) {
   }
 }
 
-function toggleModal(isActive) {
-  const modal = document.querySelector(Selectors.MODAL);
-  modal.classList.toggle(Styles.MODAL_ACTIVE, isActive);
-  modal.setAttribute('aria-hidden', !isActive);
-}
-
 /** One recents-list entry; built with DOM nodes, since `name` comes from localStorage. */
 function createListItem(name) {
   const link = document.createElement('a');
@@ -61,15 +51,32 @@ function createListItem(name) {
   return item;
 }
 
-function onViewBtnClick() {
-  toggleModal(true);
+/**
+ * Opens the "Recently Visited" dialog. A native `<dialog>` opened with `showModal()` traps focus,
+ * closes on Escape, and returns focus to the button afterward.
+ */
+function openModal() {
   document.querySelector(Selectors.MODAL_CONTENT)
     .replaceChildren(...getKey(KeyNames.RECENT, []).map(createListItem));
+  document.querySelector(Selectors.MODAL).showModal();
+  document.querySelector(Selectors.RECENTLY_VIEWED_BTN).setAttribute('aria-expanded', 'true');
 }
 
 export function init() {
-  document.querySelector(Selectors.RECENTLY_VIEWED_BTN).addEventListener('click', onViewBtnClick);
+  const modal = document.querySelector(Selectors.MODAL);
+  const openBtn = document.querySelector(Selectors.RECENTLY_VIEWED_BTN);
+
+  openBtn.addEventListener('click', openModal);
+  document.querySelector(Selectors.MODAL_CLOSE_BTN).addEventListener('click', () => modal.close());
+  // a click on the backdrop lands on the <dialog> itself (its contents are inside `.modal__inner`)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.close();
+    }
+  });
+  // however it closed (button, Escape, backdrop)
+  modal.addEventListener('close', () => openBtn.setAttribute('aria-expanded', 'false'));
+
   // event delegation: record all recipe link clicks
   document.querySelector(Selectors.RECIPE_LIST).addEventListener('click', onRecipeLinkClick);
-  document.querySelector(Selectors.MODAL_CLOST_BTN).addEventListener('click', () => toggleModal(false));
 }
