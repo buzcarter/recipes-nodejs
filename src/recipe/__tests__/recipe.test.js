@@ -124,6 +124,10 @@ By Pat O'Brien
     expect(html).toContain('>Find &lt;it&gt;</a>');
   });
 
+  it('uses the recipe name as the hero image alt text', () => {
+    expect(html).toContain('alt="Mom\'s &quot;Best&quot; Toast"');
+  });
+
   it('sets the favicon type from its extension', () => {
     expect(html).toContain('<link rel="icon" type="image/svg+xml" href="icon.svg">');
   });

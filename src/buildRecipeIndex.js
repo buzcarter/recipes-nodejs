@@ -55,7 +55,7 @@ function renderItem({ name, image, author, letter }) {
   return `
 <li${letter ? ` id="${escapeHtml(letter)}"` : ''} class="${Styles.ITEM}">
   <a href="${escapeHtml(fileUrl('', `${name}.html`))}" class="${Styles.LINK}">
-    <span class="${Styles.PHOTO}"><img src="${escapeHtml(imgPath)}" role="presentation"></span>
+    <span class="${Styles.PHOTO}"><img src="${escapeHtml(imgPath)}" alt=""></span>
     <span class="${Styles.NAME}">${escapeHtml(fileNameToTitleCase(name))}
     ${author ? `<em class="${Styles.AUTHOR}">${escapeHtml(author)}</em>` : ''}
     </span>

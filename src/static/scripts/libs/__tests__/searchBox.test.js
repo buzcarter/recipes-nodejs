@@ -1,4 +1,4 @@
-import { scrub } from '../searchBox';
+import { isMatch, scrub } from '../searchBox';
 
 describe('searchBox', () => {
   describe('scrub', () => {
@@ -9,6 +9,10 @@ describe('searchBox', () => {
       { value: '12345', expectedResult: '12345' },
       { value: '', expectedResult: '' },
       { value: '---', expectedResult: '' },
+      { value: 'Jalapeño Crème Brûlée', expectedResult: 'jalapenocremebrulee' },
+      { value: 'Käsespätzle', expectedResult: 'kasespatzle' },
+      { value: 'Борщ (borscht)', expectedResult: 'борщborscht' },
+      { value: '麻婆豆腐', expectedResult: '麻婆豆腐' },
     ];
 
     tests.forEach((test) => {
@@ -16,6 +20,22 @@ describe('searchBox', () => {
         const result = scrub(test.value);
         expect(result).toEqual(test.expectedResult);
       });
+    });
+  });
+
+  describe('isMatch', () => {
+    const searchText = scrub('Aunt Carolyn’s Jalapeño Poppers');
+
+    it.each([
+      ['', true],
+      ['   ', true],
+      ['jalapeno', true],
+      ['JALAPEÑO', true],
+      ['poppers aunt', true],
+      ['carolyn\'s', true],
+      ['poppers pie', false],
+    ])('"%s" → %s', (filterText, expected) => {
+      expect(isMatch(searchText, filterText)).toBe(expected);
     });
   });
 });

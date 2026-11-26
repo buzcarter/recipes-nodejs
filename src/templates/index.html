@@ -51,25 +51,25 @@
           {{__letters-index__}}
         </nav>
         <!-- Show "Recently Visited", Modal Trigger Button -->
-        <button id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
+        <button type="button" id="show-recents-btn" class="nav-view__btn btn__show-recent" aria-haspopup="dialog" aria-controls="show-recents-modal" aria-expanded="false">
           <span class="sr-only">View Recently Visited</span>
           <svg class="icon--recents" width="24px" height="24px" viewBox="0 0 24 24">
-            <use xlink:href="#svg-icon-watch" />
+            <use href="#svg-icon-watch" />
           </svg>
         </button>
         <!-- Recents Flyout/Modal -->
-        <aside id="show-recents-modal" class="hidden modal modal--recents" role="dialog" aria-labelledby="show-recents-title" aria-modal="true" aria-hidden="true">
+        <dialog id="show-recents-modal" class="modal modal--recents" aria-labelledby="show-recents-title">
           <div class="modal__inner">
             <h2 id="show-recents-title" class="modal__title">Recently Visited</h2>
-            <button id="show-recents-close-btn" class="modal__close-btn" aria-label="Close Modal">
+            <button type="button" id="show-recents-close-btn" class="modal__close-btn" aria-label="Close">
               <svg class="modal__close-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
-                <use xlink:href="#svg-icon-x" />
+                <use href="#svg-icon-x" />
               </svg>
             </button>
             <ul class="modal__content" id="show-recents-content">
             </ul>
           </div>
-        </aside>
+        </dialog>
         <!-- Filter/Search Input Field-->
         <div class="filter__wrap">
           <label>
@@ -77,12 +77,12 @@
             <input id="filter-field" class="filter__text-field" placeholder="" autocomplete="off" spellcheck="false">
             <span class="filter__icons">
               <svg class="filter__icon filter__search-icon" width="16px" height="16px" viewBox="0 0 16 16">
-                <use xlink:href="#svg-icon-magnifying-lens" />
+                <use href="#svg-icon-magnifying-lens" />
               </svg>
 
               <button type="button" id="clear-filter-btn" class="filter__cancel-btn">
                 <svg class="filter__icon filter__cancel-icon" width="16px" height="16px" viewBox="-119.5 124.5 16 16">
-                  <use xlink:href="#svg-icon-x" />
+                  <use href="#svg-icon-x" />
                 </svg>
                 <span class="sr-only">Clear filter input</span>
               </button>
@@ -93,28 +93,28 @@
         <div class="nav-view">
           <ul role="radiogroup" class="nav-view__list">
             <li class="nav-view__item">
-              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="compact-list">
+              <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="compact-list">
                 <svg class="nav-view__img">
                   <title>Compact List View</title>
-                  <use xlink:href="#svg-icon-list-view" />
+                  <use href="#svg-icon-list-view" />
                 </svg>
                 <span class="sr-only">View as text list</span>
               </button>
             </li>
             <li class="nav-view__item">
-              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="content">
+              <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="content">
                 <svg class="nav-view__img" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24">
                   <title>Content View</title>
-                  <use xlink:href="#svg-icon-content-view" />
+                  <use href="#svg-icon-content-view" />
                 </svg>
                 <span class="sr-only">View as list with images</span>
               </button>
             </li>
             <li class="nav-view__item">
-              <button class="js-view-radio-btn nav-view__btn" role="radio" data-view="grid">
+              <button type="button" class="js-view-radio-btn nav-view__btn" role="radio" aria-checked="false" data-view="grid">
                 <svg class="nav-view__img" viewBox="0 0 24 24" width="24" height="24">
                   <title>Large Grid View</title>
-                  <use xlink:href="#svg-icon-grid-view" />
+                  <use href="#svg-icon-grid-view" />
                 </svg>
                 <span class="sr-only">View as recipe cards</span>
               </button>
