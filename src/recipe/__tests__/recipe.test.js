@@ -1,6 +1,6 @@
-const { default: parseRecipe, getCustomizations, splitSections } = require('../parseRecipe');
-const { default: renderRecipe } = require('../renderRecipe');
-const { getSectionType } = require('../sections');
+import parseRecipe, { getCustomizations, splitSections } from '../parseRecipe.js';
+import renderRecipe from '../renderRecipe.js';
+import { getSectionType } from '../sections.js';
 
 const Template = `<html><head><title>x</title>{{__favIcon__}}</head>
 <body class="{{__bodyClass__}}"><h1>{{__title__}}</h1>{{__heroImg__}}

@@ -1,5 +1,5 @@
-const { escapeHtml, fileUrl, stripTags } = require('../html');
-const { default: fillTemplate } = require('../template');
+import { escapeHtml, fileUrl, stripTags } from '../html.js';
+import fillTemplate from '../template.js';
 
 describe('escapeHtml', () => {
   it('escapes markup and quote characters', () => {

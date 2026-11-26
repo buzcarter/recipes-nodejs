@@ -24,6 +24,8 @@ module.exports = {
   rootDir: resolve(__dirname, '../'),
   setupFiles: ['<rootDir>/.jest/jest.setup.cjs'],
   setupFilesAfterEnv: [],
+  // run tests as native ES modules, no Babel (`npm test` passes --experimental-vm-modules)
+  transform: {},
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.test.js',
   ],

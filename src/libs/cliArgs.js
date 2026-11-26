@@ -18,7 +18,7 @@ export class UsageError extends Error {
 function getSettableKeys(defaults) {
   return new Map(Object.entries(defaults)
     .filter(([, value]) => typeof value === 'string' || typeof value === 'boolean')
-    .map(([key, value]) => [key, typeof value]));
+    .map(([key, value]) => [key, /** @type {'string' | 'boolean'} */ (typeof value)]));
 }
 
 function toBoolean(key, value) {
@@ -50,6 +50,7 @@ function toBoolean(key, value) {
 export function parseCommandLine(args, defaults) {
   const settable = getSettableKeys(defaults);
 
+  /** @type {import('node:util').ParseArgsConfig['options']} */
   const options = { help: { type: 'boolean', short: 'h' } };
   settable.forEach((type, key) => {
     options[key] = { type };
@@ -65,6 +66,7 @@ export function parseCommandLine(args, defaults) {
     throw new UsageError(err.message.replace(/\. To specify a positional argument.*$/s, ''));
   }
 
+  /** @type {Record<string, string | boolean>} */
   const overrides = {};
   Object.entries(parsed.values).forEach(([key, value]) => {
     if (key === 'help') {
@@ -74,7 +76,8 @@ export function parseCommandLine(args, defaults) {
       overrides[key.slice(3)] = !value;
       return;
     }
-    overrides[key] = value;
+    // no option is declared `multiple`, so values are never arrays
+    overrides[key] = /** @type {string | boolean} */ (value);
   });
 
   // `key=value` style; split on the first "=" only, so values may contain "="

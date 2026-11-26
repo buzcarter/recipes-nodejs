@@ -1,0 +1,17 @@
+{
+  // Type-checks the JavaScript (from its JSDoc comments); nothing is compiled. Run: npm run typecheck
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": false,
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "skipLibCheck": true
+  },
+  "include": ["build.js", "config.js", "src/**/*.js"],
+  "exclude": ["**/__tests__/**", "src/static/scripts/*.bundle.js"]
+}

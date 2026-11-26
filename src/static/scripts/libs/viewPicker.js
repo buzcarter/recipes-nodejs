@@ -11,12 +11,14 @@ const Selectors = {
   RADIO_BTN: '.js-view-radio-btn',
 };
 
+/** @param {string} view one of `ViewTypes` */
 function setView(view) {
   ViewTypes.forEach((name) => document.body.classList.toggle(`view--${name}`, name === view));
-  document.querySelectorAll(Selectors.RADIO_BTN)
+  /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(Selectors.RADIO_BTN))
     .forEach((btn) => btn.setAttribute('aria-checked', String(btn.dataset.view === view)));
 }
 
+/** @param {MouseEvent & { currentTarget: HTMLElement }} e */
 function onClick(e) {
   const { view } = e.currentTarget.dataset;
   updateKey(KeyNames.VIEW, view);

@@ -12,15 +12,22 @@ export const KeyNames = Object.freeze({
 });
 
 /** Storage keys that were renamed: old name → current name. */
+/** @type {Readonly<Record<string, string>>} */
 const RenamedKeys = Object.freeze({
   content: KeyNames.VIEW,
 });
 
+/** @param {Record<string, unknown>} payload */
 const setAppData = (payload) => localStorage.setItem(StorageKeys.APP_NAME, JSON.stringify(payload));
 
+/**
+ * Everything this site keeps in localStorage, as one object.
+ * @returns {Record<string, unknown>}
+ */
 export function getAppData() {
-  let payload = localStorage.getItem(StorageKeys.APP_NAME);
-  payload = payload && JSON.parse(payload);
+  const stored = localStorage.getItem(StorageKeys.APP_NAME);
+  /** @type {Record<string, unknown> | null} */
+  let payload = stored ? JSON.parse(stored) : null;
 
   if (!payload) {
     payload = {};

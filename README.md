@@ -75,7 +75,7 @@ EXAMPLE: below a recipe with a few ingredients "ticked" off (indicating they've 
 
 ## Installation
 
-This requires Node 20.9 or later (see `.nvmrc` for the version CI uses).
+This requires Node 20.11 or later (see `.nvmrc` for the version CI uses).
 
 After cloning this repo or downloading the zip file from github simply install, add your recipes, and build:
 
@@ -90,6 +90,16 @@ npm run build
 ```
 
 By default the converted HTML files will be in the `/output` directory. See the `config.js` file for options.
+
+### Working on the code
+
+The same checks CI runs on every pull request:
+
+```sh
+npm run lint       # ESLint
+npm run typecheck  # TypeScript checks the JavaScript using its JSDoc comments (nothing is compiled)
+npm test           # Jest, running the tests as native ES modules
+```
 
 ## RECIPE FORMAT  
 In order to show up properly, your recipe's Markdown file should be named with dashes in place of spaces (ex: `rice-pilaf.md` or `saag-paneer.md`). This will be used to populate your list of recipes on the main page.
@@ -185,7 +195,7 @@ And don't worry about accidentally overwriting a section: sections are grouped a
 
 1. Every recipe should include only one "Title" (line begins with `#`)
 2. Section names (see predefined names above) are marked with `##`
-3. Under each section feel free to include sub-section names (lines beging wtih `###`)
+3. Under each section feel free to include sub-section names (lines beginning with `###`)
 
 ## ADDING IMAGES  
 
@@ -205,7 +215,7 @@ You can also include other images in the recipe using Markdown's image syntax: `
 * `yelpLocation`: the city/state where you're located to make Yelp searches easier! No need for fancy formatting, this will work fine: `Minneapolis MN`  
 * `helpURLs`: dictionary with the `label` (text displayed) and `url` in template form. The string `<name>` will be replaced with your recipe's name  
 * `lookForHeroImage`: on by default; turn it off to leave out hero images (and index thumbnails) even when a matching image exists  
-* `autoUrlSections`: list of sections in the recepe template where you want raw URLs (ex: www.instagram.com) to be turned into real links. Great for the `Based On` section but not so good if you want to include Markdown-formatted links in other sections  
+* `autoUrlSections`: list of sections in the recipe template where you want raw URLs (ex: www.instagram.com) to be turned into real links. Great for the `Based On` section but not so good if you want to include Markdown-formatted links in other sections  
 * `shortenURLs`: turns a super-long url into just the main domain name (link will still work as normal, just less cluttered). Off by default but exists if you want it
 
 ## Advanced customizations

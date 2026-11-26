@@ -1,4 +1,4 @@
-const { SectionMgr } = require('../SectionManager');
+import { SectionMgr } from '../SectionManager.js';
 
 describe('SectionMgr', () => {
   describe('replace', () => {

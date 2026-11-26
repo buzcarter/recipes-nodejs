@@ -59,6 +59,11 @@ const getHeroImg = (url, altText) => (url
   ? `<a class="${Styles.HERO_IMG_LINK}" href="${escapeHtml(url)}" target="_blank"><img class="${Styles.HERO_IMG}" src="${escapeHtml(url)}" alt="${altText}"></a>`
   : '');
 
+/**
+ * Hands the hero image (and its aspect ratio, when known) to the stylesheet.
+ * @param {string} url
+ * @param {{ width?: number, height?: number }} [size]
+ */
 const getInlineCss = (url, { width, height } = {}) => (!url
   ? ''
   : `

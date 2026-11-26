@@ -40,14 +40,16 @@ module.exports = {
   },
   overrides: [{
     files: ['**/*.test.js'],
-    // env: {
-    //   'jest/globals': true,
-    // },
+    // Jest's globals (`jest` itself is imported from '@jest/globals' under native ESM)
     globals: {
+      afterAll: 'readonly',
+      afterEach: 'readonly',
+      beforeAll: 'readonly',
       beforeEach: 'readonly',
       describe: 'readonly',
       expect: 'readonly',
       it: 'readonly',
+      test: 'readonly',
     },
   }],
 };
