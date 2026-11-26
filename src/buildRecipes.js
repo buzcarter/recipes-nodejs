@@ -1,6 +1,5 @@
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
-import showdown from 'showdown';
 import formatHtml from './libs/formatHtml.js';
 import { ColorTypes, Colors } from './libs/ConsoleColors.js';
 import { settleAll } from './libs/asyncUtils.js';
@@ -38,9 +37,9 @@ function showUnknownSectionWarnings(recipes) {
  *
  * @returns {Promise<{ name: string, author: string, unknownSections: string }>}
  */
-async function buildRecipe(converter, recipeTemplate, options, { file, name }, images) {
+async function buildRecipe(recipeTemplate, options, { file, name }, images) {
   const markdown = await readFile(file, { encoding: 'utf8' });
-  const recipe = parseRecipe(converter, markdown, options);
+  const recipe = parseRecipe(markdown, options);
   const image = images.find((i) => i.name === name);
 
   const html = formatHtml(renderRecipe(recipeTemplate, recipe, { name, image }, options), { tidy: true });
@@ -61,9 +60,8 @@ async function buildRecipe(converter, recipeTemplate, options, { file, name }, i
  *   `recipeInfo` lists recipes with a detected author; `errors` holds per-recipe failures
  */
 export default async function buildRecipes(recipeTemplate, options, fileList, images) {
-  const converter = new showdown.Converter();
   const { values, errors } = await settleAll('Recipe', fileList.map((recipeFile) => (
-    buildRecipe(converter, recipeTemplate, options, recipeFile, images)
+    buildRecipe(recipeTemplate, options, recipeFile, images)
       .catch((err) => {
         throw new Error(`${recipeFile.name}.md: ${err.message}`, { cause: err });
       })

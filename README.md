@@ -241,4 +241,4 @@ Site built with:
 
 * As I said, my starting point for this project originated with [Jeff Thompson's Recipes](https://github.com/jeffThompson/Recipes).
 * Navigation arrows via [FontAwesome](https://fontawesome.com/icons/external-link-alt)
-* [showdown](https://www.npmjs.com/package/showdown) conversion library, Markdown to HTML 
+* [markdown-it](https://www.npmjs.com/package/markdown-it) Markdown parser 
