@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { writeFile } from 'fs/promises';
-import prettyHtml from 'pretty';
+import formatHtml from './libs/formatHtml.js';
 import { fileNameToTitleCase } from './libs/utils.js';
 
 /* eslint-disable key-spacing */
@@ -100,5 +100,5 @@ export default async function buildRecipeIndex(indexTemplate, { defaultTheme, fa
     .replace(Substitutions.META_OG_IMG, () => (ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : ''))
     .replace(Substitutions.STARTUP_JS, () => `recipeIndex.init("${initialIndexView || 'content'}")`);
 
-  await writeFile(resolve(outputPath, 'index.html'), prettyHtml(contents), { encoding: 'utf8' });
+  await writeFile(resolve(outputPath, 'index.html'), formatHtml(contents), { encoding: 'utf8' });
 }

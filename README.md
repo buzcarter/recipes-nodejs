@@ -75,7 +75,7 @@ EXAMPLE: below a recipe with a few ingredients "ticked" off (indicating they've 
 
 ## Installation
 
-This requires Node16 or later.
+This requires Node 20.9 or later (see `.nvmrc` for the version CI uses).
 
 After cloning this repo or downloading the zip file from github simply install, add your recipes, and build:
 

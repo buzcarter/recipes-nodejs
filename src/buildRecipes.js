@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import showdown from 'showdown';
-import prettyHtml from 'pretty';
+import formatHtml from './libs/formatHtml.js';
 
 import { ColorTypes, Colors } from './libs/ConsoleColors.js';
 import { settleAll } from './libs/asyncUtils.js';
@@ -295,7 +295,7 @@ async function buildRecipe(converter, recipeTemplate, options, { file, name }, i
   if (addImageLinks) {
     html = linkifyImages(html);
   }
-  html = prettyHtml(convertRecipe(recipeTemplate, html, { ...options, author, heroImgURL, name }), { ocd: true });
+  html = formatHtml(convertRecipe(recipeTemplate, html, { ...options, author, heroImgURL, name }), { tidy: true });
   await writeFile(resolve(outputPath, `${name}.html`), html, { encoding: 'utf8' });
 
   return { name, author };
