@@ -39,18 +39,26 @@ export function isMatch(searchText, filterText) {
     .every((word) => searchText.includes(word));
 }
 
+/** @returns {NodeListOf<HTMLElement>} */
+const getItems = () => document.querySelectorAll(Selectors.RECIPE_ITEMS);
+
+/** @returns {HTMLInputElement} */
+const getInput = () => document.querySelector(Selectors.SEARCH);
+
+/** @param {string} filterText */
 function filter(filterText) {
-  document.querySelectorAll(Selectors.RECIPE_ITEMS)
+  getItems()
     .forEach((item) => item.classList.toggle(Styles.HIDDEN, !isMatch(item.dataset.searchText || '', filterText)));
 }
 
+/** @param {string} value */
 function setFilter(value) {
   updateKey(KeyNames.SEARCH, value);
   filter(value);
 }
 
 function clearInput() {
-  const input = document.querySelector(Selectors.SEARCH);
+  const input = getInput();
   input.value = '';
   input.focus();
   setFilter('');
@@ -62,12 +70,12 @@ function clearInput() {
  */
 export function init(initialValue = '') {
   // index each item's text once; `textContent` works whether or not the item is visible
-  document.querySelectorAll(Selectors.RECIPE_ITEMS)
+  getItems()
     .forEach((item) => {
       item.dataset.searchText = scrub(item.textContent);
     });
 
-  const input = document.querySelector(Selectors.SEARCH);
+  const input = getInput();
   input.value = initialValue;
   filter(initialValue);
 
