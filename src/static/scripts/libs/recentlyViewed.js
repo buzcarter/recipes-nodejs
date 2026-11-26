@@ -1,4 +1,5 @@
 import { KeyNames, getKey, updateMRUList } from './preferences.js';
+import { fileNameToTitleCase } from '../../../libs/utils.js';
 
 const MAX_LIST_LENGTH = 50;
 
@@ -18,11 +19,18 @@ const Styles = {
   MODAL_ACTIVE: 'modal--is-active',
 };
 
-export const toDisplay = (value) => value
-  .replace(/-/g, ' ')
-  .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
-  .replace(/\s+/g, ' ')
-  .trim();
+/** Display name for a recipe's file name; the same text the index page shows. */
+export const toDisplay = fileNameToTitleCase;
+
+/** Recipe name from a link's `href` (`foo%20bar.html` → `foo bar`). */
+function hrefToName(href) {
+  const encoded = href.replace(/^.*\/|\.html$/g, '');
+  try {
+    return decodeURIComponent(encoded);
+  } catch {
+    return encoded;
+  }
+}
 
 function onRecipeLinkClick(e) {
   const anchor = e.target.tagName === 'A'
@@ -32,7 +40,7 @@ function onRecipeLinkClick(e) {
   if (anchor) {
     const value = anchor.getAttribute('href');
     if (value) {
-      updateMRUList(KeyNames.RECENT, MAX_LIST_LENGTH, value.replace(/^.*\/|\.html$/g, ''));
+      updateMRUList(KeyNames.RECENT, MAX_LIST_LENGTH, hrefToName(value));
     }
   }
 }
@@ -43,11 +51,20 @@ function toggleModal(isActive) {
   modal.setAttribute('aria-hidden', !isActive);
 }
 
+/** One recents-list entry; built with DOM nodes, since `name` comes from localStorage. */
+function createListItem(name) {
+  const link = document.createElement('a');
+  link.href = `${encodeURIComponent(name)}.html`;
+  link.textContent = toDisplay(name);
+  const item = document.createElement('li');
+  item.append(link);
+  return item;
+}
+
 function onViewBtnClick() {
   toggleModal(true);
-  document.querySelector(Selectors.MODAL_CONTENT).innerHTML = getKey(KeyNames.RECENT, [])
-    .map((value) => `<li><a href="${value}.html">${toDisplay(value)}</a></li>`)
-    .join('');
+  document.querySelector(Selectors.MODAL_CONTENT)
+    .replaceChildren(...getKey(KeyNames.RECENT, []).map(createListItem));
 }
 
 export function init() {

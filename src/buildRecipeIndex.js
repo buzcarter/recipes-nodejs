@@ -1,20 +1,18 @@
 import { resolve } from 'path';
 import { writeFile } from 'fs/promises';
 import formatHtml from './libs/formatHtml.js';
+import fillTemplate from './libs/template.js';
+import { getHeadMeta } from './libs/headMeta.js';
+import { escapeHtml, fileUrl } from './libs/html.js';
 import { fileNameToTitleCase } from './libs/utils.js';
 
 /* eslint-disable key-spacing */
-const Substitutions = {
+const Placeholders = Object.freeze({
   LETTERS_INDEX:     '{{__letters-index__}}',
   RECIPE_LIST:       '{{__recipe-list__}}',
-  // Head's meta-tags
-  META_FAVICON:      '{{__favIcon__}}',
-  META_DATE:         '{{__metaDateGenerated__}}',
-  META_OG_IMG:       '{{__metaOGImage__}}',
-  THEME_CSS:         '{{__theme__}}',
   // kickoff the on-page script
   STARTUP_JS:        '{{__startup__}}',
-};
+});
 
 const Styles = Object.freeze({
   AUTHOR:   'recipe-list__author',
@@ -24,9 +22,9 @@ const Styles = Object.freeze({
   PHOTO:    'recipe-list__photo',
 });
 
-const RegExes = {
+const RegExes = Object.freeze({
   END_SPACES: /^[\s\n]+|[\s\n]+$/gm,
-};
+});
 /* eslint-enable key-spacing */
 
 /**
@@ -34,6 +32,20 @@ const RegExes = {
  * `readdir` order is filesystem-dependent (Linux returns hash order), so always sort explicitly.
  */
 const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+
+function renderItem({ name, image, author, letter }) {
+  const imgPath = image ? fileUrl('images/thumbnails', `${image.name}.jpg`) : 'images/placeholder.svg';
+  return `
+<li${letter ? ` id="${escapeHtml(letter)}"` : ''} class="${Styles.ITEM}">
+  <a href="${escapeHtml(fileUrl('', `${name}.html`))}" class="${Styles.LINK}">
+    <span class="${Styles.PHOTO}"><img src="${escapeHtml(imgPath)}" role="presentation"></span>
+    <span class="${Styles.NAME}">${escapeHtml(fileNameToTitleCase(name))}
+    ${author ? `<em class="${Styles.AUTHOR}">${escapeHtml(author)}</em>` : ''}
+    </span>
+  </a>
+</li>
+`.replace(RegExes.END_SPACES, '');
+}
 
 /**
  * Writes `index.html`: the table of contents for every recipe, plus a quick-nav list of
@@ -46,59 +58,37 @@ const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true })
  * @param {Array<{ name: string, author: string }>} recipeInfo detected authors, by recipe name
  */
 export default async function buildRecipeIndex(indexTemplate, { defaultTheme, favicon, outputPath, initialIndexView }, fileList, images, recipeInfo) {
-  // create anchor and name from url
-  let lettersIndex = '';
-  // create list of recipes
-  let recipeItems = '';
-  let ogImgURL = '';
+  const imagesByName = new Map(images.map((image) => [image.name, image]));
+  const authorsByName = new Map(recipeInfo.map(({ name, author }) => [name, author]));
 
-  let prevLetter = '';
-
-  [...fileList]
+  const letters = [];
+  const items = [...fileList]
     .sort((a, b) => collator.compare(a.name, b.name))
-    .forEach(({ name }) => {
+    .map(({ name }) => {
+      // the first recipe for each letter gets an anchor for the quick-nav list
       const firstLetter = name.charAt(0).toUpperCase();
-      const displayName = fileNameToTitleCase(name);
-
-      // if the first letter of the recipe hasn't been
-      // seen yet, add to list of letters and put an anchor in
-      const isNewLetter = firstLetter !== prevLetter;
+      const isNewLetter = firstLetter !== letters.at(-1);
       if (isNewLetter) {
-        lettersIndex += `<a href="#${firstLetter}">${firstLetter}</a>`;
-        prevLetter = firstLetter;
+        letters.push(firstLetter);
       }
-
-      const image = images.find((i) => i.name === name);
-      if (!ogImgURL && image) {
-        ogImgURL = `images/${image.fileName}`;
-      }
-      const author = recipeInfo.find(({ name: infoName }) => infoName === name)?.author || '';
-      const imgPath = image
-        ? `images/thumbnails/${image.name}.jpg`
-        : 'images/placeholder.svg';
-      recipeItems += `
-<li${isNewLetter ? ` id="${firstLetter}"` : ''} class="${Styles.ITEM}">
-  <a href="${name}.html" class="${Styles.LINK}">
-    <span class="${Styles.PHOTO}"><img src="${imgPath}" role="presentation"></span>
-    <span class="${Styles.NAME}">${displayName}
-    ${author ? `<em class="${Styles.AUTHOR}">${author}</em>` : ''}
-    </span>
-  </a>
-</li>
-`.replace(RegExes.END_SPACES, '');
+      return {
+        name,
+        image: imagesByName.get(name),
+        author: authorsByName.get(name) || '',
+        letter: isNewLetter ? firstLetter : '',
+      };
     });
 
-  // function replacers keep `$&`, `$$`, etc. in names/authors literal (see buildRecipes.js)
-  const contents = indexTemplate
-    // add recipes to page...
-    .replace(Substitutions.RECIPE_LIST, () => recipeItems)
-    // ...and the list of first-letters for quick nav
-    .replace(Substitutions.LETTERS_INDEX, () => lettersIndex)
-    .replace(Substitutions.META_DATE, () => `<meta name="date" content="${new Date()}">`)
-    .replace(Substitutions.THEME_CSS, () => `theme-${defaultTheme}`)
-    .replace(Substitutions.META_FAVICON, () => (favicon ? `<link rel="icon" type="image/png" href="${favicon}">` : ''))
-    .replace(Substitutions.META_OG_IMG, () => (ogImgURL ? `<meta property="og:image" content="${ogImgURL}">` : ''))
-    .replace(Substitutions.STARTUP_JS, () => `recipeIndex.init("${initialIndexView || 'content'}")`);
+  const ogImage = items.find(({ image }) => image)?.image;
+
+  const contents = fillTemplate(indexTemplate, {
+    ...getHeadMeta({ favicon, ogImgURL: ogImage && fileUrl('images', ogImage.fileName), theme: defaultTheme }),
+    [Placeholders.RECIPE_LIST]: items.map(renderItem).join(''),
+    [Placeholders.LETTERS_INDEX]: letters
+      .map((letter) => `<a href="#${escapeHtml(encodeURIComponent(letter))}">${escapeHtml(letter)}</a>`)
+      .join(''),
+    [Placeholders.STARTUP_JS]: `recipeIndex.init(${JSON.stringify(initialIndexView || 'content')})`,
+  });
 
   await writeFile(resolve(outputPath, 'index.html'), formatHtml(contents), { encoding: 'utf8' });
 }
