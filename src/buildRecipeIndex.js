@@ -10,9 +10,13 @@ import { fileNameToTitleCase } from './libs/utils.js';
 const Placeholders = Object.freeze({
   LETTERS_INDEX:     '{{__letters-index__}}',
   RECIPE_LIST:       '{{__recipe-list__}}',
-  // kickoff the on-page script
-  STARTUP_JS:        '{{__startup__}}',
+  /** the index layout shown until the visitor picks one (`initialIndexView`) */
+  INITIAL_VIEW:      '{{__initialView__}}',
 });
+
+/** Index layouts; keep in sync with `ViewTypes` in `static/scripts/libs/viewPicker.js`. */
+const IndexViews = Object.freeze(['content', 'compact-list', 'grid']);
+const DEFAULT_VIEW = 'content';
 
 const Styles = Object.freeze({
   AUTHOR:   'recipe-list__author',
@@ -32,6 +36,19 @@ const RegExes = Object.freeze({
  * `readdir` order is filesystem-dependent (Linux returns hash order), so always sort explicitly.
  */
 const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+
+/** `initialIndexView`, falling back to the default (with a warning) when it isn't a known layout. */
+function getInitialView(view) {
+  if (!view) {
+    return DEFAULT_VIEW;
+  }
+  if (!IndexViews.includes(view)) {
+    // eslint-disable-next-line no-console
+    console.warn(`initialIndexView "${view}" isn't one of: ${IndexViews.join(', ')}; using "${DEFAULT_VIEW}"`);
+    return DEFAULT_VIEW;
+  }
+  return view;
+}
 
 function renderItem({ name, image, author, letter }) {
   const imgPath = image ? fileUrl('images/thumbnails', `${image.name}.jpg`) : 'images/placeholder.svg';
@@ -87,7 +104,7 @@ export default async function buildRecipeIndex(indexTemplate, { defaultTheme, fa
     [Placeholders.LETTERS_INDEX]: letters
       .map((letter) => `<a href="#${escapeHtml(encodeURIComponent(letter))}">${escapeHtml(letter)}</a>`)
       .join(''),
-    [Placeholders.STARTUP_JS]: `recipeIndex.init(${JSON.stringify(initialIndexView || 'content')})`,
+    [Placeholders.INITIAL_VIEW]: getInitialView(initialIndexView),
   });
 
   await writeFile(resolve(outputPath, 'index.html'), formatHtml(contents), { encoding: 'utf8' });

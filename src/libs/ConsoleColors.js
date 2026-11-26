@@ -22,8 +22,3 @@ export const Colors = Object.freeze({
   Yellow:        `${HEX_ESC}[33m`,
 });
 /* eslint-enable key-spacing */
-
-export default {
-  ColorTypes,
-  Colors,
-};
